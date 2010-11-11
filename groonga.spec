@@ -269,9 +269,6 @@ fi
 %changelog
 * Fri Oct 09 2010 Kouhei Sutou <kou@clear-code.com> - 1.0.3-1
 - new upstream release.
-- remove groonga-initscript.patch since it is included in the
-  upstream.
-- pack files under %%_datadir/groonga/examples/.
 
 * Thu Oct  7 2010 Daiki Ueno <dueno@redhat.com> - 1.0.2-7
 - own %%_localstatedir/lib/%%name/db.
