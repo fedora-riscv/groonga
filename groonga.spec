@@ -9,7 +9,6 @@ Group:		Applications/Text
 License:	LGPLv2
 URL:		http://groonga.org/
 Source0:	http://groonga.org/files/groonga/groonga-%{version}.tar.gz
-Patch0:		groonga-initscript.patch
 
 BuildRequires:	mecab-devel
 BuildRequires:	python2-devel
@@ -95,7 +94,6 @@ PHP language binding for groonga
 %prep
 #% define optflags -O0
 %setup -q
-%patch0 -p1
 
 
 %build
@@ -270,7 +268,9 @@ fi
 
 %changelog
 * Thu Nov 11 2010 Daiki Ueno <dueno@redhat.com> - 1.0.3-1
-- new upstream release
+- new upstream release.
+- remove groonga-initscript.patch since it is included in the
+  upstream.
 
 * Thu Oct  7 2010 Daiki Ueno <dueno@redhat.com> - 1.0.2-7
 - own %%_localstatedir/lib/%%name/db.
