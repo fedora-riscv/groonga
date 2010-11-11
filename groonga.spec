@@ -1,15 +1,14 @@
 %global php_extdir  %(php-config --extension-dir 2>/dev/null || echo "undefined")
 
 Name:		groonga
-Version:	1.0.2
-Release:	7%{?dist}
+Version:	1.0.3
+Release:	1%{?dist}
 Summary:	An Embeddable Fulltext Search Engine
 
 Group:		Applications/Text
 License:	LGPLv2
 URL:		http://groonga.org/
 Source0:	http://groonga.org/files/groonga/groonga-%{version}.tar.gz
-Patch0:		groonga-initscript.patch
 
 BuildRequires:	mecab-devel
 BuildRequires:	python2-devel
@@ -95,7 +94,6 @@ PHP language binding for groonga
 %prep
 #% define optflags -O0
 %setup -q
-%patch0 -p1
 
 
 %build
@@ -238,7 +236,7 @@ fi
 %{_libdir}/groonga/modules/suggest/*.so
 %dir %{_libdir}/groonga/modules/tokenizers
 %dir %{_datadir}/groonga
-%{_datadir}/groonga/admin_html/
+%{_datadir}/groonga/
 
 %files doc
 %defattr(-,root,root,-)
@@ -269,6 +267,9 @@ fi
 
 
 %changelog
+* Fri Oct 09 2010 Kouhei Sutou <kou@clear-code.com> - 1.0.3-1
+- new upstream release.
+
 * Thu Oct  7 2010 Daiki Ueno <dueno@redhat.com> - 1.0.2-7
 - own %%_localstatedir/lib/%%name/db.
 - use %%_sbindir RPM macro.
