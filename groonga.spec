@@ -236,7 +236,7 @@ fi
 %{_libdir}/groonga/modules/suggest/*.so
 %dir %{_libdir}/groonga/modules/tokenizers
 %dir %{_datadir}/groonga
-%{_datadir}/groonga/admin_html/
+%{_datadir}/groonga/
 
 %files doc
 %defattr(-,root,root,-)
@@ -267,10 +267,11 @@ fi
 
 
 %changelog
-* Thu Nov 11 2010 Daiki Ueno <dueno@redhat.com> - 1.0.3-1
+* Fri Oct 09 2010 Kouhei Sutou <kou@clear-code.com> - 1.0.3-1
 - new upstream release.
 - remove groonga-initscript.patch since it is included in the
   upstream.
+- pack files under %%_datadir/groonga/examples/.
 
 * Thu Oct  7 2010 Daiki Ueno <dueno@redhat.com> - 1.0.2-7
 - own %%_localstatedir/lib/%%name/db.
