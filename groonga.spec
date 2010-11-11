@@ -1,8 +1,8 @@
 %global php_extdir  %(php-config --extension-dir 2>/dev/null || echo "undefined")
 
 Name:		groonga
-Version:	1.0.2
-Release:	7%{?dist}
+Version:	1.0.3
+Release:	1%{?dist}
 Summary:	An Embeddable Fulltext Search Engine
 
 Group:		Applications/Text
@@ -269,6 +269,9 @@ fi
 
 
 %changelog
+* Thu Nov 11 2010 Daiki Ueno <dueno@redhat.com> - 1.0.3-1
+- new upstream release
+
 * Thu Oct  7 2010 Daiki Ueno <dueno@redhat.com> - 1.0.2-7
 - own %%_localstatedir/lib/%%name/db.
 - use %%_sbindir RPM macro.
