@@ -2,7 +2,7 @@
 
 Name:		groonga
 Version:	1.0.3
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	An Embeddable Fulltext Search Engine
 
 Group:		Applications/Text
@@ -222,7 +222,7 @@ fi
 %config(noreplace) %{_sysconfdir}/sysconfig/groonga
 %{_bindir}/*
 %{_initddir}/*
-%attr(0755,groonga,groonga) %dir %{_localstatedir}/run/%{name}
+%ghost %dir %{_localstatedir}/run/%{name}
 %attr(0755,groonga,groonga) %dir %{_localstatedir}/lib/%{name}
 %attr(0755,groonga,groonga) %dir %{_localstatedir}/lib/%{name}/db
 
@@ -267,6 +267,9 @@ fi
 
 
 %changelog
+* Wed Nov 24 2010 Daiki Ueno <dueno@redhat.com> - 1.0.3-2
+- %%ghost /var/run/*.
+
 * Fri Oct 09 2010 Kouhei Sutou <kou@clear-code.com> - 1.0.3-1
 - new upstream release.
 
