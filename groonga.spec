@@ -1,7 +1,7 @@
 %global php_extdir  %(php-config --extension-dir 2>/dev/null || echo "undefined")
 
 Name:		groonga
-Version:	1.0.4
+Version:	1.0.6
 Release:	1%{?dist}
 Summary:	An Embeddable Fulltext Search Engine
 
@@ -258,6 +258,12 @@ fi
 %{php_extdir}/groonga.so
 
 %changelog
+* Fri Dec 31 2010 Kouhei Sutou <kou@clear-code.com> - 1.0.6-0
+- new upstream release
+
+* Wed Dec 29 2010 Kouhei Sutou <kou@clear-code.com> - 1.0.5-0
+- new upstream release.
+
 * Mon Nov 29 2010 Kouhei Sutou <kou@clear-code.com> - 1.0.4-1
 - new upstream release
 
