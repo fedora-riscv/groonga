@@ -1,7 +1,7 @@
 %global php_extdir  %(php-config --extension-dir 2>/dev/null || echo "undefined")
 
 Name:		groonga
-Version:	1.0.6
+Version:	1.0.8
 Release:	1%{?dist}
 Summary:	An Embeddable Fulltext Search Engine
 
@@ -11,6 +11,9 @@ URL:		http://groonga.org/
 Source0:	http://groonga.org/files/groonga/groonga-%{version}.tar.gz
 
 BuildRequires:	mecab-devel
+#BuildRequires:	messagepack-devel
+BuildRequires:	zeromq-devel
+BuildRequires:	libevent-devel
 BuildRequires:	python2-devel
 BuildRequires:	php-devel
 Requires:	%{name}-libs = %{version}-%{release}
@@ -61,6 +64,16 @@ Requires:	mecab
 
 %description tokenizer-mecab
 MeCab tokenizer for groonga
+
+%package plugin-suggest
+Summary:	Suggest plugin for groonga
+Group:		Applications/Text
+Requires:	%{name}-libs = %{version}-%{release}
+#Requires:	messagepack
+Requires:	zeromq
+
+%description plugin-suggest
+Sugget plugin for groonga
 
 %package munin-plugins
 Summary:	Munin plugins for groonga
@@ -212,7 +225,8 @@ fi
 %{_datadir}/man/man1/*
 %config(noreplace) %{_sysconfdir}/groonga/
 %config(noreplace) %{_sysconfdir}/sysconfig/groonga
-%{_bindir}/*
+%{_bindir}/groonga
+%{_bindir}/grntest
 %{_initddir}/*
 %ghost %dir %{_localstatedir}/run/%{name}
 %attr(0755,groonga,groonga) %dir %{_localstatedir}/lib/%{name}
@@ -224,8 +238,6 @@ fi
 %{_libdir}/*.so.*
 %dir %{_libdir}/groonga
 %dir %{_libdir}/groonga/plugins
-%dir %{_libdir}/groonga/plugins/suggest
-%{_libdir}/groonga/plugins/suggest/*.so
 %dir %{_libdir}/groonga/plugins/tokenizers
 %dir %{_datadir}/groonga
 %{_datadir}/groonga/
@@ -244,6 +256,12 @@ fi
 %defattr(-,root,root,-)
 %{_libdir}/groonga/plugins/tokenizers/mecab.so
 
+%files plugin-suggest
+%defattr(-,root,root,-)
+%{_bindir}/groonga-suggest-*
+%dir %{_libdir}/groonga/plugins
+%{_libdir}/groonga/plugins/suggest/suggest.so
+
 %files munin-plugins
 %defattr(-,root,root,-)
 %{_datadir}/munin/plugins/*
@@ -258,6 +276,16 @@ fi
 %{php_extdir}/groonga.so
 
 %changelog
+* Thu Feb  3 2011 Daiki Ueno <dueno@redhat.com> - 1.0.8-1
+- build in fedora.
+- don't depend on libevent explicitly.
+
+* Wed Feb 02 2011 Kouhei Sutou <kou@clear-code.com> - 1.0.8-0
+- new upstream release.
+
+* Sat Jan 29 2011 Kouhei Sutou <kou@clear-code.com> - 1.0.7-0
+- new upstream release.
+
 * Fri Dec 31 2010 Kouhei Sutou <kou@clear-code.com> - 1.0.6-0
 - new upstream release
 
