@@ -2,7 +2,7 @@
 
 Name:		groonga
 Version:	1.0.8
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	An Embeddable Fulltext Search Engine
 
 Group:		Applications/Text
@@ -22,6 +22,7 @@ Requires(post):	/sbin/chkconfig
 Requires(preun):	/sbin/chkconfig
 Requires(preun):	/sbin/service
 Requires(postun):	/sbin/service
+ExclusiveArch:  %{ix86} x86_64
 
 %description
 Groonga is an embeddable full-text search engine library.  It can
@@ -276,6 +277,9 @@ fi
 %{php_extdir}/groonga.so
 
 %changelog
+* Mon Feb  7 2011 Dan Horák <dan[at]danny.cz> - 1.0.8-2
+- add ExclusiveArch (atomic primitives implemented only for x86)
+
 * Thu Feb  3 2011 Daiki Ueno <dueno@redhat.com> - 1.0.8-1
 - build in fedora.
 - don't depend on libevent explicitly.
