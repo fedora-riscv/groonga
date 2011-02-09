@@ -2,7 +2,7 @@
 
 Name:		groonga
 Version:	1.0.8
-Release:	2%{?dist}
+Release:	3%{?dist}
 Summary:	An Embeddable Fulltext Search Engine
 
 Group:		Applications/Text
@@ -277,6 +277,9 @@ fi
 %{php_extdir}/groonga.so
 
 %changelog
+* Wed Feb 09 2011 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.0.8-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_15_Mass_Rebuild
+
 * Mon Feb  7 2011 Dan Horák <dan[at]danny.cz> - 1.0.8-2
 - add ExclusiveArch (atomic primitives implemented only for x86)
 
