@@ -1,8 +1,8 @@
 %global php_extdir  %(php-config --extension-dir 2>/dev/null || echo "undefined")
 
 Name:		groonga
-Version:	1.0.8
-Release:	3%{?dist}
+Version:	1.1.0
+Release:	1%{?dist}
 Summary:	An Embeddable Fulltext Search Engine
 
 Group:		Applications/Text
@@ -70,8 +70,6 @@ MeCab tokenizer for groonga
 Summary:	Suggest plugin for groonga
 Group:		Applications/Text
 Requires:	%{name}-libs = %{version}-%{release}
-#Requires:	messagepack
-Requires:	zeromq
 
 %description plugin-suggest
 Sugget plugin for groonga
@@ -277,6 +275,13 @@ fi
 %{php_extdir}/groonga.so
 
 %changelog
+* Thu Feb 17 2011 Daiki Ueno <dueno@redhat.com> - 1.1.0-1
+- build in fedora.
+- don't require zeromq explicitly.
+
+* Wed Feb 09 2011 Kouhei Sutou <kou@clear-code.com> - 1.1.0-0
+- new upstream release.
+
 * Wed Feb 09 2011 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.0.8-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_15_Mass_Rebuild
 
