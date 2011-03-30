@@ -1,7 +1,7 @@
 %global php_extdir  %(php-config --extension-dir 2>/dev/null || echo "undefined")
 
 Name:		groonga
-Version:	1.1.0
+Version:	1.2.0
 Release:	1%{?dist}
 Summary:	An Embeddable Fulltext Search Engine
 
@@ -275,6 +275,12 @@ fi
 %{php_extdir}/groonga.so
 
 %changelog
+* Wed Mar 30 2011 Daiki Ueno <dueno@redhat.com> - 1.2.0-1
+- build in fedora.
+
+* Tue Mar 29 2011 Kouhei Sutou <kou@clear-code.com> - 1.2.0-0
+- new upstream release.
+
 * Thu Feb 17 2011 Daiki Ueno <dueno@redhat.com> - 1.1.0-1
 - build in fedora.
 - don't require zeromq explicitly.
