@@ -1,7 +1,7 @@
 %global php_extdir  %(php-config --extension-dir 2>/dev/null || echo "undefined")
 
 Name:		groonga
-Version:	1.2.1
+Version:	1.2.2
 Release:	1%{?dist}
 Summary:	An Embeddable Fulltext Search Engine
 
@@ -17,11 +17,10 @@ BuildRequires:	libevent-devel
 BuildRequires:	python2-devel
 BuildRequires:	php-devel
 Requires:	%{name}-libs = %{version}-%{release}
-Requires(pre):	shadow-utils
-Requires(post):	/sbin/chkconfig
-Requires(preun):	/sbin/chkconfig
-Requires(preun):	/sbin/service
-Requires(postun):	/sbin/service
+Requires:	%{name}-plugin-suggest = %{version}-%{release}
+Requires:	%{name}-tokenizer-mecab = %{version}-%{release}
+Requires:	%{name}-doc = %{version}-%{release}
+Obsoletes:	%{name} < 1.2.2-0
 ExclusiveArch:  %{ix86} x86_64
 
 %description
@@ -40,11 +39,26 @@ Requires(postun):	/sbin/ldconfig
 %description libs
 This package contains the libraries for groonga
 
+%package server
+Summary:	Groonga server
+Group:		Applications/Text
+License:	LGPLv2 and (MIT or GPLv2)
+Requires:	%{name} = %{version}-%{release}
+Requires:	%{name}-munin-plugins = %{version}-%{release}
+Requires(pre):	shadow-utils
+Requires(post):	/sbin/chkconfig
+Requires(preun):	/sbin/chkconfig
+Requires(preun):	/sbin/service
+Requires(postun):	/sbin/service
+Obsoletes:	%{name} < 1.2.2-0
+
+%description server
+This package contains the groonga server
+
 %package doc
 Summary:	Documentation for groonga
 Group:		Documentation
 License:	LGPLv2 and BSD
-Requires:	%{name}-libs = %{version}-%{release}
 
 %description doc
 Documentation for groonga
@@ -142,6 +156,8 @@ make install DESTDIR=$RPM_BUILD_ROOT INSTALL="install -p"
 rm $RPM_BUILD_ROOT%{_libdir}/groonga/plugins/*/*.la
 rm $RPM_BUILD_ROOT%{_libdir}/*.la
 
+mv $RPM_BUILD_ROOT%{_datadir}/doc/groonga groonga-doc
+
 mkdir -p $RPM_BUILD_ROOT%{_initddir}
 mv $RPM_BUILD_ROOT%{_sysconfdir}/groonga/init.d/redhat/groonga \
 	$RPM_BUILD_ROOT%{_initddir}
@@ -154,8 +170,6 @@ rm -rf $RPM_BUILD_ROOT%{_sysconfdir}/groonga/init.d/
 mkdir -p $RPM_BUILD_ROOT%{_localstatedir}/run/groonga
 mkdir -p $RPM_BUILD_ROOT%{_localstatedir}/lib/groonga/db
 mkdir -p $RPM_BUILD_ROOT%{_localstatedir}/log/groonga
-
-rm $RPM_BUILD_ROOT%{_datadir}/groonga/doc/ja/html/.buildinfo
 
 mv $RPM_BUILD_ROOT%{_datadir}/groonga/munin/ $RPM_BUILD_ROOT%{_datadir}/
 mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/munin/plugin-conf.d/
@@ -180,14 +194,14 @@ cd %{_builddir}/%{name}-%{version}/bindings/php
 make install INSTALL_ROOT=$RPM_BUILD_ROOT INSTALL="install -p"
 
 
-%pre
+%pre server
 getent group groonga >/dev/null || groupadd -r groonga
 getent passwd groonga >/dev/null || \
        useradd -r -g groonga -d %{_localstatedir}/lib/groonga -s /sbin/nologin \
 	-c 'groonga' groonga
 exit 0
 
-%post
+%post server
 /sbin/chkconfig --add groonga
 
 %post libs -p /sbin/ldconfig
@@ -198,13 +212,13 @@ exit 0
 	/sbin/service munin-node restart > /dev/null 2>&1
 :
 
-%preun
+%preun server
 if [ $1 = 0 ] ; then
 	/sbin/service groonga stop >/dev/null 2>&1 || :
 	/sbin/chkconfig --del groonga
 fi
 
-%postun
+%postun server
 if [ $1 -ge 1 ] ; then
 	/sbin/service groonga condrestart >/dev/null 2>&1 || :
 fi
@@ -222,14 +236,9 @@ fi
 %files
 %defattr(-,root,root,-)
 %{_datadir}/man/man1/*
-%config(noreplace) %{_sysconfdir}/groonga/
-%config(noreplace) %{_sysconfdir}/sysconfig/groonga
+%{_datadir}/man/*/man1/*
 %{_bindir}/groonga
 %{_bindir}/grntest
-%{_initddir}/*
-%ghost %dir %{_localstatedir}/run/%{name}
-%attr(0755,groonga,groonga) %dir %{_localstatedir}/lib/%{name}
-%attr(0755,groonga,groonga) %dir %{_localstatedir}/lib/%{name}/db
 
 %files libs
 %defattr(-,root,root,-)
@@ -241,9 +250,19 @@ fi
 %dir %{_datadir}/groonga
 %{_datadir}/groonga/
 
+%files server
+%defattr(-,root,root,-)
+%config(noreplace) %{_sysconfdir}/groonga/
+%config(noreplace) %{_sysconfdir}/sysconfig/groonga
+%{_initddir}/*
+%ghost %dir %{_localstatedir}/run/%{name}
+%attr(0755,groonga,groonga) %dir %{_localstatedir}/lib/%{name}
+%attr(0755,groonga,groonga) %dir %{_localstatedir}/lib/%{name}/db
+
 %files doc
 %defattr(-,root,root,-)
-%doc %{_datadir}/groonga/doc/
+%doc README AUTHORS COPYING
+%doc groonga-doc/*
 
 %files devel
 %defattr(-,root,root,-)
@@ -275,6 +294,13 @@ fi
 %{php_extdir}/groonga.so
 
 %changelog
+* Tue May 31 2011 Daiki Ueno <dueno@redhat.com> - 1.2.2-1
+- build in fedora
+
+* Sun May 29 2011 Kouhei Sutou <kou@clear-code.com> - 1.2.2-0
+- new upstream release.
+- split server files into groonga-server package.
+
 * Mon May  2 2011 Daiki Ueno <dueno@redhat.com> - 1.2.1-1
 - build in fedora.
 
