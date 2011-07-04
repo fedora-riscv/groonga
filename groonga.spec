@@ -1,14 +1,15 @@
 %global php_extdir  %(php-config --extension-dir 2>/dev/null || echo "undefined")
 
 Name:		groonga
-Version:	1.2.2
+Version:	1.2.3
 Release:	1%{?dist}
 Summary:	An Embeddable Fulltext Search Engine
 
 Group:		Applications/Text
 License:	LGPLv2
 URL:		http://groonga.org/
-Source0:	http://groonga.org/files/groonga/groonga-%{version}.tar.gz
+Source0:	http://packages.groonga.org/source/groonga/groonga-%{version}.tar.gz
+Patch0:		groonga-invalid-pointer-diff.patch
 
 BuildRequires:	mecab-devel
 #BuildRequires:	messagepack-devel
@@ -16,6 +17,7 @@ BuildRequires:	zeromq-devel
 BuildRequires:	libevent-devel
 BuildRequires:	python2-devel
 BuildRequires:	php-devel
+BuildRequires:	ruby
 Requires:	%{name}-libs = %{version}-%{release}
 Requires:	%{name}-plugin-suggest = %{version}-%{release}
 Requires:	%{name}-tokenizer-mecab = %{version}-%{release}
@@ -71,6 +73,14 @@ Requires:	%{name}-libs = %{version}-%{release}
 %description devel
 Libraries and header files for groonga
 
+%package tools
+Summary:       Tools for groonga
+Group:         Development/Tools
+Requires:      ruby
+
+%description tools
+Tools for groonga
+
 %package tokenizer-mecab
 Summary:	MeCab tokenizer for groonga
 Group:		Applications/Text
@@ -120,6 +130,7 @@ PHP language binding for groonga
 %prep
 #% define optflags -O0
 %setup -q
+%patch0 -p1 -b .invalid-pointer-diff
 
 
 %build
@@ -270,6 +281,10 @@ fi
 %{_libdir}/*.so
 %{_libdir}/pkgconfig/groonga*.pc
 
+%files tools
+%defattr(-,root,root,-)
+%{_bindir}/groonga-query-log-analyzer
+
 %files tokenizer-mecab
 %defattr(-,root,root,-)
 %{_libdir}/groonga/plugins/tokenizers/mecab.so
@@ -294,6 +309,14 @@ fi
 %{php_extdir}/groonga.so
 
 %changelog
+* Mon Jul  4 2011 Daiki Ueno <dueno@redhat.com> - 1.2.3-1
+- build in fedora
+- add ruby to BR
+
+* Wed Jun 29 2011 Kouhei Sutou <kou@clear-code.com> - 1.2.3-0
+- new upstream release.
+- add a new groong-tools package.
+
 * Tue May 31 2011 Daiki Ueno <dueno@redhat.com> - 1.2.2-1
 - build in fedora
 
