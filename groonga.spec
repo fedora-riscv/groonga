@@ -17,6 +17,7 @@ BuildRequires:	zeromq-devel
 BuildRequires:	libevent-devel
 BuildRequires:	python2-devel
 BuildRequires:	php-devel
+BuildRequires:	ruby
 Requires:	%{name}-libs = %{version}-%{release}
 Requires:	%{name}-plugin-suggest = %{version}-%{release}
 Requires:	%{name}-tokenizer-mecab = %{version}-%{release}
@@ -310,6 +311,7 @@ fi
 %changelog
 * Mon Jul  4 2011 Daiki Ueno <dueno@redhat.com> - 1.2.3-1
 - build in fedora
+- add ruby to BR
 
 * Wed Jun 29 2011 Kouhei Sutou <kou@clear-code.com> - 1.2.3-0
 - new upstream release.
