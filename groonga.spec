@@ -1,7 +1,7 @@
 %global php_extdir  %(php-config --extension-dir 2>/dev/null || echo "undefined")
 
 Name:		groonga
-Version:	1.2.3
+Version:	1.2.4
 Release:	1%{?dist}
 Summary:	An Embeddable Fulltext Search Engine
 
@@ -9,7 +9,6 @@ Group:		Applications/Text
 License:	LGPLv2
 URL:		http://groonga.org/
 Source0:	http://packages.groonga.org/source/groonga/groonga-%{version}.tar.gz
-Patch0:		groonga-invalid-pointer-diff.patch
 
 BuildRequires:	mecab-devel
 #BuildRequires:	messagepack-devel
@@ -130,7 +129,6 @@ PHP language binding for groonga
 %prep
 #% define optflags -O0
 %setup -q
-%patch0 -p1 -b .invalid-pointer-diff
 
 
 %build
@@ -309,6 +307,12 @@ fi
 %{php_extdir}/groonga.so
 
 %changelog
+* Fri Jul 29 2011 Daiki Ueno <dueno@redhat.com> - 1.2.4-1
+- build in fedora
+
+* Fri Jul 29 2011 Kouhei Sutou <kou@clear-code.com> - 1.2.4-0
+- new upstream release.
+
 * Mon Jul  4 2011 Daiki Ueno <dueno@redhat.com> - 1.2.3-1
 - build in fedora
 - add ruby to BR
