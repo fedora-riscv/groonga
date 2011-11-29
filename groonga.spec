@@ -1,7 +1,7 @@
 %global php_extdir  %(php-config --extension-dir 2>/dev/null || echo "undefined")
 
 Name:		groonga
-Version:	1.2.7
+Version:	1.2.8
 Release:	1%{?dist}
 Summary:	An Embeddable Fulltext Search Engine
 
@@ -11,6 +11,8 @@ URL:		http://groonga.org/
 Source0:	http://packages.groonga.org/source/groonga/groonga-%{version}.tar.gz
 
 BuildRequires:	mecab-devel
+BuildRequires:	zlib-devel
+BuildRequires:	lzo-devel
 #BuildRequires:	messagepack-devel
 BuildRequires:	zeromq-devel
 BuildRequires:	libevent-devel
@@ -34,6 +36,8 @@ on relational data model.
 Summary:	Runtime libraries for groonga
 Group:		System Environment/Libraries
 License:	LGPLv2 and (MIT or GPLv2)
+#Requires:	zlib
+#Requires:	lzo
 Requires(post):	/sbin/ldconfig
 Requires(postun):	/sbin/ldconfig
 
@@ -132,7 +136,10 @@ PHP language binding for groonga
 
 
 %build
-%configure --disable-static
+%configure \
+  --disable-static \
+  --with-package-platform=redhat \
+  --with-munin-plugins
 sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' libtool
 sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
 make %{?_smp_mflags}
@@ -307,6 +314,16 @@ fi
 %{php_extdir}/groonga.so
 
 %changelog
+* Tue Nov 29 2011 Daiki Ueno <dueno@redhat.com> - 1.2.8-1
+- build in fedora
+
+* Tue Nov 29 2011 Kouhei Sutou <kou@clear-code.com> - 1.2.8-0
+- new upstream release.
+- enable zlib support.
+- enable lzo support.
+- add --with-package-platform=redhat configure option to install init script.
+- add --with-munin-plugins cofnigure option to install Munin plugins.
+
 * Tue Nov  1 2011 Daiki ueno <dueno@redhat.com> - 1.2.7-1
 - build in fedora
 
