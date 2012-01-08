@@ -2,7 +2,7 @@
 
 Name:		groonga
 Version:	1.2.9
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	An Embeddable Fulltext Search Engine
 
 Group:		Applications/Text
@@ -314,6 +314,9 @@ fi
 %{php_extdir}/groonga.so
 
 %changelog
+* Mon Jan 9 2012 Mamoru Tasaka <mtasaka@fedoraproject.org> - 1.2.9-2
+- rebuild against new mecab
+
 * Wed Jan  4 2012 Daiki Ueno <dueno@redhat.com> - 1.2.9-1
 - build in fedora
 
