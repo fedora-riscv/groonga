@@ -11,6 +11,7 @@ URL:		http://groonga.org/
 Source0:	http://packages.groonga.org/source/groonga/groonga-%{version}.tar.gz
 Source1:	groonga.service
 Source2:	groonga.sysconfig
+Patch0:		groonga-php5.4.patch
 
 BuildRequires:	mecab-devel
 BuildRequires:	zlib-devel
@@ -134,6 +135,7 @@ PHP language binding for groonga
 %prep
 #% define optflags -O0
 %setup -q
+%patch0 -p1 -b .php5.4
 
 
 %build
@@ -328,6 +330,7 @@ fi
 * Mon Jan 30 2012 Daiki Ueno <dueno@redhat.com> - 1.3.0-1
 - built in Fedora
 - migrate groonga-server initscript to systemd service (#781503)
+- add groonga-php5.4.patch to compile PHP extension with PHP 5.4
 
 * Sun Jan 29 2012 Kouhei Sutou <kou@clear-code.com> - 1.3.0-0
 - new upstream release.
