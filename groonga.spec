@@ -1,14 +1,16 @@
 %global php_extdir  %(php-config --extension-dir 2>/dev/null || echo "undefined")
 
 Name:		groonga
-Version:	1.2.9
-Release:	2%{?dist}
+Version:	1.3.0
+Release:	1%{?dist}
 Summary:	An Embeddable Fulltext Search Engine
 
 Group:		Applications/Text
 License:	LGPLv2
 URL:		http://groonga.org/
 Source0:	http://packages.groonga.org/source/groonga/groonga-%{version}.tar.gz
+Source1:	groonga.service
+Source2:	groonga.sysconfig
 
 BuildRequires:	mecab-devel
 BuildRequires:	zlib-devel
@@ -22,9 +24,10 @@ BuildRequires:	ruby
 Requires:	%{name}-libs = %{version}-%{release}
 Requires:	%{name}-plugin-suggest = %{version}-%{release}
 Requires:	%{name}-tokenizer-mecab = %{version}-%{release}
-Requires:	%{name}-doc = %{version}-%{release}
-Obsoletes:	%{name} < 1.2.2-0
-ExclusiveArch:  %{ix86} x86_64
+Requires(post):	systemd-units
+Requires(preun):	systemd-units
+Requires(postun):	systemd-units
+ExclusiveArch:		%{ix86} x86_64
 
 %description
 Groonga is an embeddable full-text search engine library.  It can
@@ -49,13 +52,11 @@ Summary:	Groonga server
 Group:		Applications/Text
 License:	LGPLv2 and (MIT or GPLv2)
 Requires:	%{name} = %{version}-%{release}
-Requires:	%{name}-munin-plugins = %{version}-%{release}
 Requires(pre):	shadow-utils
 Requires(post):	/sbin/chkconfig
 Requires(preun):	/sbin/chkconfig
 Requires(preun):	/sbin/service
 Requires(postun):	/sbin/service
-Obsoletes:	%{name} < 1.2.2-0
 
 %description server
 This package contains the groonga server
@@ -78,7 +79,7 @@ Libraries and header files for groonga
 
 %package tools
 Summary:       Tools for groonga
-Group:         Development/Tools
+Group:	       Development/Tools
 Requires:      ruby
 
 %description tools
@@ -174,14 +175,13 @@ rm $RPM_BUILD_ROOT%{_libdir}/*.la
 
 mv $RPM_BUILD_ROOT%{_datadir}/doc/groonga groonga-doc
 
-mkdir -p $RPM_BUILD_ROOT%{_initddir}
-mv $RPM_BUILD_ROOT%{_sysconfdir}/groonga/init.d/redhat/groonga \
-	$RPM_BUILD_ROOT%{_initddir}
-mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}
-mv $RPM_BUILD_ROOT%{_sysconfdir}/groonga/init.d/redhat/sysconfig \
-	$RPM_BUILD_ROOT%{_sysconfdir}/
-
+# no need for SysV init script since this package is migrated to systemd
 rm -rf $RPM_BUILD_ROOT%{_sysconfdir}/groonga/init.d/
+
+mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/sysconfig
+install -p -m 644 %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/sysconfig/groonga
+mkdir -p $RPM_BUILD_ROOT%{_unitdir}
+install -p -m 644 %{SOURCE1} $RPM_BUILD_ROOT%{_unitdir}
 
 mkdir -p $RPM_BUILD_ROOT%{_localstatedir}/run/groonga
 mkdir -p $RPM_BUILD_ROOT%{_localstatedir}/lib/groonga/db
@@ -218,7 +218,10 @@ getent passwd groonga >/dev/null || \
 exit 0
 
 %post server
-/sbin/chkconfig --add groonga
+if [ $1 -eq 1 ] ; then 
+    # Initial installation 
+    /bin/systemctl daemon-reload >/dev/null 2>&1 || :
+fi
 
 %post libs -p /sbin/ldconfig
 
@@ -229,15 +232,24 @@ exit 0
 :
 
 %preun server
-if [ $1 = 0 ] ; then
-	/sbin/service groonga stop >/dev/null 2>&1 || :
-	/sbin/chkconfig --del groonga
+if [ $1 -eq 0 ] ; then
+    # Package removal, not upgrade
+    /bin/systemctl --no-reload disable groonga.service > /dev/null 2>&1 || :
+    /bin/systemctl stop groonga.service > /dev/null 2>&1 || :
 fi
 
 %postun server
+/bin/systemctl daemon-reload >/dev/null 2>&1 || :
 if [ $1 -ge 1 ] ; then
-	/sbin/service groonga condrestart >/dev/null 2>&1 || :
+    # Package upgrade, not uninstall
+    /bin/systemctl try-restart groonga.service >/dev/null 2>&1 || :
 fi
+
+%triggerun -- groonga < 1.3.0-1
+/usr/bin/systemd-sysv-convert --save groonga >/dev/null 2>&1 ||:
+/bin/systemctl --no-reload enable groonga.service >/dev/null 2>&1 ||:
+/sbin/chkconfig --del groonga >/dev/null 2>&1 || :
+/bin/systemctl try-restart groonga.service >/dev/null 2>&1 || :
 
 %postun libs -p /sbin/ldconfig
 
@@ -263,14 +275,13 @@ fi
 %dir %{_libdir}/groonga
 %dir %{_libdir}/groonga/plugins
 %dir %{_libdir}/groonga/plugins/tokenizers
-%dir %{_datadir}/groonga
 %{_datadir}/groonga/
 
 %files server
 %defattr(-,root,root,-)
 %config(noreplace) %{_sysconfdir}/groonga/
 %config(noreplace) %{_sysconfdir}/sysconfig/groonga
-%{_initddir}/*
+%dir %{_unitdir}/groonga.service
 %ghost %dir %{_localstatedir}/run/%{name}
 %attr(0755,groonga,groonga) %dir %{_localstatedir}/lib/%{name}
 %attr(0755,groonga,groonga) %dir %{_localstatedir}/lib/%{name}/db
@@ -314,6 +325,17 @@ fi
 %{php_extdir}/groonga.so
 
 %changelog
+* Mon Jan 30 2012 Daiki Ueno <dueno@redhat.com> - 1.3.0-1
+- built in Fedora
+- migrate groonga-server initscript to systemd service (#781503)
+
+* Sun Jan 29 2012 Kouhei Sutou <kou@clear-code.com> - 1.3.0-0
+- new upstream release.
+- groonga-server package does not require groonga-munin-plugins package.
+  suggested by Masaharu IWAI. Thanks!!!
+- groonga package does not require groonga-doc package.
+  suggested by Masaharu IWAI. Thanks!!!
+
 * Mon Jan 9 2012 Mamoru Tasaka <mtasaka@fedoraproject.org> - 1.2.9-2
 - rebuild against new mecab
 
