@@ -1,7 +1,7 @@
 %global php_extdir  %(php-config --extension-dir 2>/dev/null || echo "undefined")
 
 Name:		groonga
-Version:	1.2.9
+Version:	1.3.0
 Release:	1%{?dist}
 Summary:	An Embeddable Fulltext Search Engine
 
@@ -22,7 +22,6 @@ BuildRequires:	ruby
 Requires:	%{name}-libs = %{version}-%{release}
 Requires:	%{name}-plugin-suggest = %{version}-%{release}
 Requires:	%{name}-tokenizer-mecab = %{version}-%{release}
-Requires:	%{name}-doc = %{version}-%{release}
 Obsoletes:	%{name} < 1.2.2-0
 ExclusiveArch:  %{ix86} x86_64
 
@@ -49,7 +48,6 @@ Summary:	Groonga server
 Group:		Applications/Text
 License:	LGPLv2 and (MIT or GPLv2)
 Requires:	%{name} = %{version}-%{release}
-Requires:	%{name}-munin-plugins = %{version}-%{release}
 Requires(pre):	shadow-utils
 Requires(post):	/sbin/chkconfig
 Requires(preun):	/sbin/chkconfig
@@ -314,6 +312,16 @@ fi
 %{php_extdir}/groonga.so
 
 %changelog
+* Wed Feb  1 2012 Daiki Ueno <dueno@redhat.com> - 1.3.0-1
+- build in fedora
+
+* Sun Jan 29 2012 Kouhei Sutou <kou@clear-code.com> - 1.3.0-0
+- new upstream release.
+- groonga-server package does not require groonga-munin-plugins package.
+  suggested by Masaharu IWAI. Thanks!!!
+- groonga package does not require groonga-doc package.
+  suggested by Masaharu IWAI. Thanks!!!
+
 * Wed Jan  4 2012 Daiki Ueno <dueno@redhat.com> - 1.2.9-1
 - build in fedora
 
