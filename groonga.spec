@@ -2,7 +2,7 @@
 
 Name:		groonga
 Version:	1.3.0
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	An Embeddable Fulltext Search Engine
 
 Group:		Applications/Text
@@ -327,6 +327,9 @@ fi
 %{php_extdir}/groonga.so
 
 %changelog
+* Thu Feb  2 2012 Daiki Ueno <dueno@redhat.com> - 1.3.0-2
+- fix systemd service file
+
 * Mon Jan 30 2012 Daiki Ueno <dueno@redhat.com> - 1.3.0-1
 - built in Fedora
 - migrate groonga-server initscript to systemd service (#781503)
