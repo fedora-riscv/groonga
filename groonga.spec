@@ -1,17 +1,14 @@
 %global php_extdir  %(php-config --extension-dir 2>/dev/null || echo "undefined")
 
 Name:		groonga
-Version:	1.3.0
-Release:	2%{?dist}
+Version:	2.0.0
+Release:	1%{?dist}
 Summary:	An Embeddable Fulltext Search Engine
 
 Group:		Applications/Text
 License:	LGPLv2
 URL:		http://groonga.org/
 Source0:	http://packages.groonga.org/source/groonga/groonga-%{version}.tar.gz
-Source1:	groonga.service
-Source2:	groonga.sysconfig
-Patch0:		groonga-php5.4.patch
 
 BuildRequires:	mecab-devel
 BuildRequires:	zlib-devel
@@ -135,17 +132,16 @@ PHP language binding for groonga
 %prep
 #% define optflags -O0
 %setup -q
-%patch0 -p1 -b .php5.4
 
 
 %build
 %configure \
   --disable-static \
-  --with-package-platform=redhat \
+  --with-package-platform=fedora \
   --with-munin-plugins
 sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' libtool
 sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
-make %{?_smp_mflags}
+make %{?_smp_mflags} unitdir="%{_unitdir}"
 
 # build python binding
 cd %{_builddir}/%{name}-%{version}/bindings/python/ql
@@ -177,13 +173,14 @@ rm $RPM_BUILD_ROOT%{_libdir}/*.la
 
 mv $RPM_BUILD_ROOT%{_datadir}/doc/groonga groonga-doc
 
-# no need for SysV init script since this package is migrated to systemd
-rm -rf $RPM_BUILD_ROOT%{_sysconfdir}/groonga/init.d/
-
-mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/sysconfig
-install -p -m 644 %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/sysconfig/groonga
+# Since F17, %{_unitdir} is moved from /lib/systemd/system to
+# /usr/lib/systemd/system.  So we need to manually install the service
+# file into the new place.  The following should work with < F17,
+# though groonga package started using systemd native service since
+# F17 and won't be submitted to earlier releases.
+rm -f $RPM_BUILD_ROOT/lib/systemd/system/groonga.service
 mkdir -p $RPM_BUILD_ROOT%{_unitdir}
-install -p -m 644 %{SOURCE1} $RPM_BUILD_ROOT%{_unitdir}
+install -p -m 644 data/systemd/fedora/groonga.service $RPM_BUILD_ROOT%{_unitdir}
 
 mkdir -p $RPM_BUILD_ROOT%{_localstatedir}/run/groonga
 mkdir -p $RPM_BUILD_ROOT%{_localstatedir}/lib/groonga/db
@@ -220,8 +217,7 @@ getent passwd groonga >/dev/null || \
 exit 0
 
 %post server
-if [ $1 -eq 1 ] ; then 
-    # Initial installation 
+if [ $1 = 1 ] ; then 
     /bin/systemctl daemon-reload >/dev/null 2>&1 || :
 fi
 
@@ -234,8 +230,7 @@ fi
 :
 
 %preun server
-if [ $1 -eq 0 ] ; then
-    # Package removal, not upgrade
+if [ $1 = 0 ] ; then
     /bin/systemctl --no-reload disable groonga.service > /dev/null 2>&1 || :
     /bin/systemctl stop groonga.service > /dev/null 2>&1 || :
 fi
@@ -243,7 +238,6 @@ fi
 %postun server
 /bin/systemctl daemon-reload >/dev/null 2>&1 || :
 if [ $1 -ge 1 ] ; then
-    # Package upgrade, not uninstall
     /bin/systemctl try-restart groonga.service >/dev/null 2>&1 || :
 fi
 
@@ -285,8 +279,8 @@ fi
 %config(noreplace) %{_sysconfdir}/sysconfig/groonga
 %dir %{_unitdir}/groonga.service
 %ghost %dir %{_localstatedir}/run/%{name}
-%attr(0755,groonga,groonga) %dir %{_localstatedir}/lib/%{name}
-%attr(0755,groonga,groonga) %dir %{_localstatedir}/lib/%{name}/db
+%attr(0750,groonga,groonga) %dir %{_localstatedir}/lib/%{name}
+%attr(0750,groonga,groonga) %dir %{_localstatedir}/lib/%{name}/db
 
 %files doc
 %defattr(-,root,root,-)
@@ -327,6 +321,16 @@ fi
 %{php_extdir}/groonga.so
 
 %changelog
+* Thu Mar  1 2012 Daiki Ueno <dueno@redhat.com> - 2.0.0-1
+- built in Fedora
+
+* Wed Feb 29 2012 Kouhei Sutou <kou@clear-code.com> - 2.0.0-0
+- new upstream release.
+- remove other permission from DB directory.
+- use HTTP as the default protocol.
+- support effective user and group in systemd.
+  Patch by Daiki Ueno. Thanks!!!
+
 * Thu Feb  2 2012 Daiki Ueno <dueno@redhat.com> - 1.3.0-2
 - fix systemd service file
 
