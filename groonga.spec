@@ -1,7 +1,7 @@
 %global php_extdir  %(php-config --extension-dir 2>/dev/null || echo "undefined")
 
 Name:		groonga
-Version:	1.3.0
+Version:	2.0.0
 Release:	1%{?dist}
 Summary:	An Embeddable Fulltext Search Engine
 
@@ -22,8 +22,7 @@ BuildRequires:	ruby
 Requires:	%{name}-libs = %{version}-%{release}
 Requires:	%{name}-plugin-suggest = %{version}-%{release}
 Requires:	%{name}-tokenizer-mecab = %{version}-%{release}
-Obsoletes:	%{name} < 1.2.2-0
-ExclusiveArch:  %{ix86} x86_64
+ExclusiveArch:		%{ix86} x86_64
 
 %description
 Groonga is an embeddable full-text search engine library.  It can
@@ -53,7 +52,6 @@ Requires(post):	/sbin/chkconfig
 Requires(preun):	/sbin/chkconfig
 Requires(preun):	/sbin/service
 Requires(postun):	/sbin/service
-Obsoletes:	%{name} < 1.2.2-0
 
 %description server
 This package contains the groonga server
@@ -76,7 +74,7 @@ Libraries and header files for groonga
 
 %package tools
 Summary:       Tools for groonga
-Group:         Development/Tools
+Group:	       Development/Tools
 Requires:      ruby
 
 %description tools
@@ -173,13 +171,7 @@ rm $RPM_BUILD_ROOT%{_libdir}/*.la
 mv $RPM_BUILD_ROOT%{_datadir}/doc/groonga groonga-doc
 
 mkdir -p $RPM_BUILD_ROOT%{_initddir}
-mv $RPM_BUILD_ROOT%{_sysconfdir}/groonga/init.d/redhat/groonga \
-	$RPM_BUILD_ROOT%{_initddir}
-mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}
-mv $RPM_BUILD_ROOT%{_sysconfdir}/groonga/init.d/redhat/sysconfig \
-	$RPM_BUILD_ROOT%{_sysconfdir}/
-
-rm -rf $RPM_BUILD_ROOT%{_sysconfdir}/groonga/init.d/
+mv $RPM_BUILD_ROOT%{_sysconfdir}/init.d/groonga $RPM_BUILD_ROOT%{_initddir}
 
 mkdir -p $RPM_BUILD_ROOT%{_localstatedir}/run/groonga
 mkdir -p $RPM_BUILD_ROOT%{_localstatedir}/lib/groonga/db
@@ -261,7 +253,6 @@ fi
 %dir %{_libdir}/groonga
 %dir %{_libdir}/groonga/plugins
 %dir %{_libdir}/groonga/plugins/tokenizers
-%dir %{_datadir}/groonga
 %{_datadir}/groonga/
 
 %files server
@@ -270,8 +261,8 @@ fi
 %config(noreplace) %{_sysconfdir}/sysconfig/groonga
 %{_initddir}/*
 %ghost %dir %{_localstatedir}/run/%{name}
-%attr(0755,groonga,groonga) %dir %{_localstatedir}/lib/%{name}
-%attr(0755,groonga,groonga) %dir %{_localstatedir}/lib/%{name}/db
+%attr(0750,groonga,groonga) %dir %{_localstatedir}/lib/%{name}
+%attr(0750,groonga,groonga) %dir %{_localstatedir}/lib/%{name}/db
 
 %files doc
 %defattr(-,root,root,-)
@@ -312,6 +303,16 @@ fi
 %{php_extdir}/groonga.so
 
 %changelog
+* Thu Mar  1 2012 Daiki Ueno <dueno@redhat.com> - 2.0.0-1
+- built in Fedora
+
+* Wed Feb 29 2012 Kouhei Sutou <kou@clear-code.com> - 2.0.0-0
+- new upstream release.
+- remove other permission from DB directory.
+- use HTTP as the default protocol.
+- support effective user and group in systemd.
+  Patch by Daiki Ueno. Thanks!!!
+
 * Wed Feb  1 2012 Daiki Ueno <dueno@redhat.com> - 1.3.0-1
 - build in fedora
 
@@ -321,6 +322,9 @@ fi
   suggested by Masaharu IWAI. Thanks!!!
 - groonga package does not require groonga-doc package.
   suggested by Masaharu IWAI. Thanks!!!
+
+* Mon Jan 9 2012 Mamoru Tasaka <mtasaka@fedoraproject.org> - 1.2.9-2
+- rebuild against new mecab
 
 * Wed Jan  4 2012 Daiki Ueno <dueno@redhat.com> - 1.2.9-1
 - build in fedora
