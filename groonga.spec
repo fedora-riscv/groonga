@@ -171,13 +171,7 @@ rm $RPM_BUILD_ROOT%{_libdir}/*.la
 mv $RPM_BUILD_ROOT%{_datadir}/doc/groonga groonga-doc
 
 mkdir -p $RPM_BUILD_ROOT%{_initddir}
-mv $RPM_BUILD_ROOT%{_sysconfdir}/groonga/init.d/redhat/groonga \
-	$RPM_BUILD_ROOT%{_initddir}
-mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}
-mv $RPM_BUILD_ROOT%{_sysconfdir}/groonga/init.d/redhat/sysconfig \
-	$RPM_BUILD_ROOT%{_sysconfdir}/
-
-rm -rf $RPM_BUILD_ROOT%{_sysconfdir}/groonga/init.d/
+mv $RPM_BUILD_ROOT%{_sysconfdir}/init.d/groonga $RPM_BUILD_ROOT%{_initddir}
 
 mkdir -p $RPM_BUILD_ROOT%{_localstatedir}/run/groonga
 mkdir -p $RPM_BUILD_ROOT%{_localstatedir}/lib/groonga/db
