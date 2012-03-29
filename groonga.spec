@@ -1,7 +1,7 @@
 %global php_extdir  %(php-config --extension-dir 2>/dev/null || echo "undefined")
 
 Name:		groonga
-Version:	2.0.0
+Version:	2.0.1
 Release:	1%{?dist}
 Summary:	An Embeddable Fulltext Search Engine
 
@@ -74,14 +74,6 @@ Requires:	%{name}-libs = %{version}-%{release}
 
 %description devel
 Libraries and header files for groonga
-
-%package tools
-Summary:       Tools for groonga
-Group:	       Development/Tools
-Requires:      ruby
-
-%description tools
-Tools for groonga
 
 %package tokenizer-mecab
 Summary:	MeCab tokenizer for groonga
@@ -262,7 +254,7 @@ fi
 %{_datadir}/man/man1/*
 %{_datadir}/man/*/man1/*
 %{_bindir}/groonga
-%{_bindir}/grntest
+%{_bindir}/groonga-benchmark
 
 %files libs
 %defattr(-,root,root,-)
@@ -293,10 +285,6 @@ fi
 %{_libdir}/*.so
 %{_libdir}/pkgconfig/groonga*.pc
 
-%files tools
-%defattr(-,root,root,-)
-%{_bindir}/groonga-query-log-analyzer
-
 %files tokenizer-mecab
 %defattr(-,root,root,-)
 %{_libdir}/groonga/plugins/tokenizers/mecab.so
@@ -321,6 +309,15 @@ fi
 %{php_extdir}/groonga.so
 
 %changelog
+* Thu Mar 29 2012 Daiki Ueno <dueno@redhat.com> - 2.0.1-1
+- built in Fedora
+
+* Thu Mar 29 2012 Kouhei Sutou <kou@clear-code.com> - 2.0.1-0
+- new upstream release.
+- ensure removing build directory before installing.
+- grntest -> groonga-benchmark.
+- remove groonga-tools package.
+
 * Thu Mar  1 2012 Daiki Ueno <dueno@redhat.com> - 2.0.0-1
 - built in Fedora
 
