@@ -1,7 +1,7 @@
 %global php_extdir  %(php-config --extension-dir 2>/dev/null || echo "undefined")
 
 Name:		groonga
-Version:	2.0.1
+Version:	2.0.2
 Release:	1%{?dist}
 Summary:	An Embeddable Fulltext Search Engine
 
@@ -18,6 +18,7 @@ BuildRequires:	zeromq-devel
 BuildRequires:	libevent-devel
 BuildRequires:	python2-devel
 BuildRequires:	php-devel
+BuildRequires:	libedit-devel
 BuildRequires:	ruby
 Requires:	%{name}-libs = %{version}-%{release}
 Requires:	%{name}-plugin-suggest = %{version}-%{release}
@@ -50,6 +51,7 @@ Summary:	Groonga server
 Group:		Applications/Text
 License:	LGPLv2 and (MIT or GPLv2)
 Requires:	%{name} = %{version}-%{release}
+Requires:	curl
 Requires(pre):	shadow-utils
 Requires(post):	/sbin/chkconfig
 Requires(preun):	/sbin/chkconfig
@@ -130,6 +132,7 @@ PHP language binding for groonga
 %configure \
   --disable-static \
   --with-package-platform=fedora \
+  --with-zlib --with-lzo \
   --with-munin-plugins
 sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' libtool
 sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
@@ -309,6 +312,20 @@ fi
 %{php_extdir}/groonga.so
 
 %changelog
+* Tue May  1 2012 Daiki Ueno <dueno@redhat.com> - 2.0.2-1
+- built in Fedora
+
+* Sun Apr 29 2012 Kouhei Sutou <kou@clear-code.com> - 2.0.2-0
+- new upstream release.
+- use libedit.
+
+* Fri Mar 30 2012 Kouhei Sutou <kou@clear-code.com> - 2.0.1-2
+- Use shutdown command for stop.
+
+* Fri Mar 30 2012 Kouhei Sutou <kou@clear-code.com> - 2.0.1-1
+- Fix bind address argument parameter.
+  Patch by Masaharu IWAI. Thanks!!!
+
 * Thu Mar 29 2012 Daiki Ueno <dueno@redhat.com> - 2.0.1-1
 - built in Fedora
 
