@@ -1,7 +1,7 @@
 %global php_extdir  %(php-config --extension-dir 2>/dev/null || echo "undefined")
 
 Name:		groonga
-Version:	2.0.2
+Version:	2.0.3
 Release:	1%{?dist}
 Summary:	An Embeddable Fulltext Search Engine
 
@@ -212,7 +212,7 @@ getent passwd groonga >/dev/null || \
 exit 0
 
 %post server
-if [ $1 = 1 ] ; then 
+if [ $1 = 1 ] ; then
     /bin/systemctl daemon-reload >/dev/null 2>&1 || :
 fi
 
@@ -266,6 +266,7 @@ fi
 %dir %{_libdir}/groonga
 %dir %{_libdir}/groonga/plugins
 %dir %{_libdir}/groonga/plugins/tokenizers
+%{_libdir}/groonga/plugins/table/table.so
 %{_datadir}/groonga/
 
 %files server
@@ -312,6 +313,12 @@ fi
 %{php_extdir}/groonga.so
 
 %changelog
+* Mon Jun  4 2012 Daiki Ueno <dueno@redhat.com> - 2.0.3-1
+- built in Fedora
+
+* Tue May 29 2012 Kouhei Sutou <kou@clear-code.com> - 2.0.3-0
+- new upstream release.
+
 * Tue May  1 2012 Daiki Ueno <dueno@redhat.com> - 2.0.2-1
 - built in Fedora
 
