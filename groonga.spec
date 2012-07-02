@@ -1,7 +1,7 @@
 %global php_extdir  %(php-config --extension-dir 2>/dev/null || echo "undefined")
 
 Name:		groonga
-Version:	2.0.3
+Version:	2.0.4
 Release:	1%{?dist}
 Summary:	An Embeddable Fulltext Search Engine
 
@@ -13,7 +13,7 @@ Source0:	http://packages.groonga.org/source/groonga/groonga-%{version}.tar.gz
 BuildRequires:	mecab-devel
 BuildRequires:	zlib-devel
 BuildRequires:	lzo-devel
-#BuildRequires:	messagepack-devel
+BuildRequires:	msgpack-devel
 BuildRequires:	zeromq-devel
 BuildRequires:	libevent-devel
 BuildRequires:	python2-devel
@@ -22,7 +22,6 @@ BuildRequires:	libedit-devel
 BuildRequires:	ruby
 Requires:	%{name}-libs = %{version}-%{release}
 Requires:	%{name}-plugin-suggest = %{version}-%{release}
-Requires:	%{name}-tokenizer-mecab = %{version}-%{release}
 Requires(post):	systemd-units
 Requires(preun):	systemd-units
 Requires(postun):	systemd-units
@@ -258,6 +257,7 @@ fi
 %{_datadir}/man/*/man1/*
 %{_bindir}/groonga
 %{_bindir}/groonga-benchmark
+%{_bindir}/groonga-httpd
 
 %files libs
 %defattr(-,root,root,-)
@@ -272,6 +272,7 @@ fi
 %files server
 %defattr(-,root,root,-)
 %config(noreplace) %{_sysconfdir}/groonga/
+%config(noreplace) %{_sysconfdir}/groonga/httpd/*
 %config(noreplace) %{_sysconfdir}/sysconfig/groonga
 %dir %{_unitdir}/groonga.service
 %ghost %dir %{_localstatedir}/run/%{name}
@@ -313,6 +314,14 @@ fi
 %{php_extdir}/groonga.so
 
 %changelog
+* Mon Jul  2 2012 Daiki Ueno <dueno@redhat.com> - 2.0.4-1
+- built in Fedora
+- add msgpack-devel to BR
+
+* Fri Jun 29 2012 Kouhei Sutou <kou@clear-code.com> - 2.0.4-0
+- new upstream release.
+- groonga package does not require groonga-tokenizer-mecab package.
+
 * Mon Jun  4 2012 Daiki Ueno <dueno@redhat.com> - 2.0.3-1
 - built in Fedora
 
