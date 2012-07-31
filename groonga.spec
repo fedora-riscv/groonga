@@ -1,14 +1,16 @@
 %global php_extdir  %(php-config --extension-dir 2>/dev/null || echo "undefined")
 
 Name:		groonga
-Version:	2.0.4
-Release:	3%{?dist}
+Version:	2.0.5
+Release:	1%{?dist}
 Summary:	An Embeddable Fulltext Search Engine
 
 Group:		Applications/Text
 License:	LGPLv2
 URL:		http://groonga.org/
 Source0:	http://packages.groonga.org/source/groonga/groonga-%{version}.tar.gz
+# XXX: groonga-2.0.5 does not include the service file
+Source1:	groonga-httpd.service
 
 BuildRequires:	mecab-devel
 BuildRequires:	zlib-devel
@@ -59,6 +61,15 @@ Requires(postun):	/sbin/service
 
 %description server
 This package contains the groonga server
+
+%package httpd
+Summary:        Groonga HTTP server
+Group:          Applications/Text
+License:        LGPLv2 and BSD
+Requires:       %{name}-libs = %{version}-%{release}
+
+%description httpd
+This package contains the groonga HTTP server
 
 %package doc
 Summary:	Documentation for groonga
@@ -126,6 +137,9 @@ PHP language binding for groonga
 #% define optflags -O0
 %setup -q
 
+# XXX: groonga-2.0.5 does not include the service file
+cp %{SOURCE1} data/systemd/fedora/
+
 
 %build
 %configure \
@@ -172,9 +186,13 @@ mv $RPM_BUILD_ROOT%{_datadir}/doc/groonga groonga-doc
 # file into the new place.  The following should work with < F17,
 # though groonga package started using systemd native service since
 # F17 and won't be submitted to earlier releases.
-rm -f $RPM_BUILD_ROOT/lib/systemd/system/groonga.service
 mkdir -p $RPM_BUILD_ROOT%{_unitdir}
+
+rm -f $RPM_BUILD_ROOT/lib/systemd/system/groonga.service
 install -p -m 644 data/systemd/fedora/groonga.service $RPM_BUILD_ROOT%{_unitdir}
+
+rm -f $RPM_BUILD_ROOT/lib/systemd/system/groonga-httpd.service
+install -p -m 644 data/systemd/fedora/groonga-httpd.service $RPM_BUILD_ROOT%{_unitdir}
 
 mkdir -p $RPM_BUILD_ROOT%{_localstatedir}/run/groonga
 mkdir -p $RPM_BUILD_ROOT%{_localstatedir}/lib/groonga/db
@@ -215,6 +233,18 @@ if [ $1 = 1 ] ; then
     /bin/systemctl daemon-reload >/dev/null 2>&1 || :
 fi
 
+%pre httpd
+getent group groonga >/dev/null || groupadd -r groonga
+getent passwd groonga >/dev/null || \
+       useradd -r -g groonga -d %{_localstatedir}/lib/groonga -s /sbin/nologin \
+	-c 'groonga' groonga
+exit 0
+
+%post httpd
+if [ $1 = 1 ] ; then
+	/bin/systemctl daemon-reload >/dev/null 2>&1 || :
+fi
+
 %post libs -p /sbin/ldconfig
 
 %post munin-plugins
@@ -233,6 +263,18 @@ fi
 /bin/systemctl daemon-reload >/dev/null 2>&1 || :
 if [ $1 -ge 1 ] ; then
     /bin/systemctl try-restart groonga.service >/dev/null 2>&1 || :
+fi
+
+%preun httpd
+if [ $1 = 0 ] ; then
+	/bin/systemctl --no-reload disable groonga-httpd.service > /dev/null 2>&1 || :
+	/bin/systemctl stop groonga-httpd.service > /dev/null 2>&1 || :
+fi
+
+%postun httpd
+/bin/systemctl daemon-reload >/dev/null 2>&1 || :
+if [ $1 -ge 1 ] ; then
+	/bin/systemctl try-restart groonga-httpd.service >/dev/null 2>&1 || :
 fi
 
 %triggerun -- groonga < 1.3.0-1
@@ -257,7 +299,6 @@ fi
 %{_datadir}/man/*/man1/*
 %{_bindir}/groonga
 %{_bindir}/groonga-benchmark
-%{_bindir}/groonga-httpd
 
 %files libs
 %defattr(-,root,root,-)
@@ -272,12 +313,17 @@ fi
 %files server
 %defattr(-,root,root,-)
 %config(noreplace) %{_sysconfdir}/groonga/
-%config(noreplace) %{_sysconfdir}/groonga/httpd/*
 %config(noreplace) %{_sysconfdir}/sysconfig/groonga
 %dir %{_unitdir}/groonga.service
 %ghost %dir %{_localstatedir}/run/%{name}
 %attr(0750,groonga,groonga) %dir %{_localstatedir}/lib/%{name}
 %attr(0750,groonga,groonga) %dir %{_localstatedir}/lib/%{name}/db
+
+%files httpd
+%defattr(-,root,root,-)
+%config(noreplace) %{_sysconfdir}/groonga/httpd/*
+%dir %{_unitdir}/groonga-httpd.service
+%{_sbindir}/groonga-httpd
 
 %files doc
 %defattr(-,root,root,-)
@@ -314,11 +360,11 @@ fi
 %{php_extdir}/groonga.so
 
 %changelog
-* Thu Jul 19 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2.0.4-3
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_18_Mass_Rebuild
+* Tue Jul 31 2012 Daiki Ueno <dueno@redhat.com> - 2.0.5-1
+- built in Fedora
 
-* Mon Jul  2 2012 Mamoru Tasaka <mtasaka@fedoraproject.org> - 2.0.4-2
-- Rebuild against new mecab
+* Sun Jul 29 2012 Kouhei Sutou <kou@clear-code.com> - 2.0.5-0
+- new upstream release.
 
 * Mon Jul  2 2012 Daiki Ueno <dueno@redhat.com> - 2.0.4-1
 - built in Fedora
