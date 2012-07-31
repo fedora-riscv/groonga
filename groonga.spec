@@ -1,7 +1,7 @@
 %global php_extdir  %(php-config --extension-dir 2>/dev/null || echo "undefined")
 
 Name:		groonga
-Version:	2.0.4
+Version:	2.0.5
 Release:	1%{?dist}
 Summary:	An Embeddable Fulltext Search Engine
 
@@ -56,6 +56,15 @@ Requires(postun):	/sbin/service
 
 %description server
 This package contains the groonga server
+
+%package httpd
+Summary:	Groonga HTTP server
+Group:		Applications/Text
+License:	LGPLv2 and BSD
+Requires:	%{name}-libs = %{version}-%{release}
+
+%description httpd
+This package contains the groonga HTTP server
 
 %package doc
 Summary:	Documentation for groonga
@@ -239,7 +248,6 @@ fi
 %{_datadir}/man/*/man1/*
 %{_bindir}/groonga
 %{_bindir}/groonga-benchmark
-%{_bindir}/groonga-httpd
 
 %files libs
 %defattr(-,root,root,-)
@@ -254,12 +262,16 @@ fi
 %files server
 %defattr(-,root,root,-)
 %config(noreplace) %{_sysconfdir}/groonga/
-%config(noreplace) %{_sysconfdir}/groonga/httpd/*
 %config(noreplace) %{_sysconfdir}/sysconfig/groonga
 %{_initddir}/*
 %ghost %dir %{_localstatedir}/run/%{name}
 %attr(0750,groonga,groonga) %dir %{_localstatedir}/lib/%{name}
 %attr(0750,groonga,groonga) %dir %{_localstatedir}/lib/%{name}/db
+
+%files httpd
+%defattr(-,root,root,-)
+%config(noreplace) %{_sysconfdir}/groonga/httpd/*
+%{_sbindir}/groonga-httpd
 
 %files doc
 %defattr(-,root,root,-)
@@ -296,6 +308,13 @@ fi
 %{php_extdir}/groonga.so
 
 %changelog
+* Tue Jul 31 2012 Daiki Ueno <dueno@redhat.com> - 2.0.5-1
+- built in Fedora
+
+* Sun Jul 29 2012 Kouhei Sutou <kou@clear-code.com> - 2.0.5-0
+- new upstream release.
+- split groonga-httpd related files into groonga-httpd package.
+
 * Mon Jul  2 2012 Daiki Ueno <dueno@redhat.com> - 2.0.4-1
 - built in Fedora
 - add msgpack-devel to BR
