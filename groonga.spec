@@ -2,7 +2,7 @@
 
 Name:		groonga
 Version:	2.0.5
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	An Embeddable Fulltext Search Engine
 
 Group:		Applications/Text
@@ -221,6 +221,14 @@ cd %{_builddir}/%{name}-%{version}/bindings/php
 make install INSTALL_ROOT=$RPM_BUILD_ROOT INSTALL="install -p"
 
 
+%post libs -p /sbin/ldconfig
+
+%post munin-plugins
+%{_sbindir}/munin-node-configure --shell --remove-also | grep -e 'groonga_' | sh
+[ -f %{_localstatedir}/lock/subsys/munin-node ] && \
+	/sbin/service munin-node restart > /dev/null 2>&1
+:
+
 %pre server
 getent group groonga >/dev/null || groupadd -r groonga
 getent passwd groonga >/dev/null || \
@@ -229,9 +237,13 @@ getent passwd groonga >/dev/null || \
 exit 0
 
 %post server
-if [ $1 = 1 ] ; then
-    /bin/systemctl daemon-reload >/dev/null 2>&1 || :
-fi
+%systemd_post groonga.service
+
+%preun server
+%systemd_preun groonga.service
+
+%postun server
+%systemd_postun groonga.service
 
 %pre httpd
 getent group groonga >/dev/null || groupadd -r groonga
@@ -241,41 +253,13 @@ getent passwd groonga >/dev/null || \
 exit 0
 
 %post httpd
-if [ $1 = 1 ] ; then
-	/bin/systemctl daemon-reload >/dev/null 2>&1 || :
-fi
-
-%post libs -p /sbin/ldconfig
-
-%post munin-plugins
-%{_sbindir}/munin-node-configure --shell --remove-also | grep -e 'groonga_' | sh
-[ -f %{_localstatedir}/lock/subsys/munin-node ] && \
-	/sbin/service munin-node restart > /dev/null 2>&1
-:
-
-%preun server
-if [ $1 = 0 ] ; then
-    /bin/systemctl --no-reload disable groonga.service > /dev/null 2>&1 || :
-    /bin/systemctl stop groonga.service > /dev/null 2>&1 || :
-fi
-
-%postun server
-/bin/systemctl daemon-reload >/dev/null 2>&1 || :
-if [ $1 -ge 1 ] ; then
-    /bin/systemctl try-restart groonga.service >/dev/null 2>&1 || :
-fi
+%systemd_post groonga-httpd.service
 
 %preun httpd
-if [ $1 = 0 ] ; then
-	/bin/systemctl --no-reload disable groonga-httpd.service > /dev/null 2>&1 || :
-	/bin/systemctl stop groonga-httpd.service > /dev/null 2>&1 || :
-fi
+%systemd_preun groonga-httpd.service
 
 %postun httpd
-/bin/systemctl daemon-reload >/dev/null 2>&1 || :
-if [ $1 -ge 1 ] ; then
-	/bin/systemctl try-restart groonga-httpd.service >/dev/null 2>&1 || :
-fi
+%systemd_postun groonga-httpd.service
 
 %triggerun -- groonga < 1.3.0-1
 /usr/bin/systemd-sysv-convert --save groonga >/dev/null 2>&1 ||:
@@ -360,6 +344,9 @@ fi
 %{php_extdir}/groonga.so
 
 %changelog
+* Wed Aug 22 2012 Daiki Ueno <dueno@redhat.com> - 2.0.5-2
+- use systemd-rpm macros (#850137)
+
 * Tue Jul 31 2012 Daiki Ueno <dueno@redhat.com> - 2.0.5-1
 - built in Fedora
 
