@@ -1,16 +1,14 @@
 %global php_extdir  %(php-config --extension-dir 2>/dev/null || echo "undefined")
 
 Name:		groonga
-Version:	2.0.5
-Release:	2%{?dist}
+Version:	2.0.9
+Release:	1%{?dist}
 Summary:	An Embeddable Fulltext Search Engine
 
 Group:		Applications/Text
 License:	LGPLv2
 URL:		http://groonga.org/
 Source0:	http://packages.groonga.org/source/groonga/groonga-%{version}.tar.gz
-# XXX: groonga-2.0.5 does not include the service file
-Source1:	groonga-httpd.service
 
 BuildRequires:	mecab-devel
 BuildRequires:	zlib-devel
@@ -21,7 +19,7 @@ BuildRequires:	libevent-devel
 BuildRequires:	python2-devel
 BuildRequires:	php-devel
 BuildRequires:	libedit-devel
-BuildRequires:	ruby
+BuildRequires:	pcre-devel
 Requires:	%{name}-libs = %{version}-%{release}
 Requires:	%{name}-plugin-suggest = %{version}-%{release}
 Requires(post):	systemd-units
@@ -39,37 +37,66 @@ on relational data model.
 Summary:	Runtime libraries for groonga
 Group:		System Environment/Libraries
 License:	LGPLv2 and (MIT or GPLv2)
-#Requires:	zlib
-#Requires:	lzo
 Requires(post):	/sbin/ldconfig
 Requires(postun):	/sbin/ldconfig
 
 %description libs
 This package contains the libraries for groonga
 
-%package server
-Summary:	Groonga server
+%package server-common
+Summary:	Common packages for the groonga server and the groonga HTTP server
 Group:		Applications/Text
-License:	LGPLv2 and (MIT or GPLv2)
+License:	LGPLv2
 Requires:	%{name} = %{version}-%{release}
+Requires(pre):	shadow-utils
+
+%description server-common
+This package provides common settings for server use
+
+%package server-gqtp
+Summary:	Groonga GQTP server
+Group:		Applications/Text
+License:	LGPLv2
+Requires:	%{name}-server-common = %{version}-%{release}
+Requires(pre):	shadow-utils
+Requires(post):	/sbin/chkconfig
+Requires(preun):	/sbin/chkconfig
+Requires(preun):	/sbin/service
+Requires(postun):	/sbin/service
+Obsoletes:	%{name}-server < 2.0.7-0
+
+%description server-gqtp
+This package contains the groonga GQTP server
+
+%package server-http
+Summary:	Groonga HTTP server (stable)
+Group:		Applications/Text
+License:	LGPLv2
+Requires:	%{name}-server-common = %{version}-%{release}
 Requires:	curl
 Requires(pre):	shadow-utils
 Requires(post):	/sbin/chkconfig
 Requires(preun):	/sbin/chkconfig
 Requires(preun):	/sbin/service
 Requires(postun):	/sbin/service
+Obsoletes:	%{name}-server < 2.0.7-0
+Conflicts:	%{name}-httpd
 
-%description server
-This package contains the groonga server
+%description server-http
+This package contains the groonga HTTP server. It is stable but
+has only requisite minimum features.
 
 %package httpd
-Summary:        Groonga HTTP server
+Summary:	Groonga HTTP server (experimental)
 Group:          Applications/Text
 License:        LGPLv2 and BSD
-Requires:       %{name}-libs = %{version}-%{release}
+Requires:	%{name}-server-common = %{version}-%{release}
+Conflicts:	%{name}-server-http
 
 %description httpd
-This package contains the groonga HTTP server
+This package contains the groonga HTTP server. It is experimental
+but has many features. Because it is based on nginx HTTP server.
+It will obsolete groonga-server-http when it is stable.
 
 %package doc
 Summary:	Documentation for groonga
@@ -91,7 +118,6 @@ Libraries and header files for groonga
 Summary:	MeCab tokenizer for groonga
 Group:		Applications/Text
 Requires:	%{name}-libs = %{version}-%{release}
-Requires:	mecab
 
 %description tokenizer-mecab
 MeCab tokenizer for groonga
@@ -137,9 +163,6 @@ PHP language binding for groonga
 #% define optflags -O0
 %setup -q
 
-# XXX: groonga-2.0.5 does not include the service file
-cp %{SOURCE1} data/systemd/fedora/
-
 
 %build
 %configure \
@@ -175,6 +198,7 @@ make %{?_smp_mflags}
 
 
 %install
+rm -rf $RPM_BUILD_ROOT
 make install DESTDIR=$RPM_BUILD_ROOT INSTALL="install -p"
 rm $RPM_BUILD_ROOT%{_libdir}/groonga/plugins/*/*.la
 rm $RPM_BUILD_ROOT%{_libdir}/*.la
@@ -188,8 +212,8 @@ mv $RPM_BUILD_ROOT%{_datadir}/doc/groonga groonga-doc
 # F17 and won't be submitted to earlier releases.
 mkdir -p $RPM_BUILD_ROOT%{_unitdir}
 
-rm -f $RPM_BUILD_ROOT/lib/systemd/system/groonga.service
-install -p -m 644 data/systemd/fedora/groonga.service $RPM_BUILD_ROOT%{_unitdir}
+rm -f $RPM_BUILD_ROOT/lib/systemd/system/groonga-server-http.service
+install -p -m 644 data/systemd/fedora/groonga-server-http.service $RPM_BUILD_ROOT%{_unitdir}
 
 rm -f $RPM_BUILD_ROOT/lib/systemd/system/groonga-httpd.service
 install -p -m 644 data/systemd/fedora/groonga-httpd.service $RPM_BUILD_ROOT%{_unitdir}
@@ -229,28 +253,28 @@ make install INSTALL_ROOT=$RPM_BUILD_ROOT INSTALL="install -p"
 	/sbin/service munin-node restart > /dev/null 2>&1
 :
 
-%pre server
+%pre server-common
 getent group groonga >/dev/null || groupadd -r groonga
 getent passwd groonga >/dev/null || \
        useradd -r -g groonga -d %{_localstatedir}/lib/groonga -s /sbin/nologin \
 	-c 'groonga' groonga
+if [ $1 = 1 ] ; then
+	mkdir -p %{_localstatedir}/lib/groonga/db
+	groonga -n %{_localstatedir}/lib/groonga/db/db shutdown > /dev/null
+	chown -R groonga:groonga %{_localstatedir}/lib/groonga
+	mkdir -p %{_localstatedir}/run/groonga
+	chown -R groonga:groonga %{_localstatedir}/run/groonga
+fi
 exit 0
 
-%post server
-%systemd_post groonga.service
+%post server-http
+%systemd_post groonga-server-http.service
 
-%preun server
-%systemd_preun groonga.service
+%preun server-http
+%systemd_preun groonga-server-http.service
 
-%postun server
-%systemd_postun groonga.service
-
-%pre httpd
-getent group groonga >/dev/null || groupadd -r groonga
-getent passwd groonga >/dev/null || \
-       useradd -r -g groonga -d %{_localstatedir}/lib/groonga -s /sbin/nologin \
-	-c 'groonga' groonga
-exit 0
+%postun server-http
+%systemd_postun groonga-server-http.service
 
 %post httpd
 %systemd_post groonga-httpd.service
@@ -263,9 +287,9 @@ exit 0
 
 %triggerun -- groonga < 1.3.0-1
 /usr/bin/systemd-sysv-convert --save groonga >/dev/null 2>&1 ||:
-/bin/systemctl --no-reload enable groonga.service >/dev/null 2>&1 ||:
+/bin/systemctl --no-reload enable groonga-server-http.service >/dev/null 2>&1 ||:
 /sbin/chkconfig --del groonga >/dev/null 2>&1 || :
-/bin/systemctl try-restart groonga.service >/dev/null 2>&1 || :
+/bin/systemctl try-restart groonga-servre-http.service >/dev/null 2>&1 || :
 
 %postun libs -p /sbin/ldconfig
 
@@ -292,13 +316,26 @@ fi
 %dir %{_libdir}/groonga/plugins
 %dir %{_libdir}/groonga/plugins/tokenizers
 %{_libdir}/groonga/plugins/table/table.so
+%{_libdir}/groonga/plugins/query_expanders/tsv.so
 %{_datadir}/groonga/
+%config(noreplace) %{_sysconfdir}/groonga/synonyms.tsv
 
-%files server
+%files server-common
+
+%files server-http
 %defattr(-,root,root,-)
 %config(noreplace) %{_sysconfdir}/groonga/
-%config(noreplace) %{_sysconfdir}/sysconfig/groonga
-%dir %{_unitdir}/groonga.service
+%config(noreplace) %{_sysconfdir}/sysconfig/groonga-server-http
+%dir %{_unitdir}/groonga-server-http.service
+%ghost %dir %{_localstatedir}/run/%{name}
+%attr(0750,groonga,groonga) %dir %{_localstatedir}/lib/%{name}
+%attr(0750,groonga,groonga) %dir %{_localstatedir}/lib/%{name}/db
+
+%files server-gqtp
+%defattr(-,root,root,-)
+%config(noreplace) %{_sysconfdir}/groonga/
+%config(noreplace) %{_sysconfdir}/sysconfig/groonga-server-gqtp
+%dir %{_unitdir}/groonga-server-gqtp.service
 %ghost %dir %{_localstatedir}/run/%{name}
 %attr(0750,groonga,groonga) %dir %{_localstatedir}/lib/%{name}
 %attr(0750,groonga,groonga) %dir %{_localstatedir}/lib/%{name}/db
@@ -308,6 +345,7 @@ fi
 %config(noreplace) %{_sysconfdir}/groonga/httpd/*
 %dir %{_unitdir}/groonga-httpd.service
 %{_sbindir}/groonga-httpd
+%{_sbindir}/groonga-httpd-restart
 
 %files doc
 %defattr(-,root,root,-)
@@ -344,6 +382,30 @@ fi
 %{php_extdir}/groonga.so
 
 %changelog
+* Mon Dec 10 2012 Daiki Ueno <dueno@redhat.com> - 2.0.9-1
+- built in Fedora
+
+* Thu Nov 29 2012 HAYASHI Kentaro <hayashi@clear-code.com> - 2.0.9-0
+- new upstream release.
+
+* Mon Oct 29 2012 Kouhei Sutou <kou@clear-code.com> - 2.0.8-0
+- new upstream release.
+- Remove needless "Requires". They will be added by rpmbuild automatically.
+  Reported by by Daiki Ueno. Thanks!!!
+- Fix license of server-gqtp.
+- Fix license of server-http.
+- Add more description to server-http and httpd.
+
+* Sat Sep 29 2012 HAYASHI Kentaro <hayashi@clear-code.com> - 2.0.7-0
+- new upstream release.
+- Split groonga-server package into groonga-server-gqtp and
+  groonga-server-http package.
+
+* Wed Aug 29 2012 HAYASHI Kentaro <hayashi@clear-code.com> - 2.0.6-0
+- new upstream release.
+- Split common tasks for server use into groonga-server-common package.
+- groonga-server and groonga-httpd require groonga-server-common package.
+
 * Wed Aug 22 2012 Daiki Ueno <dueno@redhat.com> - 2.0.5-2
 - use systemd-rpm macros (#850137)
 
