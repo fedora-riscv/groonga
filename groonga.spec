@@ -1,8 +1,9 @@
 %global php_extdir  %(php-config --extension-dir 2>/dev/null || echo "undefined")
-
+%global __provides_exclude_from ^(%{python_sitelib}/.*\\.so|%{php_extdir}/.*\\.so)$
+ 
 Name:		groonga
-Version:	2.0.9
-Release:	1%{?dist}
+Version:	3.0.2
+Release:	0%{?dist}
 Summary:	An Embeddable Fulltext Search Engine
 
 Group:		Applications/Text
@@ -128,7 +129,7 @@ Group:		Applications/Text
 Requires:	%{name}-libs = %{version}-%{release}
 
 %description plugin-suggest
-Sugget plugin for groonga
+Suggest plugin for groonga
 
 %package munin-plugins
 Summary:	Munin plugins for groonga
@@ -198,7 +199,6 @@ make %{?_smp_mflags}
 
 
 %install
-rm -rf $RPM_BUILD_ROOT
 make install DESTDIR=$RPM_BUILD_ROOT INSTALL="install -p"
 rm $RPM_BUILD_ROOT%{_libdir}/groonga/plugins/*/*.la
 rm $RPM_BUILD_ROOT%{_libdir}/*.la
@@ -276,6 +276,15 @@ exit 0
 %postun server-http
 %systemd_postun groonga-server-http.service
 
+%post server-gqtp
+%systemd_post groonga-server-gqtp.service
+
+%preun server-gqtp
+%systemd_preun groonga-server-gqtp.service
+
+%postun server-gqtp
+%systemd_postun groonga-server-gqtp.service
+
 %post httpd
 %systemd_post groonga-httpd.service
 
@@ -314,7 +323,8 @@ fi
 %{_libdir}/*.so.*
 %dir %{_libdir}/groonga
 %dir %{_libdir}/groonga/plugins
-%dir %{_libdir}/groonga/plugins/tokenizers
+%dir %{_libdir}/groonga/plugins/table
+%dir %{_libdir}/groonga/plugins/query_expanders
 %{_libdir}/groonga/plugins/table/table.so
 %{_libdir}/groonga/plugins/query_expanders/tsv.so
 %{_datadir}/groonga/
@@ -360,12 +370,13 @@ fi
 
 %files tokenizer-mecab
 %defattr(-,root,root,-)
+%dir %{_libdir}/groonga/plugins/tokenizers
 %{_libdir}/groonga/plugins/tokenizers/mecab.so
 
 %files plugin-suggest
 %defattr(-,root,root,-)
+%dir %{_libdir}/groonga/plugins/suggest
 %{_bindir}/groonga-suggest-*
-%dir %{_libdir}/groonga/plugins
 %{_libdir}/groonga/plugins/suggest/suggest.so
 
 %files munin-plugins
@@ -382,6 +393,12 @@ fi
 %{php_extdir}/groonga.so
 
 %changelog
+* Fri Mar 29 2013 HAYASHI Kentaro <hayashi@clear-code.com> - 3.0.2-0
+- new upstream release.
+- fix wrong directory ownership.
+- filter not to export private modules.
+- add missing groonga-server-gqtp related systemd macros.
+
 * Mon Dec 10 2012 Daiki Ueno <dueno@redhat.com> - 2.0.9-1
 - built in Fedora
 
