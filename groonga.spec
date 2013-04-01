@@ -3,7 +3,7 @@
 
 Name:		groonga
 Version:	3.0.2
-Release:	0%{?dist}
+Release:	1%{?dist}
 Summary:	An Embeddable Fulltext Search Engine
 
 Group:		Applications/Text
@@ -393,7 +393,7 @@ fi
 %{php_extdir}/groonga.so
 
 %changelog
-* Fri Mar 29 2013 HAYASHI Kentaro <hayashi@clear-code.com> - 3.0.2-0
+* Fri Mar 29 2013 HAYASHI Kentaro <hayashi@clear-code.com> - 3.0.2-1
 - new upstream release.
 - fix wrong directory ownership.
 - filter not to export private modules.
