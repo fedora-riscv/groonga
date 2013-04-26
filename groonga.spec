@@ -1,8 +1,9 @@
 %global php_extdir  %(php-config --extension-dir 2>/dev/null || echo "undefined")
 %global __provides_exclude_from ^(%{python_sitelib}/.*\\.so|%{php_extdir}/.*\\.so)$
+%global _hardened_build 1
 
 Name:		groonga
-Version:	3.0.2
+Version:	3.0.3
 Release:	1%{?dist}
 Summary:	An Embeddable Fulltext Search Engine
 
@@ -393,6 +394,10 @@ fi
 %{php_extdir}/groonga.so
 
 %changelog
+* Mon Apr 29 2013 HAYASHI Kentaro <hayashi@clear-code.com> - 3.0.3-1
+- new upstream release.
+- enable the PIE compiler flags. 
+
 * Fri Mar 29 2013 HAYASHI Kentaro <hayashi@clear-code.com> - 3.0.2-1
 - new upstream release.
 - fix wrong directory ownership.
