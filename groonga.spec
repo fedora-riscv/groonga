@@ -1,9 +1,15 @@
 %global php_extdir  %(php-config --extension-dir 2>/dev/null || echo "undefined")
 %global __provides_exclude_from ^(%{python_sitelib}/.*\\.so|%{php_extdir}/.*\\.so)$
 %global _hardened_build 1
+<<<<<<< HEAD
  
 Name:		groonga
 Version:	3.0.3
+=======
+
+Name:		groonga
+Version:	3.0.4
+>>>>>>> master
 Release:	1%{?dist}
 Summary:	An Embeddable Fulltext Search Engine
 
@@ -394,6 +400,9 @@ fi
 %{php_extdir}/groonga.so
 
 %changelog
+* Wed May 29 2013 HAYASHI Kentaro <hayashi@clear-code.com> - 3.0.4-1
+- new upstream release.
+
 * Mon Apr 29 2013 HAYASHI Kentaro <hayashi@clear-code.com> - 3.0.3-1
 - new upstream release.
 - enable the PIE compiler flags. 
@@ -403,6 +412,9 @@ fi
 - fix wrong directory ownership.
 - filter not to export private modules.
 - add missing groonga-server-gqtp related systemd macros.
+
+* Thu Feb 14 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2.0.9-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_19_Mass_Rebuild
 
 * Mon Dec 10 2012 Daiki Ueno <dueno@redhat.com> - 2.0.9-1
 - built in Fedora
