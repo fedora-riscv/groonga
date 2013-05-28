@@ -1,15 +1,9 @@
 %global php_extdir  %(php-config --extension-dir 2>/dev/null || echo "undefined")
 %global __provides_exclude_from ^(%{python_sitelib}/.*\\.so|%{php_extdir}/.*\\.so)$
 %global _hardened_build 1
-<<<<<<< HEAD
- 
-Name:		groonga
-Version:	3.0.3
-=======
 
 Name:		groonga
 Version:	3.0.4
->>>>>>> master
 Release:	1%{?dist}
 Summary:	An Embeddable Fulltext Search Engine
 
