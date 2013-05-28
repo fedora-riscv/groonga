@@ -3,7 +3,7 @@
 %global _hardened_build 1
 
 Name:		groonga
-Version:	3.0.3
+Version:	3.0.4
 Release:	1%{?dist}
 Summary:	An Embeddable Fulltext Search Engine
 
@@ -394,6 +394,9 @@ fi
 %{php_extdir}/groonga.so
 
 %changelog
+* Wed May 29 2013 HAYASHI Kentaro <hayashi@clear-code.com> - 3.0.4-1
+- new upstream release.
+
 * Mon Apr 29 2013 HAYASHI Kentaro <hayashi@clear-code.com> - 3.0.3-1
 - new upstream release.
 - enable the PIE compiler flags. 
