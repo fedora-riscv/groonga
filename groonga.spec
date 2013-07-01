@@ -22,11 +22,12 @@ BuildRequires:	python2-devel
 BuildRequires:	php-devel
 BuildRequires:	libedit-devel
 BuildRequires:	pcre-devel
+BuildRequires:	systemd
 Requires:	%{name}-libs = %{version}-%{release}
 Requires:	%{name}-plugin-suggest = %{version}-%{release}
-Requires(post):	systemd-units
-Requires(preun):	systemd-units
-Requires(postun):	systemd-units
+Requires(post):	systemd
+Requires(preun):	systemd
+Requires(postun):	systemd
 ExclusiveArch:		%{ix86} x86_64
 
 %description
