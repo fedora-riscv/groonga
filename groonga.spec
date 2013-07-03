@@ -3,7 +3,7 @@
 %global _hardened_build 1
 
 Name:		groonga
-Version:	3.0.4
+Version:	3.0.5
 Release:	1%{?dist}
 Summary:	An Embeddable Fulltext Search Engine
 
@@ -22,11 +22,12 @@ BuildRequires:	python2-devel
 BuildRequires:	php-devel
 BuildRequires:	libedit-devel
 BuildRequires:	pcre-devel
+BuildRequires:	systemd
 Requires:	%{name}-libs = %{version}-%{release}
 Requires:	%{name}-plugin-suggest = %{version}-%{release}
-Requires(post):	systemd-units
-Requires(preun):	systemd-units
-Requires(postun):	systemd-units
+Requires(post):	systemd
+Requires(preun):	systemd
+Requires(postun):	systemd
 ExclusiveArch:		%{ix86} x86_64
 
 %description
@@ -337,7 +338,7 @@ fi
 %defattr(-,root,root,-)
 %config(noreplace) %{_sysconfdir}/groonga/
 %config(noreplace) %{_sysconfdir}/sysconfig/groonga-server-http
-%dir %{_unitdir}/groonga-server-http.service
+%{_unitdir}/groonga-server-http.service
 %ghost %dir %{_localstatedir}/run/%{name}
 %attr(0750,groonga,groonga) %dir %{_localstatedir}/lib/%{name}
 %attr(0750,groonga,groonga) %dir %{_localstatedir}/lib/%{name}/db
@@ -346,7 +347,7 @@ fi
 %defattr(-,root,root,-)
 %config(noreplace) %{_sysconfdir}/groonga/
 %config(noreplace) %{_sysconfdir}/sysconfig/groonga-server-gqtp
-%dir %{_unitdir}/groonga-server-gqtp.service
+%{_unitdir}/groonga-server-gqtp.service
 %ghost %dir %{_localstatedir}/run/%{name}
 %attr(0750,groonga,groonga) %dir %{_localstatedir}/lib/%{name}
 %attr(0750,groonga,groonga) %dir %{_localstatedir}/lib/%{name}/db
@@ -354,7 +355,7 @@ fi
 %files httpd
 %defattr(-,root,root,-)
 %config(noreplace) %{_sysconfdir}/groonga/httpd/*
-%dir %{_unitdir}/groonga-httpd.service
+%{_unitdir}/groonga-httpd.service
 %{_sbindir}/groonga-httpd
 %{_sbindir}/groonga-httpd-restart
 
@@ -394,6 +395,9 @@ fi
 %{php_extdir}/groonga.so
 
 %changelog
+* Sat Jun 29 2013 HAYASHI Kentaro <hayashi@clear-code.com> - 3.0.5-1
+- new upstream release.
+
 * Wed May 29 2013 HAYASHI Kentaro <hayashi@clear-code.com> - 3.0.4-1
 - new upstream release.
 
