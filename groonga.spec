@@ -3,7 +3,7 @@
 %global _hardened_build 1
 
 Name:		groonga
-Version:	3.0.5
+Version:	3.0.6
 Release:	1%{?dist}
 Summary:	An Embeddable Fulltext Search Engine
 
@@ -395,6 +395,9 @@ fi
 %{php_extdir}/groonga.so
 
 %changelog
+* Mon Jul 29 2013 HAYASHI Kentaro <hayashi@clear-code.com> - 3.0.6-1
+- new upstream release.
+
 * Sat Jun 29 2013 HAYASHI Kentaro <hayashi@clear-code.com> - 3.0.5-1
 - new upstream release.
 
@@ -614,7 +617,7 @@ fi
 * Wed Nov 24 2010 Daiki Ueno <dueno@redhat.com> - 1.0.3-2
 - %%ghost /var/run/*.
 
-* Fri Oct 09 2010 Kouhei Sutou <kou@clear-code.com> - 1.0.3-1
+* Sat Oct 09 2010 Kouhei Sutou <kou@clear-code.com> - 1.0.3-1
 - new upstream release.
 
 * Thu Oct  7 2010 Daiki Ueno <dueno@redhat.com> - 1.0.2-7
@@ -657,7 +660,7 @@ fi
 * Thu Sep 09 2010 Kouhei Sutou <kou@clear-code.com> - 1.0.2-1
 - new upstream release.
 
-* Thu Sep 06 2010 Kouhei Sutou <kou@clear-code.com> - 1.0.1-1
+* Mon Sep 06 2010 Kouhei Sutou <kou@clear-code.com> - 1.0.1-1
 - new upstream release.
 
 * Thu Sep 02 2010 Kouhei Sutou <kou@clear-code.com> - 1.0.0-1
