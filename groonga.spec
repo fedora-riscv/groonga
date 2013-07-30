@@ -4,7 +4,7 @@
 
 Name:		groonga
 Version:	3.0.6
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	An Embeddable Fulltext Search Engine
 
 Group:		Applications/Text
@@ -223,6 +223,7 @@ install -p -m 644 data/systemd/fedora/groonga-httpd.service $RPM_BUILD_ROOT%{_un
 mkdir -p $RPM_BUILD_ROOT%{_localstatedir}/run/groonga
 mkdir -p $RPM_BUILD_ROOT%{_localstatedir}/lib/groonga/db
 mkdir -p $RPM_BUILD_ROOT%{_localstatedir}/log/groonga
+mkdir -p $RPM_BUILD_ROOT%{_libdir}/groonga/plugins/normalizers
 
 mv $RPM_BUILD_ROOT%{_datadir}/groonga/munin/ $RPM_BUILD_ROOT%{_datadir}/
 mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/munin/plugin-conf.d/
@@ -327,6 +328,9 @@ fi
 %dir %{_libdir}/groonga/plugins
 %dir %{_libdir}/groonga/plugins/table
 %dir %{_libdir}/groonga/plugins/query_expanders
+%dir %{_libdir}/groonga/plugins/normalizers
+%dir %{_libdir}/groonga/plugins/tokenizers
+%dir %{_libdir}/groonga/plugins/suggest
 %{_libdir}/groonga/plugins/table/table.so
 %{_libdir}/groonga/plugins/query_expanders/tsv.so
 %{_datadir}/groonga/
@@ -372,12 +376,10 @@ fi
 
 %files tokenizer-mecab
 %defattr(-,root,root,-)
-%dir %{_libdir}/groonga/plugins/tokenizers
 %{_libdir}/groonga/plugins/tokenizers/mecab.so
 
 %files plugin-suggest
 %defattr(-,root,root,-)
-%dir %{_libdir}/groonga/plugins/suggest
 %{_bindir}/groonga-suggest-*
 %{_libdir}/groonga/plugins/suggest/suggest.so
 
@@ -395,6 +397,9 @@ fi
 %{php_extdir}/groonga.so
 
 %changelog
+* Wed Jul 31 2013 HAYASHI Kentaro <hayashi@clear-code.com> - 3.0.6-2
+- unify own directories of plugins.
+
 * Mon Jul 29 2013 HAYASHI Kentaro <hayashi@clear-code.com> - 3.0.6-1
 - new upstream release.
 
