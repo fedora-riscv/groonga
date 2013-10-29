@@ -3,7 +3,7 @@
 %global _hardened_build 1
 
 Name:		groonga
-Version:	3.0.8
+Version:	3.0.9
 Release:	1%{?dist}
 Summary:	An Embeddable Fulltext Search Engine
 
@@ -37,17 +37,17 @@ functionality.  It also provides a standalone data store server based
 on relational data model.
 
 %package libs
-Summary:	Runtime libraries for groonga
+Summary:	Runtime libraries for Groonga
 Group:		System Environment/Libraries
 License:	LGPLv2 and (MIT or GPLv2)
 Requires(post):	/sbin/ldconfig
 Requires(postun):	/sbin/ldconfig
 
 %description libs
-This package contains the libraries for groonga
+This package contains the libraries for Groonga
 
 %package server-common
-Summary:	Common packages for the groonga server and the groonga HTTP server
+Summary:	Common packages for the Groonga server and the Groonga HTTP server
 Group:		Applications/Text
 License:	LGPLv2
 Requires:	%{name} = %{version}-%{release}
@@ -86,7 +86,7 @@ Obsoletes:	%{name}-server < 2.0.7-0
 Conflicts:	%{name}-httpd
 
 %description server-http
-This package contains the groonga HTTP server. It is stable but
+This package contains the Groonga HTTP server. It is stable but
 has only requisite minimum features.
 
 %package httpd
@@ -97,44 +97,44 @@ Requires:	%{name}-server-common = %{version}-%{release}
 Conflicts:	%{name}-server-http
 
 %description httpd
-This package contains the groonga HTTP server. It is experimental
+This package contains the Groonga HTTP server. It is experimental
 but has many features. Because it is based on nginx HTTP server.
 It will obsolete groonga-server-http when it is stable.
 
 %package doc
-Summary:	Documentation for groonga
+Summary:	Documentation for Groonga
 Group:		Documentation
 License:	LGPLv2 and BSD
 
 %description doc
-Documentation for groonga
+Documentation for Groonga
 
 %package devel
-Summary:	Libraries and header files for groonga
+Summary:	Libraries and header files for Groonga
 Group:		Development/Libraries
 Requires:	%{name}-libs = %{version}-%{release}
 
 %description devel
-Libraries and header files for groonga
+Libraries and header files for Groonga
 
 %package tokenizer-mecab
-Summary:	MeCab tokenizer for groonga
+Summary:	MeCab tokenizer for Groonga
 Group:		Applications/Text
 Requires:	%{name}-libs = %{version}-%{release}
 
 %description tokenizer-mecab
-MeCab tokenizer for groonga
+MeCab tokenizer for Groonga
 
 %package plugin-suggest
-Summary:	Suggest plugin for groonga
+Summary:	Suggest plugin for Groonga
 Group:		Applications/Text
 Requires:	%{name}-libs = %{version}-%{release}
 
 %description plugin-suggest
-Suggest plugin for groonga
+Suggest plugin for Groonga
 
 %package munin-plugins
-Summary:	Munin plugins for groonga
+Summary:	Munin plugins for Groonga
 Group:		Applications/System
 Requires:	%{name}-libs = %{version}-%{release}
 Requires:	munin-node
@@ -143,23 +143,23 @@ Requires(post):	/sbin/service
 Requires(postun):	/sbin/service
 
 %description munin-plugins
-Munin plugins for groonga
+Munin plugins for Groonga
 
 %package python
-Summary:	Python language binding for groonga
+Summary:	Python language binding for Groonga
 Group:		Development/Libraries
 Requires:	%{name}-libs = %{version}-%{release}
 
 %description python
-Python language binding for groonga
+Python language binding for Groonga
 
 %package php
-Summary:	PHP language binding for groonga
+Summary:	PHP language binding for Groonga
 Group:		Development/Libraries
 Requires:	%{name}-libs = %{version}-%{release}
 
 %description php
-PHP language binding for groonga
+PHP language binding for Groonga
 
 
 %prep
@@ -397,6 +397,9 @@ fi
 %{php_extdir}/groonga.so
 
 %changelog
+* Tue Oct 29 2013 HAYASHI Kentaro <hayashi@clear-code.com> - 3.0.9-1
+- new upstream release.
+
 * Sun Sep 29 2013 HAYASHI Kentaro <hayashi@clear-code.com> - 3.0.8-1
 - new upstream release.
 
