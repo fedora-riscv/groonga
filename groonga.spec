@@ -3,7 +3,7 @@
 %global _hardened_build 1
 
 Name:		groonga
-Version:	3.0.9
+Version:	3.1.0
 Release:	1%{?dist}
 Summary:	An Embeddable Fulltext Search Engine
 
@@ -397,6 +397,9 @@ fi
 %{php_extdir}/groonga.so
 
 %changelog
+* Fri Nov 29 2013 HAYASHI Kentaro <hayashi@clear-code.com> - 3.1.0-1
+- new upstream release.
+
 * Tue Oct 29 2013 HAYASHI Kentaro <hayashi@clear-code.com> - 3.0.9-1
 - new upstream release.
 
