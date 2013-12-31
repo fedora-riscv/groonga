@@ -69,7 +69,7 @@ Requires(postun):	/sbin/service
 Obsoletes:	%{name}-server < 2.0.7-0
 
 %description server-gqtp
-This package contains the groonga GQTP server
+This package contains the Groonga GQTP server
 
 %package server-http
 Summary:	Groonga HTTP server (stable)
@@ -210,7 +210,7 @@ mv $RPM_BUILD_ROOT%{_datadir}/doc/groonga groonga-doc
 # Since F17, %{_unitdir} is moved from /lib/systemd/system to
 # /usr/lib/systemd/system.  So we need to manually install the service
 # file into the new place.  The following should work with < F17,
-# though groonga package started using systemd native service since
+# though Groonga package started using systemd native service since
 # F17 and won't be submitted to earlier releases.
 mkdir -p $RPM_BUILD_ROOT%{_unitdir}
 
