@@ -3,7 +3,7 @@
 %global _hardened_build 1
 
 Name:		groonga
-Version:	3.1.0
+Version:	3.1.2
 Release:	1%{?dist}
 Summary:	An Embeddable Fulltext Search Engine
 
@@ -69,7 +69,7 @@ Requires(postun):	/sbin/service
 Obsoletes:	%{name}-server < 2.0.7-0
 
 %description server-gqtp
-This package contains the groonga GQTP server
+This package contains the Groonga GQTP server
 
 %package server-http
 Summary:	Groonga HTTP server (stable)
@@ -210,7 +210,7 @@ mv $RPM_BUILD_ROOT%{_datadir}/doc/groonga groonga-doc
 # Since F17, %{_unitdir} is moved from /lib/systemd/system to
 # /usr/lib/systemd/system.  So we need to manually install the service
 # file into the new place.  The following should work with < F17,
-# though groonga package started using systemd native service since
+# though Groonga package started using systemd native service since
 # F17 and won't be submitted to earlier releases.
 mkdir -p $RPM_BUILD_ROOT%{_unitdir}
 
@@ -232,11 +232,17 @@ cat <<EOC > $RPM_BUILD_ROOT%{_sysconfdir}/munin/plugin-conf.d/groonga
   user groonga
   group groonga
   env.PATH %{_bindir}
-  env.pid_file %{_localstatedir}/run/groonga/groonga.pid
+  env.pid_file %{_localstatedir}/run/groonga/groonga-http.pid
   env.path %{_localstatedir}/lib/groonga/db/db
   env.host 127.0.0.1
+  env.protocol http
   env.port 10041
-  env.log_path %{_localstatedir}/log/groonga/query.log
+  env.log_path %{_localstatedir}/log/groonga/query-http.log
+[groonga_*_gqtp]
+  env.protocol gqtp
+  env.port 10043
+  env.pid_file %{_localstatedir}/run/groonga/groonga-gqtp.pid
+  env.log_path %{_localstatedir}/log/groonga/query-gqtp.log
 EOC
 
 # install python binding
@@ -397,6 +403,12 @@ fi
 %{php_extdir}/groonga.so
 
 %changelog
+* Mon Feb 3 2014 HAYASHI Kentaro <hayashi@clear-code.com> - 3.1.2-1
+- new upstream release.
+
+* Tue Dec 31 2013 HAYASHI Kentaro <hayashi@clear-code.com> - 3.1.1-1
+- new upstream release.
+
 * Fri Nov 29 2013 HAYASHI Kentaro <hayashi@clear-code.com> - 3.1.0-1
 - new upstream release.
 
