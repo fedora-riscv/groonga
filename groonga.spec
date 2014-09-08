@@ -328,7 +328,7 @@ fi
 
 %files libs
 %defattr(-,root,root,-)
-%doc README.md AUTHORS COPYING
+%doc README.md COPYING
 %{_libdir}/*.so.*
 %dir %{_libdir}/groonga
 %dir %{_libdir}/groonga/plugins
@@ -371,7 +371,7 @@ fi
 
 %files doc
 %defattr(-,root,root,-)
-%doc README.md AUTHORS COPYING
+%doc README.md COPYING
 %doc groonga-doc/*
 
 %files devel
