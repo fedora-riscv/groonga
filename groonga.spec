@@ -3,8 +3,8 @@
 %global _hardened_build 1
 
 Name:		groonga
-Version:	4.0.4
-Release:	2%{?dist}
+Version:	4.0.5
+Release:	1%{?dist}
 Summary:	An Embeddable Fulltext Search Engine
 
 Group:		Applications/Text
@@ -328,7 +328,7 @@ fi
 
 %files libs
 %defattr(-,root,root,-)
-%doc README AUTHORS COPYING
+%doc README.md AUTHORS COPYING
 %{_libdir}/*.so.*
 %dir %{_libdir}/groonga
 %dir %{_libdir}/groonga/plugins
@@ -371,7 +371,7 @@ fi
 
 %files doc
 %defattr(-,root,root,-)
-%doc README AUTHORS COPYING
+%doc README.md AUTHORS COPYING
 %doc groonga-doc/*
 
 %files devel
@@ -403,6 +403,9 @@ fi
 %{php_extdir}/groonga.so
 
 %changelog
+* Mon Sep 8 2014 HAYASHI Kentaro <hayashi@clear-code.com> - 4.0.5-1
+- new upstream release.
+
 * Sat Aug 16 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 4.0.4-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_21_22_Mass_Rebuild
 
