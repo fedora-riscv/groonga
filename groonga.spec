@@ -12,6 +12,8 @@ License:	LGPLv2
 URL:		http://groonga.org/
 Source0:	http://packages.groonga.org/source/groonga/groonga-%{version}.tar.gz
 
+Patch0: add-missing-mkdir-for-groonga-httpd-service.patch
+
 BuildRequires:	mecab-devel
 BuildRequires:	zlib-devel
 BuildRequires:	lzo-devel
@@ -165,7 +167,7 @@ PHP language binding for Groonga
 %prep
 #% define optflags -O0
 %setup -q
-
+%patch0 -p1
 
 %build
 %configure \
@@ -414,6 +416,8 @@ fi
 %changelog
 * Mon Sep 8 2014 HAYASHI Kentaro <hayashi@clear-code.com> - 4.0.5-1
 - new upstream release.
+- add a patch to fix groonga-httpd service startup failure.
+  add-missing-mkdir-for-groonga-httpd-service.patch
 
 * Sat Aug 16 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 4.0.4-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_21_22_Mass_Rebuild
