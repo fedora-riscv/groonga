@@ -3,7 +3,7 @@
 %global _hardened_build 1
 
 Name:		groonga
-Version:	4.0.4
+Version:	4.0.5
 Release:	1%{?dist}
 Summary:	An Embeddable Fulltext Search Engine
 
@@ -11,6 +11,8 @@ Group:		Applications/Text
 License:	LGPLv2
 URL:		http://groonga.org/
 Source0:	http://packages.groonga.org/source/groonga/groonga-%{version}.tar.gz
+
+Patch0: add-missing-mkdir-for-groonga-httpd-service.patch
 
 BuildRequires:	mecab-devel
 BuildRequires:	zlib-devel
@@ -165,7 +167,7 @@ PHP language binding for Groonga
 %prep
 #% define optflags -O0
 %setup -q
-
+%patch0 -p1
 
 %build
 %configure \
@@ -232,17 +234,26 @@ cat <<EOC > $RPM_BUILD_ROOT%{_sysconfdir}/munin/plugin-conf.d/groonga
   user groonga
   group groonga
   env.PATH %{_bindir}
-  env.pid_file %{_localstatedir}/run/groonga/groonga-http.pid
-  env.path %{_localstatedir}/lib/groonga/db/db
+  env.database_path %{_localstatedir}/lib/groonga/db/db
   env.host 127.0.0.1
-  env.protocol http
-  env.port 10041
-  env.log_path %{_localstatedir}/log/groonga/query-http.log
-[groonga_*_gqtp]
-  env.protocol gqtp
-  env.port 10043
-  env.pid_file %{_localstatedir}/run/groonga/groonga-gqtp.pid
-  env.log_path %{_localstatedir}/log/groonga/query-gqtp.log
+
+  env.http_host 127.0.0.1
+  env.http_port 10041
+  env.http_database_path %{_localstatedir}/lib/groonga/db/db
+  env.http_pid_path %{_localstatedir}/run/groonga/groonga-http.pid
+  env.http_query_log_path %{_localstatedir}/log/groonga/query-http.log
+
+  env.httpd_host 127.0.0.1
+  env.httpd_port 10041
+  env.httpd_database_path %{_localstatedir}/lib/groonga/db/db
+  env.httpd_pid_path %{_localstatedir}/run/groonga/groonga-httpd.pid
+  env.httpd_query_log_path %{_localstatedir}/log/groonga/httpd/groonga-query.log
+
+  env.gqtp_host 127.0.0.1
+  env.gqtp_port 10043
+  env.gqtp_database_path %{_localstatedir}/lib/groonga/db/db
+  env.gqtp_pid_path %{_localstatedir}/run/groonga/groonga-gqtp.pid
+  env.gqtp_query_log_path %{_localstatedir}/log/groonga/query-gqtp.log
 EOC
 
 # install python binding
@@ -328,7 +339,7 @@ fi
 
 %files libs
 %defattr(-,root,root,-)
-%doc README AUTHORS COPYING
+%doc README.md COPYING
 %{_libdir}/*.so.*
 %dir %{_libdir}/groonga
 %dir %{_libdir}/groonga/plugins
@@ -371,7 +382,7 @@ fi
 
 %files doc
 %defattr(-,root,root,-)
-%doc README AUTHORS COPYING
+%doc README.md COPYING
 %doc groonga-doc/*
 
 %files devel
@@ -403,6 +414,14 @@ fi
 %{php_extdir}/groonga.so
 
 %changelog
+* Mon Sep 8 2014 HAYASHI Kentaro <hayashi@clear-code.com> - 4.0.5-1
+- new upstream release.
+- add a patch to fix groonga-httpd service startup failure.
+  add-missing-mkdir-for-groonga-httpd-service.patch
+
+* Sat Aug 16 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 4.0.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_21_22_Mass_Rebuild
+
 * Thu Jul 31 2014 HAYASHI Kentaro <hayashi@clear-code.com> - 4.0.4-1
 - new upstream release.
 
