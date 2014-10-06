@@ -3,7 +3,7 @@
 %global _hardened_build 1
 
 Name:		groonga
-Version:	4.0.5
+Version:	4.0.6
 Release:	1%{?dist}
 Summary:	An Embeddable Fulltext Search Engine
 
@@ -11,8 +11,6 @@ Group:		Applications/Text
 License:	LGPLv2
 URL:		http://groonga.org/
 Source0:	http://packages.groonga.org/source/groonga/groonga-%{version}.tar.gz
-
-Patch0: add-missing-mkdir-for-groonga-httpd-service.patch
 
 BuildRequires:	mecab-devel
 BuildRequires:	zlib-devel
@@ -167,7 +165,6 @@ PHP language binding for Groonga
 %prep
 #% define optflags -O0
 %setup -q
-%patch0 -p1
 
 %build
 %configure \
@@ -414,6 +411,10 @@ fi
 %{php_extdir}/groonga.so
 
 %changelog
+* Mon Oct 6 2014 HAYASHI Kentaro <hayashi@clear-code.com> - 4.0.6-1
+- new upstream release.
+- drop a needless patch to fix groonga-httpd service startup failure.
+
 * Mon Sep 8 2014 HAYASHI Kentaro <hayashi@clear-code.com> - 4.0.5-1
 - new upstream release.
 - add a patch to fix groonga-httpd service startup failure.
