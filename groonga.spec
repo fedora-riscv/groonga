@@ -3,7 +3,7 @@
 %global _hardened_build 1
 
 Name:		groonga
-Version:	4.0.6
+Version:	4.0.7
 Release:	1%{?dist}
 Summary:	An Embeddable Fulltext Search Engine
 
@@ -14,7 +14,7 @@ Source0:	http://packages.groonga.org/source/groonga/groonga-%{version}.tar.gz
 
 BuildRequires:	mecab-devel
 BuildRequires:	zlib-devel
-BuildRequires:	lzo-devel
+BuildRequires:	lz4-devel
 BuildRequires:	msgpack-devel
 BuildRequires:	zeromq-devel
 BuildRequires:	libevent-devel
@@ -133,6 +133,15 @@ Requires:	%{name}-libs = %{version}-%{release}
 %description plugin-suggest
 Suggest plugin for Groonga
 
+%package plugin-token-filters
+Summary:	Token filters plugin for Groonga
+Group:		Applications/Text
+Requires:	%{name}-libs = %{version}-%{release}
+
+%description plugin-token-filters
+Token filters plugins for Groonga which provides
+stop word and stemming features.
+
 %package munin-plugins
 Summary:	Munin plugins for Groonga
 Group:		Applications/System
@@ -170,8 +179,9 @@ PHP language binding for Groonga
 %configure \
   --disable-static \
   --with-package-platform=fedora \
-  --with-zlib --with-lzo \
-  --with-munin-plugins
+  --with-zlib --with-lz4 \
+  --with-munin-plugins \
+  --without-libstemmer
 sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' libtool
 sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
 make %{?_smp_mflags} unitdir="%{_unitdir}"
@@ -344,6 +354,7 @@ fi
 %dir %{_libdir}/groonga/plugins/query_expanders
 %dir %{_libdir}/groonga/plugins/normalizers
 %dir %{_libdir}/groonga/plugins/tokenizers
+%dir %{_libdir}/groonga/plugins/token_filters
 %dir %{_libdir}/groonga/plugins/suggest
 %{_libdir}/groonga/plugins/table/table.so
 %{_libdir}/groonga/plugins/query_expanders/tsv.so
@@ -358,8 +369,8 @@ fi
 %config(noreplace) %{_sysconfdir}/sysconfig/groonga-server-http
 %{_unitdir}/groonga-server-http.service
 %ghost %dir %{_localstatedir}/run/%{name}
-%attr(0750,groonga,groonga) %dir %{_localstatedir}/lib/%{name}
-%attr(0750,groonga,groonga) %dir %{_localstatedir}/lib/%{name}/db
+%attr(0755,groonga,groonga) %dir %{_localstatedir}/lib/%{name}
+%attr(0755,groonga,groonga) %dir %{_localstatedir}/lib/%{name}/db
 
 %files server-gqtp
 %defattr(-,root,root,-)
@@ -367,8 +378,8 @@ fi
 %config(noreplace) %{_sysconfdir}/sysconfig/groonga-server-gqtp
 %{_unitdir}/groonga-server-gqtp.service
 %ghost %dir %{_localstatedir}/run/%{name}
-%attr(0750,groonga,groonga) %dir %{_localstatedir}/lib/%{name}
-%attr(0750,groonga,groonga) %dir %{_localstatedir}/lib/%{name}/db
+%attr(0755,groonga,groonga) %dir %{_localstatedir}/lib/%{name}
+%attr(0755,groonga,groonga) %dir %{_localstatedir}/lib/%{name}/db
 
 %files httpd
 %defattr(-,root,root,-)
@@ -392,6 +403,10 @@ fi
 %defattr(-,root,root,-)
 %{_libdir}/groonga/plugins/tokenizers/mecab.so
 
+%files plugin-token-filters
+%defattr(-,root,root,-)
+%{_libdir}/groonga/plugins/token_filters/stop_word.so
+
 %files plugin-suggest
 %defattr(-,root,root,-)
 %{_bindir}/groonga-suggest-*
@@ -411,6 +426,12 @@ fi
 %{php_extdir}/groonga.so
 
 %changelog
+* Tue Nov 4 2014 HAYASHI Kentaro <hayashi@clear-code.com> - 4.0.7-1
+- new upstream release.
+- drop lzo support.
+- add lz4 support.
+- add groonga-plugin-token-filters sub package.
+
 * Mon Oct 6 2014 HAYASHI Kentaro <hayashi@clear-code.com> - 4.0.6-1
 - new upstream release.
 - drop a needless patch to fix groonga-httpd service startup failure.
