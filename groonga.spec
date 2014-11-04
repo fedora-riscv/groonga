@@ -369,8 +369,8 @@ fi
 %config(noreplace) %{_sysconfdir}/sysconfig/groonga-server-http
 %{_unitdir}/groonga-server-http.service
 %ghost %dir %{_localstatedir}/run/%{name}
-%attr(0750,groonga,groonga) %dir %{_localstatedir}/lib/%{name}
-%attr(0750,groonga,groonga) %dir %{_localstatedir}/lib/%{name}/db
+%attr(0755,groonga,groonga) %dir %{_localstatedir}/lib/%{name}
+%attr(0755,groonga,groonga) %dir %{_localstatedir}/lib/%{name}/db
 
 %files server-gqtp
 %defattr(-,root,root,-)
@@ -378,8 +378,8 @@ fi
 %config(noreplace) %{_sysconfdir}/sysconfig/groonga-server-gqtp
 %{_unitdir}/groonga-server-gqtp.service
 %ghost %dir %{_localstatedir}/run/%{name}
-%attr(0750,groonga,groonga) %dir %{_localstatedir}/lib/%{name}
-%attr(0750,groonga,groonga) %dir %{_localstatedir}/lib/%{name}/db
+%attr(0755,groonga,groonga) %dir %{_localstatedir}/lib/%{name}
+%attr(0755,groonga,groonga) %dir %{_localstatedir}/lib/%{name}/db
 
 %files httpd
 %defattr(-,root,root,-)
