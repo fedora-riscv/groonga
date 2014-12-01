@@ -3,7 +3,7 @@
 %global _hardened_build 1
 
 Name:		groonga
-Version:	4.0.7
+Version:	4.0.8
 Release:	1%{?dist}
 Summary:	An Embeddable Fulltext Search Engine
 
@@ -72,7 +72,7 @@ Obsoletes:	%{name}-server < 2.0.7-0
 This package contains the Groonga GQTP server
 
 %package server-http
-Summary:	Groonga HTTP server (stable)
+Summary:	Groonga HTTP server (transitional)
 Group:		Applications/Text
 License:	LGPLv2
 Requires:	%{name}-server-common = %{version}-%{release}
@@ -86,20 +86,19 @@ Obsoletes:	%{name}-server < 2.0.7-0
 Conflicts:	%{name}-httpd
 
 %description server-http
-This package contains the Groonga HTTP server. It is stable but
-has only requisite minimum features.
+This is a transitional package to groonga-httpd.
 
 %package httpd
-Summary:	Groonga HTTP server (experimental)
+Summary:	Groonga HTTP server
 Group:          Applications/Text
 License:        LGPLv2 and BSD
 Requires:	%{name}-server-common = %{version}-%{release}
-Conflicts:	%{name}-server-http
+Provides:	%{name}-server-http = %{version}-%{release}
+Obsoletes:	%{name}-server-http <= 4.0.7-2
 
 %description httpd
-This package contains the Groonga HTTP server. It is experimental
-but has many features. Because it is based on nginx HTTP server.
-It will obsolete groonga-server-http when it is stable.
+This package contains the Groonga HTTP server. It has many features
+because it is based on nginx HTTP server.
 
 %package doc
 Summary:	Documentation for Groonga
@@ -387,6 +386,9 @@ fi
 %{_unitdir}/groonga-httpd.service
 %{_sbindir}/groonga-httpd
 %{_sbindir}/groonga-httpd-restart
+%ghost %dir %{_localstatedir}/run/%{name}
+%attr(0755,groonga,groonga) %dir %{_localstatedir}/lib/%{name}
+%attr(0755,groonga,groonga) %dir %{_localstatedir}/lib/%{name}/db
 
 %files doc
 %defattr(-,root,root,-)
@@ -426,6 +428,11 @@ fi
 %{php_extdir}/groonga.so
 
 %changelog
+* Mon Dec 1 2014 HAYASHI Kentaro <hayashi@clear-code.com> - 4.0.8-1
+- new upstream release.
+- make groonga-httpd as default HTTP server package
+- drop groonga-server-http, it is just changed to transitional package
+
 * Tue Nov 4 2014 HAYASHI Kentaro <hayashi@clear-code.com> - 4.0.7-1
 - new upstream release.
 - drop lzo support.
