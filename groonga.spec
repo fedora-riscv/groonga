@@ -3,7 +3,7 @@
 %global _hardened_build 1
 
 Name:		groonga
-Version:	4.0.8
+Version:	4.0.9.1
 Release:	1%{?dist}
 Summary:	An Embeddable Fulltext Search Engine
 
@@ -181,8 +181,8 @@ PHP language binding for Groonga
   --with-zlib --with-lz4 \
   --with-munin-plugins \
   --without-libstemmer
-sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' libtool
-sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
+sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|' libtool
+sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|' libtool
 make %{?_smp_mflags} unitdir="%{_unitdir}"
 
 # build python binding
@@ -228,7 +228,7 @@ install -p -m 644 data/systemd/fedora/groonga-server-http.service $RPM_BUILD_ROO
 rm -f $RPM_BUILD_ROOT/lib/systemd/system/groonga-httpd.service
 install -p -m 644 data/systemd/fedora/groonga-httpd.service $RPM_BUILD_ROOT%{_unitdir}
 
-mkdir -p $RPM_BUILD_ROOT%{_localstatedir}/run/groonga
+mkdir -p $RPM_BUILD_ROOT/run/groonga
 mkdir -p $RPM_BUILD_ROOT%{_localstatedir}/lib/groonga/db
 mkdir -p $RPM_BUILD_ROOT%{_localstatedir}/log/groonga
 mkdir -p $RPM_BUILD_ROOT%{_libdir}/groonga/plugins/normalizers
@@ -246,19 +246,19 @@ cat <<EOC > $RPM_BUILD_ROOT%{_sysconfdir}/munin/plugin-conf.d/groonga
   env.http_host 127.0.0.1
   env.http_port 10041
   env.http_database_path %{_localstatedir}/lib/groonga/db/db
-  env.http_pid_path %{_localstatedir}/run/groonga/groonga-http.pid
+  env.http_pid_path /run/groonga/groonga-http.pid
   env.http_query_log_path %{_localstatedir}/log/groonga/query-http.log
 
   env.httpd_host 127.0.0.1
   env.httpd_port 10041
   env.httpd_database_path %{_localstatedir}/lib/groonga/db/db
-  env.httpd_pid_path %{_localstatedir}/run/groonga/groonga-httpd.pid
+  env.httpd_pid_path /run/groonga/groonga-httpd.pid
   env.httpd_query_log_path %{_localstatedir}/log/groonga/httpd/groonga-query.log
 
   env.gqtp_host 127.0.0.1
   env.gqtp_port 10043
   env.gqtp_database_path %{_localstatedir}/lib/groonga/db/db
-  env.gqtp_pid_path %{_localstatedir}/run/groonga/groonga-gqtp.pid
+  env.gqtp_pid_path /run/groonga/groonga-gqtp.pid
   env.gqtp_query_log_path %{_localstatedir}/log/groonga/query-gqtp.log
 EOC
 
@@ -288,8 +288,8 @@ if [ $1 = 1 ] ; then
 	mkdir -p %{_localstatedir}/lib/groonga/db
 	groonga -n %{_localstatedir}/lib/groonga/db/db shutdown > /dev/null
 	chown -R groonga:groonga %{_localstatedir}/lib/groonga
-	mkdir -p %{_localstatedir}/run/groonga
-	chown -R groonga:groonga %{_localstatedir}/run/groonga
+	mkdir -p /run/groonga
+	chown -R groonga:groonga /run/groonga
 fi
 exit 0
 
@@ -367,7 +367,7 @@ fi
 %config(noreplace) %{_sysconfdir}/groonga/
 %config(noreplace) %{_sysconfdir}/sysconfig/groonga-server-http
 %{_unitdir}/groonga-server-http.service
-%ghost %dir %{_localstatedir}/run/%{name}
+%ghost %dir /run/%{name}
 %attr(0755,groonga,groonga) %dir %{_localstatedir}/lib/%{name}
 %attr(0755,groonga,groonga) %dir %{_localstatedir}/lib/%{name}/db
 
@@ -376,7 +376,7 @@ fi
 %config(noreplace) %{_sysconfdir}/groonga/
 %config(noreplace) %{_sysconfdir}/sysconfig/groonga-server-gqtp
 %{_unitdir}/groonga-server-gqtp.service
-%ghost %dir %{_localstatedir}/run/%{name}
+%ghost %dir /run/%{name}
 %attr(0755,groonga,groonga) %dir %{_localstatedir}/lib/%{name}
 %attr(0755,groonga,groonga) %dir %{_localstatedir}/lib/%{name}/db
 
@@ -386,7 +386,7 @@ fi
 %{_unitdir}/groonga-httpd.service
 %{_sbindir}/groonga-httpd
 %{_sbindir}/groonga-httpd-restart
-%ghost %dir %{_localstatedir}/run/%{name}
+%ghost %dir /run/%{name}
 %attr(0755,groonga,groonga) %dir %{_localstatedir}/lib/%{name}
 %attr(0755,groonga,groonga) %dir %{_localstatedir}/lib/%{name}/db
 
@@ -428,6 +428,11 @@ fi
 %{php_extdir}/groonga.so
 
 %changelog
+* Tue Jan 6 2015 HAYASHI Kentaro <hayashi@clear-code.com> - 4.0.9.1-1
+- new upstream release.
+- remove needless 'g' option to remove rpath.
+- use /run/groonga to fix dir-or-file-in-var-run error.
+
 * Mon Dec 1 2014 HAYASHI Kentaro <hayashi@clear-code.com> - 4.0.8-1
 - new upstream release.
 - make groonga-httpd as default HTTP server package
