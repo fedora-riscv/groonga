@@ -3,7 +3,7 @@
 %global _hardened_build 1
 
 Name:		groonga
-Version:	4.0.9.1
+Version:	4.1.0
 Release:	1%{?dist}
 Summary:	An Embeddable Fulltext Search Engine
 
@@ -428,6 +428,9 @@ fi
 %{php_extdir}/groonga.so
 
 %changelog
+* Wed Jan 14 2015 HAYASHI Kentaro <hayashi@clear-code.com> - 4.1.0-1
+- new upstream release.
+
 * Tue Jan 6 2015 HAYASHI Kentaro <hayashi@clear-code.com> - 4.0.9.1-1
 - new upstream release.
 - remove needless 'g' option to remove rpath.
