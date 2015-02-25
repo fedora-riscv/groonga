@@ -3,7 +3,7 @@
 %global _hardened_build 1
 
 Name:		groonga
-Version:	4.1.0
+Version:	5.0.0
 Release:	1%{?dist}
 Summary:	An Embeddable Fulltext Search Engine
 
@@ -177,6 +177,7 @@ PHP language binding for Groonga
 %build
 %configure \
   --disable-static \
+  --enable-mruby \
   --with-package-platform=fedora \
   --with-zlib --with-lz4 \
   --with-munin-plugins \
@@ -342,6 +343,7 @@ fi
 %{_datadir}/man/*/man1/*
 %{_bindir}/groonga
 %{_bindir}/groonga-benchmark
+%{_bindir}/grndb
 
 %files libs
 %defattr(-,root,root,-)
@@ -355,8 +357,23 @@ fi
 %dir %{_libdir}/groonga/plugins/tokenizers
 %dir %{_libdir}/groonga/plugins/token_filters
 %dir %{_libdir}/groonga/plugins/suggest
+%dir %{_libdir}/groonga/plugins/ruby
+%dir %{_libdir}/groonga/plugins/sharding
+%dir %{_libdir}/groonga/scripts/ruby
+%dir %{_libdir}/groonga/scripts/ruby/command_line
+%dir %{_libdir}/groonga/scripts/ruby/context
+%dir %{_libdir}/groonga/scripts/ruby/initialize
+%dir %{_libdir}/groonga/scripts/ruby/logger
 %{_libdir}/groonga/plugins/table/table.so
 %{_libdir}/groonga/plugins/query_expanders/tsv.so
+%{_libdir}/groonga/plugins/sharding.rb
+%{_libdir}/groonga/plugins/ruby/*.so
+%{_libdir}/groonga/plugins/sharding/*.rb
+%{_libdir}/groonga/scripts/ruby/*.rb
+%{_libdir}/groonga/scripts/ruby/command_line/*.rb
+%{_libdir}/groonga/scripts/ruby/context/*.rb
+%{_libdir}/groonga/scripts/ruby/initialize/*.rb
+%{_libdir}/groonga/scripts/ruby/logger/*.rb
 %{_datadir}/groonga/
 %config(noreplace) %{_sysconfdir}/groonga/synonyms.tsv
 
@@ -428,6 +445,10 @@ fi
 %{php_extdir}/groonga.so
 
 %changelog
+* Wed Feb 25 2015 HAYASHI Kentaro <hayashi@clear-code.com> - 5.0.0-1
+- new upstream release.
+- enable mruby by default.
+
 * Wed Jan 14 2015 HAYASHI Kentaro <hayashi@clear-code.com> - 4.1.0-1
 - new upstream release.
 
