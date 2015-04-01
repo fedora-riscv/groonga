@@ -3,7 +3,7 @@
 %global _hardened_build 1
 
 Name:		groonga
-Version:	5.0.1
+Version:	5.0.2
 Release:	1%{?dist}
 Summary:	An Embeddable Fulltext Search Engine
 
@@ -11,7 +11,6 @@ Group:		Applications/Text
 License:	LGPLv2
 URL:		http://groonga.org/
 Source0:	http://packages.groonga.org/source/groonga/groonga-%{version}.tar.gz
-Patch0: fix-crash-by-missing-libedit-initialization.patch
 
 BuildRequires:	mecab-devel
 BuildRequires:	zlib-devel
@@ -174,7 +173,6 @@ PHP language binding for Groonga
 %prep
 #% define optflags -O0
 %setup -q
-%patch0 -p1
 
 %build
 %configure \
@@ -447,6 +445,11 @@ fi
 %{php_extdir}/groonga.so
 
 %changelog
+* Wed Apr 1 2015 HAYASHI Kentaro <hayashi@clear-code.com> - 5.0.2-1
+- new upstream release.
+- drop fix-crash-by-missing-libedit-initialization.patch
+  This patch is already imported into upstream.
+
 * Mon Mar 30 2015 HAYASHI Kentaro <hayashi@clear-code.com> - 5.0.1-1
 - new upstream release.
 - add a patch to fix crash in standalone mode.
