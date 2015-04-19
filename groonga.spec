@@ -4,7 +4,7 @@
 
 Name:		groonga
 Version:	5.0.2
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	An Embeddable Fulltext Search Engine
 
 Group:		Applications/Text
@@ -28,7 +28,6 @@ Requires:	%{name}-plugin-suggest = %{version}-%{release}
 Requires(post):	systemd
 Requires(preun):	systemd
 Requires(postun):	systemd
-ExclusiveArch:		%{ix86} x86_64
 
 %description
 Groonga is an embeddable full-text search engine library.  It can
@@ -182,6 +181,7 @@ PHP language binding for Groonga
   --with-zlib --with-lz4 \
   --with-munin-plugins \
   --without-libstemmer
+
 sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|' libtool
 sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|' libtool
 make %{?_smp_mflags} unitdir="%{_unitdir}"
@@ -445,6 +445,9 @@ fi
 %{php_extdir}/groonga.so
 
 %changelog
+* Sun Apr 19 2015 Peter Robinson <pbrobinson@fedoraproject.org> 5.0.2-2
+- Drop ExclusiveArch, atomic primitives now supported on all arches
+
 * Wed Apr 1 2015 HAYASHI Kentaro <hayashi@clear-code.com> - 5.0.2-1
 - new upstream release.
 - drop fix-crash-by-missing-libedit-initialization.patch
