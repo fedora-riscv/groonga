@@ -3,8 +3,8 @@
 %global _hardened_build 1
 
 Name:		groonga
-Version:	5.0.2
-Release:	2%{?dist}
+Version:	5.0.3
+Release:	1%{?dist}
 Summary:	An Embeddable Fulltext Search Engine
 
 Group:		Applications/Text
@@ -445,6 +445,9 @@ fi
 %{php_extdir}/groonga.so
 
 %changelog
+* Thu Apr 30 2015 HAYASHI Kentaro <hayashi@clear-code.com> - 5.0.3-1
+- new upstream release.
+
 * Sun Apr 19 2015 Peter Robinson <pbrobinson@fedoraproject.org> 5.0.2-2
 - Drop ExclusiveArch, atomic primitives now supported on all arches
 
