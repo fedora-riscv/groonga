@@ -351,6 +351,7 @@ fi
 %{_libdir}/*.so.*
 %dir %{_libdir}/groonga
 %dir %{_libdir}/groonga/plugins
+%dir %{_libdir}/groonga/plugins/functions
 %dir %{_libdir}/groonga/plugins/table
 %dir %{_libdir}/groonga/plugins/query_expanders
 %dir %{_libdir}/groonga/plugins/normalizers
@@ -364,6 +365,7 @@ fi
 %dir %{_libdir}/groonga/scripts/ruby/context
 %dir %{_libdir}/groonga/scripts/ruby/initialize
 %dir %{_libdir}/groonga/scripts/ruby/logger
+%{_libdir}/groonga/plugins/functions/vector.so
 %{_libdir}/groonga/plugins/table/table.so
 %{_libdir}/groonga/plugins/query_expanders/tsv.so
 %{_libdir}/groonga/plugins/sharding.rb
@@ -447,6 +449,7 @@ fi
 %changelog
 * Thu Apr 30 2015 HAYASHI Kentaro <hayashi@clear-code.com> - 5.0.3-1
 - new upstream release.
+- add vector plugin.
 
 * Sun Apr 19 2015 Peter Robinson <pbrobinson@fedoraproject.org> 5.0.2-2
 - Drop ExclusiveArch, atomic primitives now supported on all arches
