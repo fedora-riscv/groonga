@@ -321,12 +321,6 @@ exit 0
 %postun httpd
 %systemd_postun groonga-httpd.service
 
-%triggerun -- groonga < 1.3.0-1
-/usr/bin/systemd-sysv-convert --save groonga >/dev/null 2>&1 ||:
-/bin/systemctl --no-reload enable groonga-server-http.service >/dev/null 2>&1 ||:
-/sbin/chkconfig --del groonga >/dev/null 2>&1 || :
-/bin/systemctl try-restart groonga-servre-http.service >/dev/null 2>&1 || :
-
 %postun libs -p /sbin/ldconfig
 
 %postun munin-plugins
