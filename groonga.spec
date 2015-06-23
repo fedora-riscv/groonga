@@ -4,7 +4,7 @@
 
 Name:		groonga
 Version:	5.0.4
-Release:	2%{?dist}
+Release:	3%{?dist}
 Summary:	An Embeddable Fulltext Search Engine
 
 Group:		Applications/Text
@@ -441,6 +441,9 @@ fi
 %{php_extdir}/groonga.so
 
 %changelog
+* Tue Jun 23 2015 Thomas Spura <tomspur@fedoraproject.org> - 5.0.4-3
+- rebuilt for new zeromq 4.1.2
+
 * Wed Jun 17 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 5.0.4-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_23_Mass_Rebuild
 
