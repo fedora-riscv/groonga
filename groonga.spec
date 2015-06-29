@@ -3,8 +3,8 @@
 %global _hardened_build 1
 
 Name:		groonga
-Version:	5.0.4
-Release:	3%{?dist}
+Version:	5.0.5
+Release:	1%{?dist}
 Summary:	An Embeddable Fulltext Search Engine
 
 Group:		Applications/Text
@@ -441,6 +441,9 @@ fi
 %{php_extdir}/groonga.so
 
 %changelog
+* Mon Jun 29 2015 Masafumi Yokoyama <yokoyama@clear-code.com> - 5.0.5-1
+- new upstream release.
+
 * Tue Jun 23 2015 Thomas Spura <tomspur@fedoraproject.org> - 5.0.4-3
 - rebuilt for new zeromq 4.1.2
 
