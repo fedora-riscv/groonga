@@ -3,7 +3,7 @@
 %global _hardened_build 1
 
 Name:		groonga
-Version:	5.0.5
+Version:	5.0.6
 Release:	1%{?dist}
 Summary:	An Embeddable Fulltext Search Engine
 
@@ -359,6 +359,7 @@ fi
 %dir %{_libdir}/groonga/scripts/ruby/context
 %dir %{_libdir}/groonga/scripts/ruby/initialize
 %dir %{_libdir}/groonga/scripts/ruby/logger
+%dir %{_libdir}/groonga/scripts/ruby/query_logger
 %{_libdir}/groonga/plugins/functions/vector.so
 %{_libdir}/groonga/plugins/table/table.so
 %{_libdir}/groonga/plugins/query_expanders/tsv.so
@@ -370,6 +371,7 @@ fi
 %{_libdir}/groonga/scripts/ruby/context/*.rb
 %{_libdir}/groonga/scripts/ruby/initialize/*.rb
 %{_libdir}/groonga/scripts/ruby/logger/*.rb
+%{_libdir}/groonga/scripts/ruby/query_logger/*.rb
 %{_datadir}/groonga/
 %config(noreplace) %{_sysconfdir}/groonga/synonyms.tsv
 
@@ -441,6 +443,9 @@ fi
 %{php_extdir}/groonga.so
 
 %changelog
+* Sat Aug 1 2015 Masafumi Yokoyama <yokoyama@clear-code.com> - 5.0.6-1
+- new upstream release.
+
 * Mon Jun 29 2015 Masafumi Yokoyama <yokoyama@clear-code.com> - 5.0.5-1
 - new upstream release.
 
