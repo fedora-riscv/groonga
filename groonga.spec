@@ -23,6 +23,7 @@ BuildRequires:	php-devel
 BuildRequires:	libedit-devel
 BuildRequires:	pcre-devel
 BuildRequires:	systemd
+BuildRequires:	libstemmer-devel
 Requires:	%{name}-libs = %{version}-%{release}
 Requires:	%{name}-plugin-suggest = %{version}-%{release}
 Requires(post):	systemd
