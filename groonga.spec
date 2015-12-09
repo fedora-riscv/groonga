@@ -135,6 +135,7 @@ Suggest plugin for Groonga
 Summary:	Token filters plugin for Groonga
 Group:		Applications/Text
 Requires:	%{name}-libs = %{version}-%{release}
+Requires:	libstemmer
 
 %description plugin-token-filters
 Token filters plugins for Groonga which provides
@@ -179,8 +180,7 @@ PHP language binding for Groonga
   --enable-mruby \
   --with-package-platform=fedora \
   --with-zlib --with-lz4 \
-  --with-munin-plugins \
-  --without-libstemmer
+  --with-munin-plugins
 
 sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|' libtool
 sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|' libtool
@@ -425,6 +425,7 @@ fi
 %files plugin-token-filters
 %defattr(-,root,root,-)
 %{_libdir}/groonga/plugins/token_filters/stop_word.so
+%{_libdir}/groonga/plugins/token_filters/stem.so
 
 %files plugin-suggest
 %defattr(-,root,root,-)
