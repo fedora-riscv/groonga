@@ -3,8 +3,8 @@
 %global _hardened_build 1
 
 Name:		groonga
-Version:	5.1.0
-Release:	2%{?dist}
+Version:	5.1.1
+Release:	1%{?dist}
 Summary:	An Embeddable Fulltext Search Engine
 
 Group:		Applications/Text
@@ -447,6 +447,9 @@ fi
 %{php_extdir}/groonga.so
 
 %changelog
+* Tue Dec 29 2015 HAYASHI Kentaro <hayashi@clear-code.com> - 5.1.1-1
+- new upstream release.
+
 * Sun Dec 13 2015 Kalev Lember <klember@redhat.com> - 5.1.0-2
 - Rebuilt for libmsgpack soname bump
 
