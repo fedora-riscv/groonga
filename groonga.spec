@@ -136,7 +136,6 @@ Suggest plugin for Groonga
 Summary:	Token filters plugin for Groonga
 Group:		Applications/Text
 Requires:	%{name}-libs = %{version}-%{release}
-Requires:	libstemmer
 
 %description plugin-token-filters
 Token filters plugins for Groonga which provides
