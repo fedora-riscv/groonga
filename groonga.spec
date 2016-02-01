@@ -446,6 +446,7 @@ fi
 %changelog
 * Mon Feb 1 2016 HAYASHI Kentaro <hayashi@clear-code.com> - 5.1.2-1
 - new upstream release.
+- remove needless Require: libstemmer entry.
 
 * Tue Dec 29 2015 HAYASHI Kentaro <hayashi@clear-code.com> - 5.1.1-1
 - new upstream release.
