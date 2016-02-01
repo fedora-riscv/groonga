@@ -223,10 +223,8 @@ mv $RPM_BUILD_ROOT%{_datadir}/doc/groonga groonga-doc
 # F17 and won't be submitted to earlier releases.
 mkdir -p $RPM_BUILD_ROOT%{_unitdir}
 
-rm -f $RPM_BUILD_ROOT/lib/systemd/system/groonga-server-http.service
 install -p -m 644 data/systemd/fedora/groonga-server-http.service $RPM_BUILD_ROOT%{_unitdir}
 
-rm -f $RPM_BUILD_ROOT/lib/systemd/system/groonga-httpd.service
 install -p -m 644 data/systemd/fedora/groonga-httpd.service $RPM_BUILD_ROOT%{_unitdir}
 
 mkdir -p $RPM_BUILD_ROOT/run/groonga
