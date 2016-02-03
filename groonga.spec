@@ -4,7 +4,7 @@
 
 Name:		groonga
 Version:	5.1.2
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	An Embeddable Fulltext Search Engine
 
 Group:		Applications/Text
@@ -444,6 +444,9 @@ fi
 %{php_extdir}/groonga.so
 
 %changelog
+* Wed Feb 03 2016 Fedora Release Engineering <releng@fedoraproject.org> - 5.1.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_24_Mass_Rebuild
+
 * Mon Feb 1 2016 HAYASHI Kentaro <hayashi@clear-code.com> - 5.1.2-1
 - new upstream release.
 - remove needless Require: libstemmer entry.
