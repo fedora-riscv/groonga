@@ -72,23 +72,6 @@ Obsoletes:	%{name}-server < 2.0.7-0
 %description server-gqtp
 This package contains the Groonga GQTP server
 
-%package server-http
-Summary:	Groonga HTTP server (transitional)
-Group:		Applications/Text
-License:	LGPLv2
-Requires:	%{name}-server-common = %{version}-%{release}
-Requires:	curl
-Requires(pre):	shadow-utils
-Requires(post):	/sbin/chkconfig
-Requires(preun):	/sbin/chkconfig
-Requires(preun):	/sbin/service
-Requires(postun):	/sbin/service
-Obsoletes:	%{name}-server < 2.0.7-0
-Conflicts:	%{name}-httpd
-
-%description server-http
-This is a transitional package to groonga-httpd.
-
 %package httpd
 Summary:	Groonga HTTP server
 Group:          Applications/Text
@@ -224,7 +207,9 @@ mv $RPM_BUILD_ROOT%{_datadir}/doc/groonga groonga-doc
 # F17 and won't be submitted to earlier releases.
 mkdir -p $RPM_BUILD_ROOT%{_unitdir}
 
-install -p -m 644 data/systemd/fedora/groonga-server-http.service $RPM_BUILD_ROOT%{_unitdir}
+# Remove obsolete files
+rm -f $RPM_BUILD_ROOT%{_sysconfdir}/sysconfig/groonga-server-http
+rm -f $RPM_BUILD_ROOT%{_unitdir}/groonga-server-http.service
 
 install -p -m 644 data/systemd/fedora/groonga-httpd.service $RPM_BUILD_ROOT%{_unitdir}
 
@@ -292,15 +277,6 @@ if [ $1 = 1 ] ; then
 	chown -R groonga:groonga /run/groonga
 fi
 exit 0
-
-%post server-http
-%systemd_post groonga-server-http.service
-
-%preun server-http
-%systemd_preun groonga-server-http.service
-
-%postun server-http
-%systemd_postun groonga-server-http.service
 
 %post server-gqtp
 %systemd_post groonga-server-gqtp.service
@@ -378,15 +354,6 @@ fi
 %config(noreplace) %{_sysconfdir}/groonga/synonyms.tsv
 
 %files server-common
-
-%files server-http
-%defattr(-,root,root,-)
-%config(noreplace) %{_sysconfdir}/groonga/
-%config(noreplace) %{_sysconfdir}/sysconfig/groonga-server-http
-%{_unitdir}/groonga-server-http.service
-%ghost %dir /run/%{name}
-%attr(0755,groonga,groonga) %dir %{_localstatedir}/lib/%{name}
-%attr(0755,groonga,groonga) %dir %{_localstatedir}/lib/%{name}/db
 
 %files server-gqtp
 %defattr(-,root,root,-)
