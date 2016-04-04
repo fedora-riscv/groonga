@@ -416,6 +416,7 @@ fi
 * Fri Mar 11 2016 HAYASHI Kentaro <hayashi@clear-code.com> - 6.0.0-1
 - new upstream release.
 - enable TLS for groonga-httpd
+- drop groonga-server-http package
 
 * Wed Feb 03 2016 Fedora Release Engineering <releng@fedoraproject.org> - 5.1.2-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_24_Mass_Rebuild
