@@ -24,6 +24,7 @@ BuildRequires:	libedit-devel
 BuildRequires:	pcre-devel
 BuildRequires:	systemd
 BuildRequires:	libstemmer-devel
+BuildRequires:  openssl-devel
 Requires:	%{name}-libs = %{version}-%{release}
 Requires:	%{name}-plugin-suggest = %{version}-%{release}
 Requires(post):	systemd
@@ -446,6 +447,7 @@ fi
 %changelog
 * Fri Mar 11 2016 HAYASHI Kentaro <hayashi@clear-code.com> - 6.0.0-1
 - new upstream release.
+- enable TLS for groonga-httpd
 
 * Wed Feb 03 2016 Fedora Release Engineering <releng@fedoraproject.org> - 5.1.2-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_24_Mass_Rebuild
