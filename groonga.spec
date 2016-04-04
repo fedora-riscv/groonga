@@ -361,6 +361,7 @@ fi
 %dir %{_libdir}/groonga/scripts/ruby/logger
 %dir %{_libdir}/groonga/scripts/ruby/query_logger
 %{_libdir}/groonga/plugins/expression_rewriters/*.rb
+%{_libdir}/groonga/plugins/functions/string.so
 %{_libdir}/groonga/plugins/functions/vector.so
 %{_libdir}/groonga/plugins/table/table.so
 %{_libdir}/groonga/plugins/query_expanders/tsv.so
