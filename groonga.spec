@@ -4,7 +4,7 @@
 
 Name:		groonga
 Version:	6.0.1
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	An Embeddable Fulltext Search Engine
 
 Group:		Applications/Text
@@ -413,6 +413,9 @@ fi
 %{php_extdir}/groonga.so
 
 %changelog
+* Wed Apr 13 2016 HAYASHI Kentaro <hayashi@clear-code.com> - 6.0.1-2
+- rebuilt for msgpack soname bump
+
 * Mon Apr 4 2016 HAYASHI Kentaro <hayashi@clear-code.com> - 6.0.1-1
 - new upstream release.
 
