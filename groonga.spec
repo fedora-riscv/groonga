@@ -211,8 +211,6 @@ mkdir -p $RPM_BUILD_ROOT%{_unitdir}
 rm -f $RPM_BUILD_ROOT%{_sysconfdir}/sysconfig/groonga-server-http
 rm -f $RPM_BUILD_ROOT%{_unitdir}/groonga-server-http.service
 
-install -p -m 644 data/systemd/fedora/groonga-httpd.service $RPM_BUILD_ROOT%{_unitdir}
-
 mkdir -p $RPM_BUILD_ROOT/run/groonga
 mkdir -p $RPM_BUILD_ROOT%{_localstatedir}/lib/groonga/db
 mkdir -p $RPM_BUILD_ROOT%{_localstatedir}/log/groonga
