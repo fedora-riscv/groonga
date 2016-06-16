@@ -306,8 +306,6 @@ fi
 
 %files
 %defattr(-,root,root,-)
-%{_datadir}/man/man1/*
-%{_datadir}/man/*/man1/*
 %{_bindir}/groonga
 %{_bindir}/groonga-benchmark
 %{_bindir}/grndb
