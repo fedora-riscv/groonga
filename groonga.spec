@@ -322,27 +322,26 @@ fi
 %dir %{_libdir}/groonga/plugins/query_expanders
 %dir %{_libdir}/groonga/plugins/normalizers
 %dir %{_libdir}/groonga/plugins/tokenizers
-%dir %{_libdir}/groonga/plugins/token_filters
-%dir %{_libdir}/groonga/plugins/suggest
 %dir %{_libdir}/groonga/plugins/ruby
 %dir %{_libdir}/groonga/plugins/sharding
 %dir %{_libdir}/groonga/scripts/ruby
 %dir %{_libdir}/groonga/scripts/ruby/command_line
 %dir %{_libdir}/groonga/scripts/ruby/context
+%dir %{_libdir}/groonga/scripts/ruby/expression_tree
 %dir %{_libdir}/groonga/scripts/ruby/initialize
 %dir %{_libdir}/groonga/scripts/ruby/logger
 %dir %{_libdir}/groonga/scripts/ruby/query_logger
 %{_libdir}/groonga/plugins/expression_rewriters/*.rb
-%{_libdir}/groonga/plugins/functions/string.so
-%{_libdir}/groonga/plugins/functions/vector.so
-%{_libdir}/groonga/plugins/table/table.so
+%{_libdir}/groonga/plugins/functions/*.so
 %{_libdir}/groonga/plugins/query_expanders/tsv.so
+%{_libdir}/groonga/plugins/ruby/*.rb
 %{_libdir}/groonga/plugins/sharding.rb
-%{_libdir}/groonga/plugins/ruby/*.so
 %{_libdir}/groonga/plugins/sharding/*.rb
+%{_libdir}/groonga/plugins/table/table.so
 %{_libdir}/groonga/scripts/ruby/*.rb
 %{_libdir}/groonga/scripts/ruby/command_line/*.rb
 %{_libdir}/groonga/scripts/ruby/context/*.rb
+%{_libdir}/groonga/scripts/ruby/expression_tree/*.rb
 %{_libdir}/groonga/scripts/ruby/initialize/*.rb
 %{_libdir}/groonga/scripts/ruby/logger/*.rb
 %{_libdir}/groonga/scripts/ruby/query_logger/*.rb
@@ -363,6 +362,7 @@ fi
 %files httpd
 %defattr(-,root,root,-)
 %config(noreplace) %{_sysconfdir}/groonga/httpd/*
+%config(noreplace) %{_sysconfdir}/sysconfig/groonga-httpd
 %{_unitdir}/groonga-httpd.service
 %{_sbindir}/groonga-httpd
 %{_sbindir}/groonga-httpd-restart
