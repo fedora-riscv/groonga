@@ -197,6 +197,7 @@ make %{?_smp_mflags}
 make install DESTDIR=$RPM_BUILD_ROOT INSTALL="install -p"
 rm $RPM_BUILD_ROOT%{_libdir}/groonga/plugins/*/*.la
 rm $RPM_BUILD_ROOT%{_libdir}/*.la
+rm $RPM_BUILD_ROOT%{_sysconfdir}/logrotate.d/groonga-server-http
 
 mv $RPM_BUILD_ROOT%{_datadir}/doc/groonga groonga-doc
 
@@ -354,6 +355,7 @@ fi
 %defattr(-,root,root,-)
 %config(noreplace) %{_sysconfdir}/groonga/
 %config(noreplace) %{_sysconfdir}/sysconfig/groonga-server-gqtp
+%config(noreplace) %{_sysconfdir}/logrotate.d/groonga-server-gqtp
 %{_unitdir}/groonga-server-gqtp.service
 %ghost %dir /run/%{name}
 %attr(0755,groonga,groonga) %dir %{_localstatedir}/lib/%{name}
@@ -363,6 +365,7 @@ fi
 %defattr(-,root,root,-)
 %config(noreplace) %{_sysconfdir}/groonga/httpd/*
 %config(noreplace) %{_sysconfdir}/sysconfig/groonga-httpd
+%config(noreplace) %{_sysconfdir}/logrotate.d/groonga-httpd
 %{_unitdir}/groonga-httpd.service
 %{_sbindir}/groonga-httpd
 %{_sbindir}/groonga-httpd-restart
