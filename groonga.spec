@@ -25,6 +25,7 @@ BuildRequires:	pcre-devel
 BuildRequires:	systemd
 BuildRequires:	libstemmer-devel
 BuildRequires:  openssl-devel
+BuildRequires:  re2c
 Requires:	%{name}-libs = %{version}-%{release}
 Requires:	%{name}-plugin-suggest = %{version}-%{release}
 Requires(post):	systemd
