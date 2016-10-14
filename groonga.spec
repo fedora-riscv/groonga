@@ -19,7 +19,7 @@ BuildRequires:	msgpack-devel
 BuildRequires:	zeromq-devel
 BuildRequires:	libevent-devel
 BuildRequires:	python2-devel
-BuildRequires:	php-devel
+#BuildRequires:	php-devel
 BuildRequires:	libedit-devel
 BuildRequires:	pcre-devel
 BuildRequires:	systemd
@@ -146,13 +146,13 @@ Requires:	%{name}-libs = %{version}-%{release}
 %description python
 Python language binding for Groonga
 
-%package php
-Summary:	PHP language binding for Groonga
-Group:		Development/Libraries
-Requires:	%{name}-libs = %{version}-%{release}
+# %package php
+# Summary:	PHP language binding for Groonga
+# Group:		Development/Libraries
+# Requires:	%{name}-libs = %{version}-%{release}
 
-%description php
-PHP language binding for Groonga
+# %description php
+# PHP language binding for Groonga
 
 
 %prep
@@ -182,16 +182,16 @@ export LDFLAGS
 python setup.py build
 
 # build php binding
-cd %{_builddir}/%{name}-%{version}/bindings/php
-sed -i.ldflags -e 's|PHP_ADD_LIBRARY_WITH_PATH(groonga, .*)|PHP_ADD_LIBRARY(groonga, GROONGA_SHARED_LIBADD)|' config.m4
-phpize
-CFLAGS="%{optflags}"
-export CFLAGS
-LDFLAGS=-L%{_builddir}/%{name}-%{version}/lib/.libs
-export LDFLAGS
-# --with-groonga is only necessary to avoid error in configure
-%configure --disable-static --with-groonga=%{_builddir}/%{name}-%{version}
-make %{?_smp_mflags}
+# cd %{_builddir}/%{name}-%{version}/bindings/php
+# sed -i.ldflags -e 's|PHP_ADD_LIBRARY_WITH_PATH(groonga, .*)|PHP_ADD_LIBRARY(groonga, GROONGA_SHARED_LIBADD)|' config.m4
+# phpize
+# CFLAGS="%{optflags}"
+# export CFLAGS
+# LDFLAGS=-L%{_builddir}/%{name}-%{version}/lib/.libs
+# export LDFLAGS
+# # --with-groonga is only necessary to avoid error in configure
+# %configure --disable-static --with-groonga=%{_builddir}/%{name}-%{version}
+# make %{?_smp_mflags}
 
 
 %install
@@ -252,8 +252,8 @@ cd %{_builddir}/%{name}-%{version}/bindings/python/ql
 python setup.py install --root=$RPM_BUILD_ROOT
 
 # install php binding
-cd %{_builddir}/%{name}-%{version}/bindings/php
-make install INSTALL_ROOT=$RPM_BUILD_ROOT INSTALL="install -p"
+# cd %{_builddir}/%{name}-%{version}/bindings/php
+# make install INSTALL_ROOT=$RPM_BUILD_ROOT INSTALL="install -p"
 
 
 %post libs -p /sbin/ldconfig
@@ -408,13 +408,14 @@ fi
 %defattr(-,root,root,-)
 %{python_sitearch}/groongaql*
 
-%files php
-%defattr(-,root,root,-)
-%{php_extdir}/groonga.so
+# %files php
+# %defattr(-,root,root,-)
+# %{php_extdir}/groonga.so
 
 %changelog
 * Fri Oct 14 2016 Kentaro Hayashi <hayashi@clear-code.com> - 6.0.9-1
 - new upstream release.
+- drop php bindin package.
 
 * Tue Jul 19 2016 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 6.0.5-2
 - https://fedoraproject.org/wiki/Changes/Automatic_Provides_for_Python_RPM_Packages
