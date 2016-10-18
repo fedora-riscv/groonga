@@ -32,6 +32,7 @@ Requires(post):	systemd
 Requires(preun):	systemd
 Requires(postun):	systemd
 Obsoletes:	%{name}-python < 6.0.9-1
+Obsoletes:	%{name}-php < 6.0.9-1
 
 %description
 Groonga is an embeddable full-text search engine library.  It can
