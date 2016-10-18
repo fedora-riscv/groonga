@@ -172,6 +172,8 @@ Munin plugins for Groonga
 sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|' libtool
 sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|' libtool
 make %{?_smp_mflags} unitdir="%{_unitdir}"
+# Exit %build section explicitly not to execute unexpected configure script again
+exit 0
 
 # build python binding
 # cd %{_builddir}/%{name}-%{version}/bindings/python/ql
