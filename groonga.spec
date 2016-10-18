@@ -18,7 +18,7 @@ BuildRequires:	lz4-devel
 BuildRequires:	msgpack-devel
 BuildRequires:	zeromq-devel
 BuildRequires:	libevent-devel
-BuildRequires:	python2-devel
+#BuildRequires:	python2-devel
 #BuildRequires:	php-devel
 BuildRequires:	libedit-devel
 BuildRequires:	pcre-devel
@@ -31,6 +31,7 @@ Requires:	%{name}-plugin-suggest = %{version}-%{release}
 Requires(post):	systemd
 Requires(preun):	systemd
 Requires(postun):	systemd
+Obsoletes:	%{name}-python < 6.0.9-1
 
 %description
 Groonga is an embeddable full-text search engine library.  It can
@@ -138,13 +139,13 @@ Requires(postun):	/sbin/service
 %description munin-plugins
 Munin plugins for Groonga
 
-%package python
-Summary:	Python language binding for Groonga
-Group:		Development/Libraries
-Requires:	%{name}-libs = %{version}-%{release}
+# %package python
+# Summary:	Python language binding for Groonga
+# Group:		Development/Libraries
+# Requires:	%{name}-libs = %{version}-%{release}
 
-%description python
-Python language binding for Groonga
+# %description python
+# Python language binding for Groonga
 
 # %package php
 # Summary:	PHP language binding for Groonga
@@ -172,14 +173,14 @@ sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|' libtool
 make %{?_smp_mflags} unitdir="%{_unitdir}"
 
 # build python binding
-cd %{_builddir}/%{name}-%{version}/bindings/python/ql
-python setup.py config
-sed -i.cflags -e 's|^cflags =.*|cflags = []|' setup.py
-CFLAGS=-I%{_builddir}/%{name}-%{version}/include
-export CFLAGS
-LDFLAGS=-L%{_builddir}/%{name}-%{version}/lib/.libs
-export LDFLAGS
-python setup.py build
+# cd %{_builddir}/%{name}-%{version}/bindings/python/ql
+# python setup.py config
+# sed -i.cflags -e 's|^cflags =.*|cflags = []|' setup.py
+# CFLAGS=-I%{_builddir}/%{name}-%{version}/include
+# export CFLAGS
+# LDFLAGS=-L%{_builddir}/%{name}-%{version}/lib/.libs
+# export LDFLAGS
+# python setup.py build
 
 # build php binding
 # cd %{_builddir}/%{name}-%{version}/bindings/php
@@ -248,8 +249,8 @@ cat <<EOC > $RPM_BUILD_ROOT%{_sysconfdir}/munin/plugin-conf.d/groonga
 EOC
 
 # install python binding
-cd %{_builddir}/%{name}-%{version}/bindings/python/ql
-python setup.py install --root=$RPM_BUILD_ROOT
+# cd %{_builddir}/%{name}-%{version}/bindings/python/ql
+# python setup.py install --root=$RPM_BUILD_ROOT
 
 # install php binding
 # cd %{_builddir}/%{name}-%{version}/bindings/php
@@ -404,9 +405,9 @@ fi
 %{_datadir}/munin/plugins/*
 %config(noreplace) %{_sysconfdir}/munin/plugin-conf.d/*
 
-%files python
-%defattr(-,root,root,-)
-%{python_sitearch}/groongaql*
+# %files python
+# %defattr(-,root,root,-)
+# %{python_sitearch}/groongaql*
 
 # %files php
 # %defattr(-,root,root,-)
@@ -415,7 +416,8 @@ fi
 %changelog
 * Fri Oct 14 2016 Kentaro Hayashi <hayashi@clear-code.com> - 6.0.9-1
 - new upstream release.
-- drop php bindin package.
+- drop php binding package.
+- drop python binding package.
 
 * Tue Jul 19 2016 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 6.0.5-2
 - https://fedoraproject.org/wiki/Changes/Automatic_Provides_for_Python_RPM_Packages
