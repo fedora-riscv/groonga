@@ -418,6 +418,10 @@ fi
 # %{php_extdir}/groonga.so
 
 %changelog
+* Fri Dec 23 2016 kenhys@gmail.com - 6.1.1-1
+- new upstream release
+- add zstd dependency to compress column.
+
 * Sat Nov 5 2016 Kentaro Hayashi <hayashi@clear-code.com> - 6.1.0-1
 - new upstream release.
 
