@@ -3,7 +3,7 @@
 %global _hardened_build 1
 
 Name:		groonga
-Version:	6.1.0
+Version:	6.1.1
 Release:	1%{?dist}
 Summary:	An Embeddable Fulltext Search Engine
 
