@@ -3,7 +3,7 @@
 %global _hardened_build 1
 
 Name:		groonga
-Version:	6.1.1
+Version:	6.1.3
 Release:	1%{?dist}
 Summary:	An Embeddable Fulltext Search Engine
 
@@ -325,7 +325,6 @@ fi
 %dir %{_libdir}/groonga/plugins
 %dir %{_libdir}/groonga/plugins/expression_rewriters
 %dir %{_libdir}/groonga/plugins/functions
-%dir %{_libdir}/groonga/plugins/table
 %dir %{_libdir}/groonga/plugins/query_expanders
 %dir %{_libdir}/groonga/plugins/normalizers
 %dir %{_libdir}/groonga/plugins/tokenizers
@@ -344,7 +343,6 @@ fi
 %{_libdir}/groonga/plugins/ruby/*.rb
 %{_libdir}/groonga/plugins/sharding.rb
 %{_libdir}/groonga/plugins/sharding/*.rb
-%{_libdir}/groonga/plugins/table/table.so
 %{_libdir}/groonga/scripts/ruby/*.rb
 %{_libdir}/groonga/scripts/ruby/command_line/*.rb
 %{_libdir}/groonga/scripts/ruby/context/*.rb
