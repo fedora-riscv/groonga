@@ -416,7 +416,7 @@ fi
 # %{php_extdir}/groonga.so
 
 %changelog
-* Mon Jan 23 2016 kenhys@gmail.com - 6.1.5-1
+* Mon Jan 23 2017 kenhys@gmail.com - 6.1.5-1
 - new upstream release
 
 * Fri Dec 23 2016 kenhys@gmail.com - 6.1.1-1
