@@ -3,7 +3,7 @@
 %global _hardened_build 1
 
 Name:		groonga
-Version:	6.1.3
+Version:	6.1.5
 Release:	1%{?dist}
 Summary:	An Embeddable Fulltext Search Engine
 
@@ -416,6 +416,9 @@ fi
 # %{php_extdir}/groonga.so
 
 %changelog
+* Mon Jan 23 2016 kenhys@gmail.com - 6.1.5-1
+- new upstream release
+
 * Fri Dec 23 2016 kenhys@gmail.com - 6.1.1-1
 - new upstream release
 - add zstd dependency to compress column.
