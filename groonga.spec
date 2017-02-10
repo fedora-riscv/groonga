@@ -4,7 +4,7 @@
 
 Name:		groonga
 Version:	6.1.5
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	An Embeddable Fulltext Search Engine
 
 Group:		Applications/Text
@@ -416,6 +416,9 @@ fi
 # %{php_extdir}/groonga.so
 
 %changelog
+* Fri Feb 10 2017 Fedora Release Engineering <releng@fedoraproject.org> - 6.1.5-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_26_Mass_Rebuild
+
 * Mon Jan 23 2017 kenhys@gmail.com - 6.1.5-1
 - new upstream release
 
