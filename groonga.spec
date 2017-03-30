@@ -3,8 +3,8 @@
 %global _hardened_build 1
 
 Name:		groonga
-Version:	6.1.5
-Release:	2%{?dist}
+Version:	7.0.1
+Release:	1%{?dist}
 Summary:	An Embeddable Fulltext Search Engine
 
 Group:		Applications/Text
@@ -416,6 +416,9 @@ fi
 # %{php_extdir}/groonga.so
 
 %changelog
+* Thu Mar 30 2017 Kentaro Hayashi <hayashi@clear-code.com> - 7.0.1-1
+- new upstream release
+
 * Fri Feb 10 2017 Fedora Release Engineering <releng@fedoraproject.org> - 6.1.5-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_26_Mass_Rebuild
 
