@@ -3,8 +3,8 @@
 %global _hardened_build 1
 
 Name:		groonga
-Version:	7.0.4
-Release:	2%{?dist}
+Version:	7.0.5
+Release:	1%{?dist}
 Summary:	An Embeddable Fulltext Search Engine
 
 Group:		Applications/Text
@@ -354,6 +354,8 @@ fi
 %config(noreplace) %{_sysconfdir}/groonga/synonyms.tsv
 
 %files server-common
+%defattr(-,root,root,-)
+%config(noreplace) %{_sysconfdir}/tmpfiles.d/groonga.conf
 
 %files server-gqtp
 %defattr(-,root,root,-)
@@ -416,6 +418,10 @@ fi
 # %{php_extdir}/groonga.so
 
 %changelog
+* Mon Jul 31 2017 Kentaro Hayashi <hayashi@clear-code.com> - 7.0.5-1
+- new upstream release
+- add /etc/tmpfiles.d/groonga.conf
+
 * Wed Jul 26 2017 Fedora Release Engineering <releng@fedoraproject.org> - 7.0.4-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_27_Mass_Rebuild
 
