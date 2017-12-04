@@ -333,6 +333,7 @@ fi
 %dir %{_libdir}/groonga/scripts/ruby
 %dir %{_libdir}/groonga/scripts/ruby/command_line
 %dir %{_libdir}/groonga/scripts/ruby/context
+%dir %{_libdir}/groonga/scripts/ruby/groonga-log
 %dir %{_libdir}/groonga/scripts/ruby/expression_tree
 %dir %{_libdir}/groonga/scripts/ruby/initialize
 %dir %{_libdir}/groonga/scripts/ruby/logger
@@ -346,6 +347,7 @@ fi
 %{_libdir}/groonga/scripts/ruby/*.rb
 %{_libdir}/groonga/scripts/ruby/command_line/*.rb
 %{_libdir}/groonga/scripts/ruby/context/*.rb
+%{_libdir}/groonga/scripts/ruby/groonga-log/*.rb
 %{_libdir}/groonga/scripts/ruby/expression_tree/*.rb
 %{_libdir}/groonga/scripts/ruby/initialize/*.rb
 %{_libdir}/groonga/scripts/ruby/logger/*.rb
