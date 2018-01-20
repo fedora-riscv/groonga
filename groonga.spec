@@ -4,7 +4,7 @@
 
 Name:		groonga
 Version:	7.0.9
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	An Embeddable Fulltext Search Engine
 
 Group:		Applications/Text
@@ -420,6 +420,9 @@ fi
 # %{php_extdir}/groonga.so
 
 %changelog
+* Sat Jan 20 2018 Björn Esser <besser82@fedoraproject.org> - 7.0.9-2
+- Rebuilt for switch to libxcrypt
+
 * Mon Dec 4 2017 Kentaro Hayashi <hayashi@clear-code.com> - 7.0.9-1
 - new upstream release
 
