@@ -4,7 +4,7 @@
 
 Name:		groonga
 Version:	7.1.0
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	An Embeddable Fulltext Search Engine
 
 Group:		Applications/Text
@@ -422,6 +422,9 @@ fi
 # %{php_extdir}/groonga.so
 
 %changelog
+* Wed Feb 07 2018 Fedora Release Engineering <releng@fedoraproject.org> - 7.1.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_28_Mass_Rebuild
+
 * Mon Jan 22 2018 Kentaro Hayashi <hayashi@clear-code.com> - 7.1.0-1
 - new upstream release
 - add patch disable-glibc-wordaround.patch to fix FTBFS
