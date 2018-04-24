@@ -13,10 +13,10 @@ Signed-off-by: Kentaro Hayashi <hayashi@clear-code.com>
  vendor/nginx-1.13.8/src/os/unix/ngx_user.c | 5 +++--
  1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/vendor/nginx-1.13.8/src/os/unix/ngx_user.c b/vendor/nginx-1.13.8/src/os/unix/ngx_user.c
+diff --git a/vendor/nginx-1.13.10/src/os/unix/ngx_user.c b/vendor/nginx-1.13.10/src/os/unix/ngx_user.c
 index 7ebe2b576..23a070147 100644
---- a/vendor/nginx-1.13.8/src/os/unix/ngx_user.c
-+++ b/vendor/nginx-1.13.8/src/os/unix/ngx_user.c
+--- a/vendor/nginx-1.13.10/src/os/unix/ngx_user.c
++++ b/vendor/nginx-1.13.10/src/os/unix/ngx_user.c
 @@ -21,8 +21,9 @@ ngx_libc_crypt(ngx_pool_t *pool, u_char *key, u_char *salt, u_char **encrypted)
      struct crypt_data   cd;
  
