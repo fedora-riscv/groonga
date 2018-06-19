@@ -3,7 +3,7 @@
 %global _hardened_build 1
 
 Name:		groonga
-Version:	8.0.2
+Version:	8.0.3
 Release:	1%{?dist}
 Summary:	An Embeddable Fulltext Search Engine
 
@@ -71,8 +71,6 @@ Requires:	%{name}-server-common = %{version}-%{release}
 Requires(pre):	shadow-utils
 Requires(post):	/sbin/chkconfig
 Requires(preun):	/sbin/chkconfig
-Requires(preun):	/sbin/service
-Requires(postun):	/sbin/service
 Obsoletes:	%{name}-server < 2.0.7-0
 
 %description server-gqtp
@@ -137,8 +135,6 @@ Group:		Applications/System
 Requires:	%{name}-libs = %{version}-%{release}
 Requires:	munin-node
 Requires(post):	munin-node
-Requires(post):	/sbin/service
-Requires(postun):	/sbin/service
 
 %description munin-plugins
 Munin plugins for Groonga
@@ -268,7 +264,7 @@ EOC
 %post munin-plugins
 %{_sbindir}/munin-node-configure --shell --remove-also | grep -e 'groonga_' | sh
 [ -f %{_localstatedir}/lock/subsys/munin-node ] && \
-	/sbin/service munin-node restart > /dev/null 2>&1
+	systemctl restart munin-node > /dev/null 2>&1
 :
 
 %pre server-common
@@ -308,7 +304,7 @@ exit 0
 %postun munin-plugins
 if [ $1 -eq 0 ]; then
 	[ -f %{_localstatedir}/lock/subsys/munin-node ] && \
-		/sbin/service munin-node restart >/dev/null 2>&1
+		systemctl restart munin-node >/dev/null 2>&1
 	:
 fi
 
@@ -422,6 +418,10 @@ fi
 # %{php_extdir}/groonga.so
 
 %changelog
+* Tue Jun 19 2018 Kentaro Hayashi <hayashi@clear-code.com> - 8.0.3-1
+- new upstream release
+- drop dependency to initscripts.
+
 * Sat May 12 2018 Kentaro Hayashi <hayashi@clear-code.com> - 8.0.2-1
 - new upstream release
 
