@@ -420,7 +420,7 @@ fi
 %changelog
 * Tue Jun 19 2018 Kentaro Hayashi <hayashi@clear-code.com> - 8.0.3-1
 - new upstream release
-- drop dependency to initscripts.
+- drop dependency to initscripts. (Bug#1592357) Reported by David Kaspar.
 
 * Sat May 12 2018 Kentaro Hayashi <hayashi@clear-code.com> - 8.0.2-1
 - new upstream release
