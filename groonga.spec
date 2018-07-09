@@ -14,6 +14,7 @@ Source0:	http://packages.groonga.org/source/groonga/groonga-%{version}.tar.gz
 
 Patch0:		disable-glibc-wordaround.patch
 
+BuildRequires:  gcc
 BuildRequires:	mecab-devel
 BuildRequires:	zlib-devel
 BuildRequires:	lz4-devel
