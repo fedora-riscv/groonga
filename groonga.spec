@@ -311,13 +311,11 @@ fi
 
 
 %files
-%defattr(-,root,root,-)
 %{_bindir}/groonga
 %{_bindir}/groonga-benchmark
 %{_bindir}/grndb
 
 %files libs
-%defattr(-,root,root,-)
 %doc README.md COPYING
 %{_libdir}/*.so.*
 %dir %{_libdir}/groonga
@@ -355,11 +353,9 @@ fi
 %config(noreplace) %{_sysconfdir}/groonga/synonyms.tsv
 
 %files server-common
-%defattr(-,root,root,-)
 %config(noreplace) %{_sysconfdir}/tmpfiles.d/groonga.conf
 
 %files server-gqtp
-%defattr(-,root,root,-)
 %config(noreplace) %{_sysconfdir}/groonga/
 %config(noreplace) %{_sysconfdir}/sysconfig/groonga-server-gqtp
 %config(noreplace) %{_sysconfdir}/logrotate.d/groonga-server-gqtp
@@ -369,7 +365,6 @@ fi
 %attr(0755,groonga,groonga) %dir %{_localstatedir}/lib/%{name}/db
 
 %files httpd
-%defattr(-,root,root,-)
 %config(noreplace) %{_sysconfdir}/groonga/httpd/*
 %config(noreplace) %{_sysconfdir}/sysconfig/groonga-httpd
 %config(noreplace) %{_sysconfdir}/logrotate.d/groonga-httpd
@@ -381,32 +376,26 @@ fi
 %attr(0755,groonga,groonga) %dir %{_localstatedir}/lib/%{name}/db
 
 %files doc
-%defattr(-,root,root,-)
 %doc README.md COPYING
 %doc groonga-doc/*
 
 %files devel
-%defattr(-,root,root,-)
 %{_includedir}/groonga/
 %{_libdir}/*.so
 %{_libdir}/pkgconfig/groonga*.pc
 
 %files tokenizer-mecab
-%defattr(-,root,root,-)
 %{_libdir}/groonga/plugins/tokenizers/mecab.so
 
 %files plugin-token-filters
-%defattr(-,root,root,-)
 %{_libdir}/groonga/plugins/token_filters/stop_word.so
 %{_libdir}/groonga/plugins/token_filters/stem.so
 
 %files plugin-suggest
-%defattr(-,root,root,-)
 %{_bindir}/groonga-suggest-*
 %{_libdir}/groonga/plugins/suggest/suggest.so
 
 %files munin-plugins
-%defattr(-,root,root,-)
 %{_datadir}/munin/plugins/*
 %config(noreplace) %{_sysconfdir}/munin/plugin-conf.d/*
 
