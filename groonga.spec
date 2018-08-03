@@ -12,8 +12,6 @@ License:	LGPLv2
 URL:		http://groonga.org/
 Source0:	http://packages.groonga.org/source/groonga/groonga-%{version}.tar.gz
 
-#Patch0:		disable-glibc-wordaround.patch
-
 BuildRequires:  gcc-c++
 BuildRequires:  gcc
 BuildRequires:	mecab-devel
@@ -161,7 +159,6 @@ Munin plugins for Groonga
 %prep
 #% define optflags -O0
 %setup -q
-#%patch0 -p1
 %build
 %configure \
   --disable-static \
