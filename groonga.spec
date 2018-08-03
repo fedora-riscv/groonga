@@ -161,7 +161,7 @@ Munin plugins for Groonga
 %prep
 #% define optflags -O0
 %setup -q
-%patch0 -p1
+#%patch0 -p1
 %build
 %configure \
   --disable-static \
