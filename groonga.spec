@@ -3,7 +3,7 @@
 %global _hardened_build 1
 
 Name:		groonga
-Version:	8.0.5
+Version:	8.0.6
 Release:	1%{?dist}
 Summary:	An Embeddable Fulltext Search Engine
 
@@ -318,7 +318,6 @@ fi
 %{_libdir}/*.so.*
 %dir %{_libdir}/groonga
 %dir %{_libdir}/groonga/plugins
-%dir %{_libdir}/groonga/plugins/expression_rewriters
 %dir %{_libdir}/groonga/plugins/functions
 %dir %{_libdir}/groonga/plugins/query_expanders
 %dir %{_libdir}/groonga/plugins/normalizers
@@ -328,21 +327,22 @@ fi
 %dir %{_libdir}/groonga/scripts/ruby
 %dir %{_libdir}/groonga/scripts/ruby/command_line
 %dir %{_libdir}/groonga/scripts/ruby/context
-%dir %{_libdir}/groonga/scripts/ruby/groonga-log
+%dir %{_libdir}/groonga/scripts/ruby/expression_rewriters
 %dir %{_libdir}/groonga/scripts/ruby/expression_tree
+%dir %{_libdir}/groonga/scripts/ruby/groonga-log
 %dir %{_libdir}/groonga/scripts/ruby/initialize
 %dir %{_libdir}/groonga/scripts/ruby/logger
 %dir %{_libdir}/groonga/scripts/ruby/query_logger
-%{_libdir}/groonga/plugins/expression_rewriters/*.rb
 %{_libdir}/groonga/plugins/functions/*.so
 %{_libdir}/groonga/plugins/query_expanders/tsv.so
 %{_libdir}/groonga/plugins/ruby/*.rb
-%{_libdir}/groonga/plugins/sharding.rb
+%{_libdir}/groonga/plugins/*.rb
 %{_libdir}/groonga/plugins/sharding/*.rb
 %{_libdir}/groonga/scripts/ruby/*.rb
 %{_libdir}/groonga/scripts/ruby/command_line/*.rb
 %{_libdir}/groonga/scripts/ruby/context/*.rb
 %{_libdir}/groonga/scripts/ruby/groonga-log/*.rb
+%{_libdir}/groonga/scripts/ruby/expression_rewriters/*.rb
 %{_libdir}/groonga/scripts/ruby/expression_tree/*.rb
 %{_libdir}/groonga/scripts/ruby/initialize/*.rb
 %{_libdir}/groonga/scripts/ruby/logger/*.rb
@@ -406,6 +406,9 @@ fi
 # %{php_extdir}/groonga.so
 
 %changelog
+* Wed Aug 29 2018 Kentaro Hayashi <hayashi@clear-code.com>
+- new upstream release
+
 * Fri Aug 3 2018 Kentaro Hayashi <hayashi@clear-code.com>
 - new upstream release
 
