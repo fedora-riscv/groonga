@@ -4,10 +4,9 @@
 
 Name:		groonga
 Version:	8.0.7
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	An Embeddable Fulltext Search Engine
 
-Group:		Applications/Text
 License:	LGPLv2
 URL:		http://groonga.org/
 Source0:	http://packages.groonga.org/source/groonga/groonga-%{version}.tar.gz
@@ -45,7 +44,6 @@ on relational data model.
 
 %package libs
 Summary:	Runtime libraries for Groonga
-Group:		System Environment/Libraries
 License:	LGPLv2 and (MIT or GPLv2)
 Requires(post):	/sbin/ldconfig
 Requires(postun):	/sbin/ldconfig
@@ -55,7 +53,6 @@ This package contains the libraries for Groonga
 
 %package server-common
 Summary:	Common packages for the Groonga server and the Groonga HTTP server
-Group:		Applications/Text
 License:	LGPLv2
 Requires:	%{name} = %{version}-%{release}
 Requires(pre):	shadow-utils
@@ -65,12 +62,11 @@ This package provides common settings for server use
 
 %package server-gqtp
 Summary:	Groonga GQTP server
-Group:		Applications/Text
 License:	LGPLv2
 Requires:	%{name}-server-common = %{version}-%{release}
 Requires(pre):	shadow-utils
-Requires(post):	/sbin/chkconfig
-Requires(preun):	/sbin/chkconfig
+Requires(post):	systemd
+Requires(preun):	systemd
 Obsoletes:	%{name}-server < 2.0.7-0
 
 %description server-gqtp
@@ -78,7 +74,6 @@ This package contains the Groonga GQTP server
 
 %package httpd
 Summary:	Groonga HTTP server
-Group:          Applications/Text
 License:        LGPLv2 and BSD
 Requires:	%{name}-server-common = %{version}-%{release}
 Provides:	%{name}-server-http = %{version}-%{release}
@@ -90,7 +85,6 @@ because it is based on nginx HTTP server.
 
 %package doc
 Summary:	Documentation for Groonga
-Group:		Documentation
 License:	LGPLv2 and BSD
 
 %description doc
@@ -98,7 +92,6 @@ Documentation for Groonga
 
 %package devel
 Summary:	Libraries and header files for Groonga
-Group:		Development/Libraries
 Requires:	%{name}-libs = %{version}-%{release}
 
 %description devel
@@ -106,7 +99,6 @@ Libraries and header files for Groonga
 
 %package tokenizer-mecab
 Summary:	MeCab tokenizer for Groonga
-Group:		Applications/Text
 Requires:	%{name}-libs = %{version}-%{release}
 
 %description tokenizer-mecab
@@ -114,7 +106,6 @@ MeCab tokenizer for Groonga
 
 %package plugin-suggest
 Summary:	Suggest plugin for Groonga
-Group:		Applications/Text
 Requires:	%{name}-libs = %{version}-%{release}
 
 %description plugin-suggest
@@ -122,7 +113,6 @@ Suggest plugin for Groonga
 
 %package plugin-token-filters
 Summary:	Token filters plugin for Groonga
-Group:		Applications/Text
 Requires:	%{name}-libs = %{version}-%{release}
 
 %description plugin-token-filters
@@ -131,7 +121,6 @@ stop word and stemming features.
 
 %package munin-plugins
 Summary:	Munin plugins for Groonga
-Group:		Applications/System
 Requires:	%{name}-libs = %{version}-%{release}
 Requires:	munin-node
 Requires(post):	munin-node
@@ -141,7 +130,6 @@ Munin plugins for Groonga
 
 # %package python
 # Summary:	Python language binding for Groonga
-# Group:		Development/Libraries
 # Requires:	%{name}-libs = %{version}-%{release}
 
 # %description python
@@ -149,7 +137,6 @@ Munin plugins for Groonga
 
 # %package php
 # Summary:	PHP language binding for Groonga
-# Group:		Development/Libraries
 # Requires:	%{name}-libs = %{version}-%{release}
 
 # %description php
@@ -198,8 +185,7 @@ exit 0
 
 %install
 make install DESTDIR=$RPM_BUILD_ROOT INSTALL="install -p"
-rm $RPM_BUILD_ROOT%{_libdir}/groonga/plugins/*/*.la
-rm $RPM_BUILD_ROOT%{_libdir}/*.la
+find %{buildroot} -type f -name "*.la" -delete
 rm $RPM_BUILD_ROOT%{_sysconfdir}/logrotate.d/groonga-server-http
 
 mv $RPM_BUILD_ROOT%{_datadir}/doc/groonga groonga-doc
@@ -314,7 +300,8 @@ fi
 %{_bindir}/grndb
 
 %files libs
-%doc README.md COPYING
+%license COPYING
+%doc README.md
 %{_libdir}/*.so.*
 %dir %{_libdir}/groonga
 %dir %{_libdir}/groonga/plugins
@@ -406,6 +393,9 @@ fi
 # %{php_extdir}/groonga.so
 
 %changelog
+* Sun Oct 14 2018 Peter Robinson <pbrobinson@fedoraproject.org> 8.0.7-2
+- Drop obsolete deps, use %%license, minor spec cleanups
+
 * Sat Sep 29 2018 Kentaro Hayashi <hayashi@clear-code.com> - 8.0.7-1
 - new upstream release
 
