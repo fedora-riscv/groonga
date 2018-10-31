@@ -3,8 +3,8 @@
 %global _hardened_build 1
 
 Name:		groonga
-Version:	8.0.7
-Release:	2%{?dist}
+Version:	8.0.8
+Release:	1%{?dist}
 Summary:	An Embeddable Fulltext Search Engine
 
 License:	LGPLv2
@@ -393,6 +393,9 @@ fi
 # %{php_extdir}/groonga.so
 
 %changelog
+* Wed Oct 31 2018 Kentaro Hayashi <hayashi@clear-code.com> 8.0.8-1
+- new upstream release
+
 * Sun Oct 14 2018 Peter Robinson <pbrobinson@fedoraproject.org> 8.0.7-2
 - Drop obsolete deps, use %%license, minor spec cleanups
 
