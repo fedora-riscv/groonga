@@ -150,7 +150,7 @@ rm $RPM_BUILD_ROOT%{_sysconfdir}/logrotate.d/groonga-server-http
 
 mv $RPM_BUILD_ROOT%{_datadir}/doc/groonga groonga-doc
 
-# Since F17, %{_unitdir} is moved from /lib/systemd/system to
+# Since F17, %%{_unitdir} is moved from /lib/systemd/system to
 # /usr/lib/systemd/system.  So we need to manually install the service
 # file into the new place.  The following should work with < F17,
 # though Groonga package started using systemd native service since
