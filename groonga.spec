@@ -19,8 +19,6 @@ BuildRequires:	lz4-devel
 BuildRequires:	msgpack-devel
 BuildRequires:	zeromq-devel
 BuildRequires:	libevent-devel
-#BuildRequires:	python2-devel
-#BuildRequires:	php-devel
 BuildRequires:	libedit-devel
 BuildRequires:	pcre-devel
 BuildRequires:	systemd
@@ -128,21 +126,6 @@ Requires(post):	munin-node
 %description munin-plugins
 Munin plugins for Groonga
 
-# %package python
-# Summary:	Python language binding for Groonga
-# Requires:	%{name}-libs = %{version}-%{release}
-
-# %description python
-# Python language binding for Groonga
-
-# %package php
-# Summary:	PHP language binding for Groonga
-# Requires:	%{name}-libs = %{version}-%{release}
-
-# %description php
-# PHP language binding for Groonga
-
-
 %prep
 #% define optflags -O0
 %setup -q
@@ -157,31 +140,8 @@ Munin plugins for Groonga
 sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|' libtool
 sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|' libtool
 make %{?_smp_mflags} unitdir="%{_unitdir}"
-# Exit %build section explicitly not to execute unexpected configure script again
+# Exit %%build section explicitly not to execute unexpected configure script again
 exit 0
-
-# build python binding
-# cd %{_builddir}/%{name}-%{version}/bindings/python/ql
-# python setup.py config
-# sed -i.cflags -e 's|^cflags =.*|cflags = []|' setup.py
-# CFLAGS=-I%{_builddir}/%{name}-%{version}/include
-# export CFLAGS
-# LDFLAGS=-L%{_builddir}/%{name}-%{version}/lib/.libs
-# export LDFLAGS
-# python setup.py build
-
-# build php binding
-# cd %{_builddir}/%{name}-%{version}/bindings/php
-# sed -i.ldflags -e 's|PHP_ADD_LIBRARY_WITH_PATH(groonga, .*)|PHP_ADD_LIBRARY(groonga, GROONGA_SHARED_LIBADD)|' config.m4
-# phpize
-# CFLAGS="%{optflags}"
-# export CFLAGS
-# LDFLAGS=-L%{_builddir}/%{name}-%{version}/lib/.libs
-# export LDFLAGS
-# # --with-groonga is only necessary to avoid error in configure
-# %configure --disable-static --with-groonga=%{_builddir}/%{name}-%{version}
-# make %{?_smp_mflags}
-
 
 %install
 make install DESTDIR=$RPM_BUILD_ROOT INSTALL="install -p"
@@ -234,15 +194,6 @@ cat <<EOC > $RPM_BUILD_ROOT%{_sysconfdir}/munin/plugin-conf.d/groonga
   env.gqtp_pid_path /run/groonga/groonga-gqtp.pid
   env.gqtp_query_log_path %{_localstatedir}/log/groonga/query-gqtp.log
 EOC
-
-# install python binding
-# cd %{_builddir}/%{name}-%{version}/bindings/python/ql
-# python setup.py install --root=$RPM_BUILD_ROOT
-
-# install php binding
-# cd %{_builddir}/%{name}-%{version}/bindings/php
-# make install INSTALL_ROOT=$RPM_BUILD_ROOT INSTALL="install -p"
-
 
 %post libs -p /sbin/ldconfig
 
@@ -383,14 +334,6 @@ fi
 %files munin-plugins
 %{_datadir}/munin/plugins/*
 %config(noreplace) %{_sysconfdir}/munin/plugin-conf.d/*
-
-# %files python
-# %defattr(-,root,root,-)
-# %{python_sitearch}/groongaql*
-
-# %files php
-# %defattr(-,root,root,-)
-# %{php_extdir}/groonga.so
 
 %changelog
 * Wed Oct 31 2018 Kentaro Hayashi <hayashi@clear-code.com> 8.0.8-1
