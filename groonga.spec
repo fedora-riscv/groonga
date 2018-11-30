@@ -336,6 +336,10 @@ fi
 %config(noreplace) %{_sysconfdir}/munin/plugin-conf.d/*
 
 %changelog
+* Fri Nov 30 2018 Kentaro Hayashi <hayashi@clear-code.com> 8.0.9-1
+- new upstream release
+- fix E: specfile-error warning: Macro expanded in comment
+
 * Wed Oct 31 2018 Kentaro Hayashi <hayashi@clear-code.com> 8.0.8-1
 - new upstream release
 
