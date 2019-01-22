@@ -43,8 +43,6 @@ on relational data model.
 %package libs
 Summary:	Runtime libraries for Groonga
 License:	LGPLv2 and (MIT or GPLv2)
-Requires(post):	/sbin/ldconfig
-Requires(postun):	/sbin/ldconfig
 
 %description libs
 This package contains the libraries for Groonga
@@ -195,7 +193,7 @@ cat <<EOC > $RPM_BUILD_ROOT%{_sysconfdir}/munin/plugin-conf.d/groonga
   env.gqtp_query_log_path %{_localstatedir}/log/groonga/query-gqtp.log
 EOC
 
-%post libs -p /sbin/ldconfig
+%ldconfig_scriptlets libs
 
 %post munin-plugins
 %{_sbindir}/munin-node-configure --shell --remove-also | grep -e 'groonga_' | sh
@@ -234,8 +232,6 @@ exit 0
 
 %postun httpd
 %systemd_postun groonga-httpd.service
-
-%postun libs -p /sbin/ldconfig
 
 %postun munin-plugins
 if [ $1 -eq 0 ]; then
