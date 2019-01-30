@@ -3,8 +3,8 @@
 %global _hardened_build 1
 
 Name:		groonga
-Version:	8.0.9
-Release:	2%{?dist}
+Version:	8.1.1
+Release:	1%{?dist}
 Summary:	An Embeddable Fulltext Search Engine
 
 License:	LGPLv2
@@ -332,6 +332,9 @@ fi
 %config(noreplace) %{_sysconfdir}/munin/plugin-conf.d/*
 
 %changelog
+* Wed Jan 30 2018 Kentaro Hayashi <hayashi@clear-code.com> 8.1.1-1
+- new upstream release
+
 * Mon Jan 14 2019 Björn Esser <besser82@fedoraproject.org> - 8.0.9-2
 - Rebuilt for libcrypt.so.2 (#1666033)
 
