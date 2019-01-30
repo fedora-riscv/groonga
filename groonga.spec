@@ -332,7 +332,7 @@ fi
 %config(noreplace) %{_sysconfdir}/munin/plugin-conf.d/*
 
 %changelog
-* Wed Jan 30 2018 Kentaro Hayashi <hayashi@clear-code.com> 8.1.1-1
+* Wed Jan 30 2019 Kentaro Hayashi <hayashi@clear-code.com> 8.1.1-1
 - new upstream release
 
 * Mon Jan 14 2019 Björn Esser <besser82@fedoraproject.org> - 8.0.9-2
