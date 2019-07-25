@@ -4,7 +4,7 @@
 
 Name:		groonga
 Version:	9.0.1
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	An Embeddable Fulltext Search Engine
 
 License:	LGPLv2
@@ -332,6 +332,9 @@ fi
 %config(noreplace) %{_sysconfdir}/munin/plugin-conf.d/*
 
 %changelog
+* Thu Jul 25 2019 Fedora Release Engineering <releng@fedoraproject.org> - 9.0.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_31_Mass_Rebuild
+
 * Fri Mar 29 2019 Kentaro Hayashi <hayashi@clear-code.com> 9.0.1-1
 - new upstream release
 
