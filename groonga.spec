@@ -3,8 +3,8 @@
 %global _hardened_build 1
 
 Name:		groonga
-Version:	9.0.1
-Release:	2%{?dist}
+Version:	9.0.4
+Release:	1%{?dist}
 Summary:	An Embeddable Fulltext Search Engine
 
 License:	LGPLv2
@@ -26,6 +26,7 @@ BuildRequires:	libstemmer-devel
 BuildRequires:  openssl-devel
 BuildRequires:  re2c
 BuildRequires:  libzstd-devel
+BuildRequires:  rapidjson-devel
 Requires:	%{name}-libs = %{version}-%{release}
 Requires:	%{name}-plugin-suggest = %{version}-%{release}
 Requires(post):	systemd
@@ -332,6 +333,9 @@ fi
 %config(noreplace) %{_sysconfdir}/munin/plugin-conf.d/*
 
 %changelog
+* Sun Jul 28 2019 Kentaro Hayashi <hayashi@clear-code.com> - 9.0.4-1
+- new upstream release
+
 * Thu Jul 25 2019 Fedora Release Engineering <releng@fedoraproject.org> - 9.0.1-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_31_Mass_Rebuild
 
