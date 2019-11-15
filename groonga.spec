@@ -3,7 +3,7 @@
 %global _hardened_build 1
 
 Name:		groonga
-Version:	9.0.8
+Version:	9.0.9
 Release:	1%{?dist}
 Summary:	An Embeddable Fulltext Search Engine
 
@@ -333,6 +333,9 @@ fi
 %config(noreplace) %{_sysconfdir}/munin/plugin-conf.d/*
 
 %changelog
+* Fri Nov 15 2019 Kentaro Hayashi <hayashi@clear-code.com> - 9.0.9-1
+- new upstream release
+
 * Thu Oct 3 2019 Kentaro Hayashi <hayashi@clear-code.com> - 9.0.8-1
 - new upstream release
 
