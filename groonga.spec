@@ -8,8 +8,8 @@ Release:	1%{?dist}
 Summary:	An Embeddable Fulltext Search Engine
 
 License:	LGPLv2
-URL:		http://groonga.org/
-Source0:	http://packages.groonga.org/source/groonga/groonga-%{version}.tar.gz
+URL:		https://groonga.org/
+Source0:	https://packages.groonga.org/source/groonga/groonga-%{version}.tar.gz
 
 BuildRequires:  gcc-c++
 BuildRequires:  gcc
@@ -335,6 +335,7 @@ fi
 %changelog
 * Sat Feb 8 2020 Kentaro Hayashi <hayashi@clear-code.com> - 9.1.2-1
 - new upstream release
+- use https: for upstream URL
 
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 9.0.9-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
