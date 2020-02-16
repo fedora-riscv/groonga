@@ -1,6 +1,8 @@
 %global php_extdir  %(php-config --extension-dir 2>/dev/null || echo "undefined")
 %global __provides_exclude_from ^(%{python_sitelib}/.*\\.so|%{php_extdir}/.*\\.so)$
 %global _hardened_build 1
+# Bug1799474 workaround
+%define _legacy_common_support 1
 
 Name:		groonga
 Version:	9.1.2
@@ -336,6 +338,7 @@ fi
 * Sat Feb 8 2020 Kentaro Hayashi <hayashi@clear-code.com> - 9.1.2-1
 - new upstream release
 - use https: for upstream URL
+- enable legacy common support to fix FTBFS.
 
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 9.0.9-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
