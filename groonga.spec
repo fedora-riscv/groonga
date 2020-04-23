@@ -5,16 +5,16 @@
 %define _legacy_common_support 1
 
 Name:		groonga
-Version:	9.1.2
-Release:	2%{?dist}
+Version:	10.0.1
+Release:	1%{?dist}
 Summary:	An Embeddable Fulltext Search Engine
 
 License:	LGPLv2
 URL:		https://groonga.org/
 Source0:	https://packages.groonga.org/source/groonga/groonga-%{version}.tar.gz
 
-BuildRequires:  gcc-c++
-BuildRequires:  gcc
+BuildRequires:	gcc-c++
+BuildRequires:	gcc
 BuildRequires:	mecab-devel
 BuildRequires:	zlib-devel
 BuildRequires:	lz4-devel
@@ -25,10 +25,10 @@ BuildRequires:	libedit-devel
 BuildRequires:	pcre-devel
 BuildRequires:	systemd
 BuildRequires:	libstemmer-devel
-BuildRequires:  openssl-devel
-BuildRequires:  re2c
-BuildRequires:  libzstd-devel
-BuildRequires:  rapidjson-devel
+BuildRequires:	openssl-devel
+BuildRequires:	re2c
+BuildRequires:	libzstd-devel
+BuildRequires:	rapidjson-devel
 Requires:	%{name}-libs = %{version}-%{release}
 Requires:	%{name}-plugin-suggest = %{version}-%{release}
 Requires(post):	systemd
@@ -73,7 +73,7 @@ This package contains the Groonga GQTP server
 
 %package httpd
 Summary:	Groonga HTTP server
-License:        LGPLv2 and BSD
+License:	LGPLv2 and BSD
 Requires:	%{name}-server-common = %{version}-%{release}
 Provides:	%{name}-server-http = %{version}-%{release}
 Obsoletes:	%{name}-server-http <= 4.0.7-2
@@ -335,6 +335,9 @@ fi
 %config(noreplace) %{_sysconfdir}/munin/plugin-conf.d/*
 
 %changelog
+* Fri Apr 24 2020 Kentaro Hayashi <hayashi@clear-code.com> - 10.0.1-1
+- new upstream release
+
 * Sun Feb 16 2020 Kentaro Hayashi <hayashi@clear-code.com> - 9.1.2-2
 - enable legacy common support to fix FTBFS (Bug#1799474).
 
