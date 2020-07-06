@@ -5,7 +5,7 @@
 %define _legacy_common_support 1
 
 Name:		groonga
-Version:	10.0.2
+Version:	10.0.4
 Release:	1%{?dist}
 Summary:	An Embeddable Fulltext Search Engine
 
@@ -335,6 +335,9 @@ fi
 %config(noreplace) %{_sysconfdir}/munin/plugin-conf.d/*
 
 %changelog
+* Mon July 6 2020 Kentaro Hayashi <kenhys@gmail.com> - 10.0.4-1
+- new upstream release
+
 * Sun May 10 2020 Kentaro Hayashi <kenhys@gmail.com> - 10.0.2-1
 - new upstream release
 
