@@ -335,7 +335,7 @@ fi
 %config(noreplace) %{_sysconfdir}/munin/plugin-conf.d/*
 
 %changelog
-* Mon July 6 2020 Kentaro Hayashi <kenhys@gmail.com> - 10.0.4-1
+* Mon Jul 6 2020 Kentaro Hayashi <kenhys@gmail.com> - 10.0.4-1
 - new upstream release
 
 * Sun May 10 2020 Kentaro Hayashi <kenhys@gmail.com> - 10.0.2-1
