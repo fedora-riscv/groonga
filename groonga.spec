@@ -5,8 +5,8 @@
 %define _legacy_common_support 1
 
 Name:		groonga
-Version:	10.0.4
-Release:	2%{?dist}
+Version:	10.0.6
+Release:	1%{?dist}
 Summary:	An Embeddable Fulltext Search Engine
 
 License:	LGPLv2
@@ -335,6 +335,9 @@ fi
 %config(noreplace) %{_sysconfdir}/munin/plugin-conf.d/*
 
 %changelog
+* Mon Aug 31 2020 Kentaro Hayashi <kenhys@gmail.com> - 10.0.6-1
+- new upstream release
+
 * Tue Jul 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 10.0.4-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
 
