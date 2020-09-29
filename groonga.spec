@@ -6,7 +6,7 @@
 
 Name:		groonga
 Version:	10.0.6
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	An Embeddable Fulltext Search Engine
 
 License:	LGPLv2
@@ -335,6 +335,9 @@ fi
 %config(noreplace) %{_sysconfdir}/munin/plugin-conf.d/*
 
 %changelog
+* Tue Sep 29 20:31:33 CEST 2020 Zbigniew Jędrzejewski-Szmek <zbyszek@in.waw.pl>
+- Rebuilt for libevent 2.1.12
+
 * Mon Aug 31 2020 Kentaro Hayashi <kenhys@gmail.com> - 10.0.6-1
 - new upstream release
 
