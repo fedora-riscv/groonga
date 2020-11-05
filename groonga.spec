@@ -3,8 +3,8 @@
 %define _legacy_common_support 1
 
 Name:		groonga
-Version:	10.0.6
-Release:	2%{?dist}
+Version:	10.0.8
+Release:	1%{?dist}
 Summary:	An Embeddable Fulltext Search Engine
 
 License:	LGPLv2
@@ -330,6 +330,9 @@ fi
 %config(noreplace) %{_sysconfdir}/munin/plugin-conf.d/*
 
 %changelog
+* Thu Nov 5 2020 Kentaro Hayashi <kenhys@gmail.com>
+- New upstream release
+
 * Tue Sep 29 20:31:33 CEST 2020 Zbigniew Jędrzejewski-Szmek <zbyszek@in.waw.pl>
 - Rebuilt for libevent 2.1.12
 
