@@ -27,6 +27,7 @@ BuildRequires:	openssl-devel
 BuildRequires:	re2c
 BuildRequires:	libzstd-devel
 BuildRequires:	rapidjson-devel
+BuildRequires: make
 Requires:	%{name}-libs = %{version}-%{release}
 Requires:	%{name}-plugin-suggest = %{version}-%{release}
 Obsoletes:	%{name}-python < 6.0.9-1
