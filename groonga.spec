@@ -4,7 +4,7 @@
 
 Name:		groonga
 Version:	10.0.8
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	An Embeddable Fulltext Search Engine
 
 License:	LGPLv2
@@ -331,6 +331,9 @@ fi
 %config(noreplace) %{_sysconfdir}/munin/plugin-conf.d/*
 
 %changelog
+* Tue Jan 26 2021 Fedora Release Engineering <releng@fedoraproject.org> - 10.0.8-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_34_Mass_Rebuild
+
 * Thu Nov 5 2020 Kentaro Hayashi <kenhys@gmail.com>
 - New upstream release
 
