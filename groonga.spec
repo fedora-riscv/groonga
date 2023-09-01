@@ -2,9 +2,14 @@
 # Bug1799474 workaround
 %define _legacy_common_support 1
 
+# work around rpatch check failure on riscv64
+%ifarch riscv64
+%undefine __brp_check_rpaths
+%endif
+
 Name:		groonga
 Version:	10.0.8
-Release:	7%{?dist}
+Release:	7.rv64%{?dist}
 Summary:	An Embeddable Fulltext Search Engine
 
 License:	LGPLv2
@@ -331,6 +336,11 @@ fi
 %config(noreplace) %{_sysconfdir}/munin/plugin-conf.d/*
 
 %changelog
+* Fri Sep 01 2023 Liu Yang <Yang.Liu.sn@gmail.com> - 10.0.8-7.rv64
+- Fix build on riscv64.
+
+* Thu Jan 19 2023 Fedora Release Engineering <releng@fedoraproject.org> - 10.0.8-7
+
 * Thu Jan 19 2023 Fedora Release Engineering <releng@fedoraproject.org> - 10.0.8-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_38_Mass_Rebuild
 
