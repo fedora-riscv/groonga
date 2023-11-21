@@ -1,0 +1,22 @@
+upstream_package_name: groonga
+upstream_project_url: https://github.com/groonga/groonga
+
+downstream_package_name: groonga
+
+specfile_path: groonga.spec
+
+jobs:
+  - job: pull_from_upstream
+    trigger: release
+    dist_git_branches:
+      - rawhide
+
+  - job: koji_build
+    trigger: commit
+    dist_git_branches:
+      - fedora-all
+
+  - job: bodhi_update
+    trigger: commit
+    dist_git_branches:
+      - fedora-all
