@@ -1,6 +1,5 @@
 upstream_package_name: groonga
 upstream_project_url: https://github.com/groonga/groonga
-upstream_tag_template: v{version}
 
 downstream_package_name: groonga
 
