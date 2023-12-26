@@ -10,28 +10,29 @@ Source0:        https://github.com/groonga/groonga/releases/download/v%{version}
 BuildRequires:  gcc-c++
 BuildRequires:  cmake
 BuildRequires:  ninja-build
-BuildRequires:  ruby
-BuildRequires:  mecab-devel
-BuildRequires:  zlib-devel
-BuildRequires:  lz4-devel
-BuildRequires:  msgpack-devel
-BuildRequires:  zeromq-devel
-BuildRequires:  libevent-devel
-BuildRequires:  libedit-devel
-BuildRequires:  libstemmer-devel
-BuildRequires:  openssl-devel
-BuildRequires:  libzstd-devel
-BuildRequires:  rapidjson-devel
-BuildRequires:  xxhash-devel
+
 %ifnarch %{ix86}
 BuildRequires:  libarrow-devel
 %endif
-
+BuildRequires:  zlib-devel
+BuildRequires:  libzstd-devel
+BuildRequires:  rapidjson-devel
+BuildRequires:  mecab-devel
+BuildRequires:  libstemmer-devel
+BuildRequires:  zeromq-devel
+BuildRequires:  libevent-devel
+BuildRequires:  msgpack-devel
+BuildRequires:  xxhash-devel
+BuildRequires:  lz4-devel
+BuildRequires:  croaring-devel
 %if 0%{?fedora} >= 40
 BuildRequires:  blosc2-devel
 # required by blosc2-devel
 BuildRequires:  zlib-ng-devel
 %endif
+BuildRequires:  ruby
+BuildRequires:  libedit-devel
+BuildRequires:  openssl-devel
 
 BuildRequires:  systemd-rpm-macros
 
