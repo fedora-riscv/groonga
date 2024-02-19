@@ -1,3 +1,8 @@
+# work around rpatch check failure on riscv64
+%ifarch riscv64
+%undefine __brp_check_rpaths
+%endif
+
 Name:           groonga
 Version:        13.1.0
 Release:        %autorelease
