@@ -1,6 +1,6 @@
 Name:           groonga
 Version:        13.1.0
-Release:        %autorelease
+Release:        %autorelease -e rv64
 Summary:        An Embeddable Fulltext Search Engine
 
 License:        LGPL-2.1-only
@@ -154,6 +154,9 @@ This package contains the tools for Groonga.
   -GNinja \
   -DCMAKE_BUILD_TYPE=Release \
   -DGRN_FOR_RHEL=ON \
+%ifarch riscv64
+  -DCMAKE_SKIP_RPATH=TRUE \
+%endif
 %ifnarch %{ix86}
   -DGRN_WITH_APACHE_ARROW=ON \
 %endif
